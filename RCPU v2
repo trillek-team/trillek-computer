@@ -8,7 +8,8 @@ Version 0.2
 === SUMMARY ====================================================================
 
  * DCPU emulation and native modes. Boots in DCPU emulation mode
- * 16 bit RISC CPU, can access 0x20000 words of ram. Operates in 16 bit words.
+ * 16 bit RISC CPU, can access 0x10000 words of ram (0x0000 to 0xFFFF)
+ * Operates in 16 bit words.
  * 14 general purpose registers (R0 to R13)
  * Stack Pointer (SP)
  * Flags Register (FLAGS)
@@ -222,25 +223,6 @@ DCPU                                  0000 0000 0000 1111
 
 reserved                              1xxx xxxx xxxx xxxx
 
-
-
-=== MEMORY MAP =================================================================
-
-  0xFFFF |    Stack Grow to Down
-    .
-    .
-    .
-  0x0000   -> Reboot Vector
-
-
-=== INITIAL VALUES AT REBOOT ===================================================  
-
-
-  - PC        = 0x0000
-  - SP        = 0x0000
-  - FLAGS     = 0x0000
-  - R0 .. R12 = 0x0000
-  
 
 
 === DESCRIPTION OF INSTRUCCTIONS ===============================================

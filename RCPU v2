@@ -147,11 +147,6 @@ DIV.B   REG3 op REG2-> REG3           0110 1010 RRRR RRRR
 CPY     REG2 -> REG3                  0110 1011 RRRR RRRR
 SET     LITERAL -> REG3               0110 1100 LLLL RRRR
 
-Instructions with 2 parameters and long Literal :
-
-15 14 13 12 11 10 09 08 07 06 05 04 03 02 01 00
------------------------------------------------
- 0  1  1  1  x  x  x  L  L  L  L  L r3 r3 r3 r3
 
 ADD     REG3 op LITERAL -> REG3       0111 000L LLLL RRRR
 ADD.B   REG3 op LITERAL -> REG3       0111 001L LLLL RRRR

@@ -25,7 +25,7 @@ Shorthand for this is [PC++]. In some cases, the CPU will modify a value before
 reading it, in this case the shorthand is [++PC].
 
 For stability and to reduce bugs, it's strongly suggested all multi-word
-operations use little endian in all DCPU-16 programs, wherever possible.
+operations use little endian in all RCPU programs, wherever possible.
 
 
 

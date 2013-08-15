@@ -242,9 +242,9 @@ reserved                              1xxx xxxx xxxx xxxx
 === ALU OPERATIONS =============================================================
   
   ADD REG3, REG2
-  ADD REG3, LITERAL (LITERAL from  0 to 31)
+  ADD REG3, LITERAL
   ADD.B REG3, REG2
-  ADD.B REG3, LITERAL (LITERAL from 0 to 31)
+  ADD.B REG3, LITERAL
   
   Do the addiont of REG3 + REG2 (or LITERAL) and put it on REG3.
   ADD.B operates only over the LSB of REG2 and REG3
@@ -256,9 +256,9 @@ reserved                              1xxx xxxx xxxx xxxx
   
   
   SUB REG3, REG2
-  SUB REG3, LITERAL (LITERAL from 0 to 31)
+  SUB REG3, LITERAL
   SUB.B REG3, REG2
-  SUB.B REG3, LITERAL (LITERAL from 0 to 31)
+  SUB.B REG3, LITERAL
   
   Do the substraction of REG3 - REG2 (or LITERAL) and put it on REG3.
   SUB.B operates only over the LSB of REG2 and REG3
@@ -366,27 +366,27 @@ reserved                              1xxx xxxx xxxx xxxx
 
   SWP REG3, REG2       Swaps Reg3 and Reg2 values
   CPY REG3, REG2       Copy the value of Reg2 to Reg3
-  SET REG3, LITERAL    Puts a 4 bit literal on Reg3
+  SET REG3, LITERAL    Puts a literal value on Reg3
   XCHG REG3            Swaps LSB and MSB bytes of Reg3
   SXTBD REG3           Extends LSB byte of Reg3 to fill Reg3 and keeps the sign
 
 === JUMP INSTRUCCTIONS =========================================================
   Jump Instrucctions:
 
-  JMP [REG3 + LITERAL] Jumps to Reg3 + literal (4 bit literal). Absolute Address
-  JMP [LITERAL]        Jumps to PC + literal (8 bit literal). Relative Address
-  CALL [REG3+ LITERAL] Jumps to Reg3 + literal (4 bit literal x2) and Push PC 
-                       to the stack. Absolute Address
-  CALL [LITERAL]       Jumps to PC + literal (8 bit literal x2) and Push PC to
-                       the stack. Relative Address
+  JMP [REG3 + LITERAL] Jumps to Reg3 + literal. Absolute Address
+  JMP [LITERAL]        Jumps to PC + 8 bit literal (-128 to 127). 
+                       Relative Address.
+  CALL [REG3+ LITERAL] Jumps to Reg3 + literal and Push PC to the stack. 
+                       Absolute Address.
+  CALL [LITERAL]       Jumps to PC + 8 bit literal (-128 to 127) and Push PC to
+                       the stack. Relative Address.
   RET                  Pops a value from stack and sets PC to these value. 
                        (Return from CALL)
 
 === STACK INSTRUCCTIONS ========================================================
 
-  PUSH REG3            Push Reg3 value to the stack. Writes Reg3 value at [--SP]
-  POP REG3             Pop a value from the stack and puts on Reg3. Reads at 
-                       [SP++] and put to Reg3.
+  PUSH REG3            Writes Reg3 value at [--SP], aka Push Reg3 to the stack
+  POP REG3             Reads at [SP++] and put to Reg3, aka Pop stack into Reg3
   PUSHA                Push R0 to R13, FLAGS and R14 register to the stack
   POPA                 Pop from the stak the values of R0 to R13, FLAGS and R14
 
@@ -395,7 +395,7 @@ reserved                              1xxx xxxx xxxx xxxx
   NOP                  Not Operation (Do nothing)
   SLEEP                Sleeps the CPU and wakes when an hardware interrupt is 
                        triggered
-  GETPC REG3           Puts PC value in Reg3
+  GETPC REG3           Puts PC+1 value in Reg3
  
   DCPU                 Changes to the DCPU emulation mode
  

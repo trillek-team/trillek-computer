@@ -452,21 +452,22 @@ critical code.
 
 === HARDWARE ===================================================================    
 
-The DCPU-16 supports up to 65535 connected hardware devices. These devices can
+The RCPU supports up to 65535 connected hardware devices. These devices can
 be anything from additional storage, sensors, monitors or speakers.
-How to control the hardware is specified per hardware device, but the DCPU-16
+How to control the hardware is specified per hardware device, but the RCPU
 supports a standard enumeration method for detecting connected hardware via
 the HWN, HWQ and HWI instructions.
 
 Interrupts sent to hardware can't contain messages, can take additional cycles,
-and can read or modify any registers or memory adresses on the DCPU-16. This
-behavior changes per hardware device and is described in the hardware's
-documentation.
+and can read or modify any registers, except R9 to R13 and FLGAS, or memory 
+adresses on the RCPU. This behavior changes per hardware device and is 
+described in the hardware's documentation. The hardware access to registers are
+mapped like A -> R0, B -> R1, ... , J -> R7 and EX -> R8
 
-Hardware must NOT start modifying registers or ram on the DCPU-16 before at
+Hardware must NOT start modifying registers or ram on the RCPU before at
 least one HWI call has been made to the hardware.
 
-The DPCU-16 does not support hot swapping hardware. The behavior of connecting
-or disconnecting hardware while the DCPU-16 is running is undefined.
+The RPCU does not support hot swapping hardware. The behavior of connecting
+or disconnecting hardware while the RCPU is running is undefined.
 
 

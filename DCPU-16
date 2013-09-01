@@ -128,7 +128,7 @@ The value (a) is in the same six bit format as defined earlier.
 --- Special opcodes: (5 bits) --------------------------------------------------
  C | VAL  | NAME  | DESCRIPTION
 ---+------+-------+-------------------------------------------------------------
- 1 | 0x00 | NOP   | NO Operation (Does nothing)
+ 1 | 0x00 | BRK   | Break. Halts the execution (TODO)
  3 | 0x01 | JSR a | pushes the address of the next instruction to the stack,
    |      |       | then sets PC to a
  - | 0x02 | -     |

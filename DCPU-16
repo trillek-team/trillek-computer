@@ -151,7 +151,7 @@ The value (a) is in the same six bit format as defined earlier.
  2 | 0x10 | HWN a | sets a to number of connected hardware devices
  2 | 0x11 | HWQ a | sets A, B, C, X, Y registers to information about hardware a
    |      |       | A+(B<<16) is a 32 bit word identifying the hardware id, 
-   |      |       | where A &0xFF denotes the hardware type
+   |      |       | where A &0xF000 denotes the hardware type
    |      |       | C is the hardware version
    |      |       | X+(Y<<16) is a 32 bit word identifying the manufacturer
  4+| 0x12 | HWI a | sends an interrupt to hardware a

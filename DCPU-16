@@ -8,7 +8,7 @@ Version 1.9 (beta)
 
 * 16 bit words
 * 0x10000 words of ram
-* 8 generic porpoise registers (A, B, C, X, Y, Z, I, J)
+* 8 generic purpose registers (A, B, C, X, Y, Z, I, J)
 * program counter (PC)
 * stack pointer (SP)
 * extra/excess (EX)
@@ -204,7 +204,7 @@ supports a standard enumeration method for detecting connected hardware via
 the HWN, HWQ and HWI instructions.
 
 Interrupts sent to hardware can't contain messages, can take additional cycles,
-and can read or modify any general porpoise registers or memory addresses on the
+and can read or modify any general purpose registers or memory addresses on the
 DCPU-16. This behaviour changes per hardware device and is described in the 
 hardware's documentation.
 

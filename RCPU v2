@@ -23,7 +23,7 @@ Whenever the CPU needs to read a word, it reads [PC], then increases PC by two.
 Shorthand for this is [PC+2]. In some cases, the CPU will modify a value before
 reading it, in this case the shorthand is [++X].
 
-The DCPU instrucction set is based in 16 bit words, so each time that the PC is
+The RDCPU instruction set is based in 16 bit words, so each time that the PC is
 incremented, is incremented by two.
 
 For stability and to reduce bugs, it's strongly suggested all multi-word
@@ -40,8 +40,8 @@ operations use little endian in all RCPU programs, wherever possible.
   - PC - Program Counter  
 
 FLAGS register :
-  BIT 15-4 -> Unnused (read always 0)
-  BIT 3 -> OVERFLOW FLAG 1 if signed arthimectic operation overflowed
+  BIT 15-4 -> Unused (read always 0)
+  BIT 3 -> OVERFLOW FLAG 1 if signed arithmetic operation overflowed
   BIT 2 -> CARRY FLAG 1 if the last ADDx/SUBx carried or borrowed a bit
   BIT 1 -> Reserved (read always 0)
   BIT 0 -> INTERRUPT FLAG 1 if interrupts is rised
@@ -189,9 +189,9 @@ reserved                              1xxx xxxx xxxx xxxx
 
 
 
-=== DESCRIPTION OF INSTRUCCTIONS ===============================================
+=== DESCRIPTION OF INSTRUCTIONS ===============================================
   
-=== RAM INSTRUCCTIONS ==========================================================
+=== RAM INSTRUCTIONS ==========================================================
   
   LOAD [REG1 + REG2], REG3
   LOAD [REG1 + LITERAL], REG3
@@ -213,24 +213,24 @@ reserved                              1xxx xxxx xxxx xxxx
   ADD REG3, REG2
   ADD REG3, LITERAL
   
-  Do the addiont of REG3 + REG2 (or LITERAL) and put it on REG3.
+  Do the addition of REG3 + REG2 (or LITERAL) and put it on REG3.
   
   
   ADDC REG3, REG2
   
-  Do the additon of REG3 + REG2 with Carry Bit and put it on REG3
+  Do the addition of REG3 + REG2 with Carry Bit and put it on REG3
   
   
   SUB REG3, REG2
   SUB REG3, LITERAL
   
-  Do the substraction of REG3 - REG2 (or LITERAL) and put it on REG3.
+  Do the subtraction of REG3 - REG2 (or LITERAL) and put it on REG3.
   
   
   SUBC REG3, REG2
   SUBC REG3, LITERAL
 
-  Do the substraction of REG3 - REG2 (or LITERAL) with Carry Bit and put it on
+  Do the subtraction of REG3 - REG2 (or LITERAL) with Carry Bit and put it on
   REG3. 
   
 
@@ -248,7 +248,7 @@ reserved                              1xxx xxxx xxxx xxxx
   Do the 32/16 bit multiplication of Y:Reg3 / Reg2 (or literal).
   Uses the value of Y register as the 16 most significant bits of the dividend
   and Reg3 as the 16 lowest significant bits.
-  The quation are stores in Y:Reg3, where the Y register stores the 16 bit most
+  The quotient are stores in Y:Reg3, where the Y register stores the 16 bit most
   significant bits and the Reg3 stores the 16 bit less significant bits.
 
   NOT REG3
@@ -258,7 +258,7 @@ reserved                              1xxx xxxx xxxx xxxx
 
   NEG REG3
   
-  Does the two complent of REG3 and put it on REG3. (Converts a positive number
+  Does the two complement of REG3 and put it on REG3. (Converts a positive number
   to a negative )
   
 
@@ -343,8 +343,8 @@ reserved                              1xxx xxxx xxxx xxxx
   XCHG REG3            Swaps LSB and MSB bytes of Reg3
   SXTBD REG3           Extends LSB byte of Reg3 to fill Reg3 and keeps the sign
 
-=== JUMP INSTRUCCTIONS =========================================================
-  Jump Instrucctions:
+=== JUMP INSTRUCTIONS =========================================================
+  Jump Instructions:
 
   JMP [REG3 + LITERAL] Jumps to Reg3 + literal. Absolute Address
   JMP [LITERAL]        Jumps to PC + 9 bit literal (-256 to 255). 
@@ -356,12 +356,12 @@ reserved                              1xxx xxxx xxxx xxxx
   RET                  Pops a value from stack and sets PC to these value. 
                        (Return from CALL)
 
-=== STACK INSTRUCCTIONS ========================================================
+=== STACK INSTRUCTIONS ========================================================
 
   PUSH REG3            Writes Reg3 value at [--SP], aka Push Reg3 to the stack
   POP REG3             Reads at [SP++] and put to Reg3, aka Pop stack into Reg3
 
-=== SPECIAL INSTRUCCTIONS ======================================================
+=== SPECIAL INSTRUCTIONS ======================================================
 
   NOP                  Not Operation (Do nothing)
   SLEEP                Sleeps the CPU and wakes when an hardware interrupt is 
@@ -373,7 +373,7 @@ reserved                              1xxx xxxx xxxx xxxx
   SETY LITERAL         "
   GETY REG3            Puts Y register value in Reg3
  
-=== INTERRUPT INSTRUCCTIONS ====================================================
+=== INTERRUPT INSTRUCTIONS ====================================================
 
   INT REG3
   INT LITERAL          
@@ -386,7 +386,7 @@ reserved                              1xxx xxxx xxxx xxxx
 
   RFI                  Return from interrupt
 
-=== HARDWARE INTERFACE INSTRUCCTIONS ===========================================
+=== HARDWARE INTERFACE INSTRUCTIONS ===========================================
 INP REG3, REG2         Reads Reg2 IO address and write the value to Reg3
 INP REG3, LITERAL      "
 
@@ -398,24 +398,24 @@ OUT REG3, LITERAL      "
 === INTERRUPTS =================================================================    
 
 When the RDCPU have IA register set to a value != 0, then the interrupts are
-enabled. Interrupts can be generated by software by INT instrucction or by 
-hardware geting to Low the INT line. An interrupt is procesed when the RDCPU is
-ready to process a new instrucction, plus the IACQ line goes to high,
-indicanting that the RDCPU will ignore the INT line. This means that all instructions are
-atomic.
+enabled. Interrupts can be generated by software by INT instruction or by 
+hardware getting to Low the INT line. An interrupt is processed when the RDCPU is
+ready to process a new instruction, plus the IACQ line goes to high,
+indicating that the RDCPU will ignore the INT line. This means that all 
+instructions are atomic.
 
 When a Interrupt happens, the RDCPU push to the stack, the values of PC and R1
 register, jumps to IA address, and sets the INTERRUPT FLAG to 1. If it's a 
 software interrupt, the message is put on R1 to be processed. If it's a hardware
 interrupt, sets R1 to value read in the data bus.
 
-When the interrupt service rutine ends, executing a RFI, the RDCPU pops R1
-register, sets IACK (Interrupt Acknoledg) line to Low, and
+When the interrupt service routine ends, executing a RFI, the RDCPU pops R1
+register, sets IACK (Interrupt Acknowledge) line to Low, and
 push the stack to set the old value of PC.
 
 === HARDWARE ===================================================================    
 
 The RDCPU have a separate IO address space of 8 bit that can be accessed using
-INP and OUT instrucctions.
+INP and OUT instructions.
 
 

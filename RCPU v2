@@ -46,6 +46,12 @@ FLAGS register :
   BIT 1 -> Reserved (read always 0)
   BIT 0 -> INTERRUPT FLAG 1 if interrupts is rised
 
+
+=== BOOT/RESET STATUS ==========================================================
+
+All registers are set to 0 when the RDCPU bootup or does a reset
+
+
 === INSTRUCTIONS ===============================================================
 
 Note: 4 bit Literals are defined from 0 to 30. 31 Literal (1111) is reserved to

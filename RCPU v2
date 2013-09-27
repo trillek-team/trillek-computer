@@ -3,14 +3,14 @@ NOTE: WIP. Need to check that are any opcodes clash
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
 Dumb Risc CPU Specification
-Version 0.2 
+Version 0.3 
 
 === SUMMARY ====================================================================
 
- * DCPU emulation and native modes. Boots in DCPU emulation mode
  * 16 bit RISC CPU, can access 0x10000 words of ram (0x0000 to 0xFFFF)
  * Operates in 16 bit words.
  * 14 general purpose registers (R0 to R13)
+ * Multiplication register Y
  * Stack Pointer (SP)
  * Flags Register (FLAGS)
  * Interrupt Address (IA)
@@ -20,47 +20,24 @@ RAM at the location of the value inside the brackets". For example, SP means
 stack pointer, but [SP] means the value of the RAM at the location the stack
 pointer is pointing at.
 
-Whenever the CPU needs to read a word, it reads [PC], then increases PC by one.
-Shorthand for this is [PC++]. In some cases, the CPU will modify a value before
-reading it, in this case the shorthand is [++PC].
+Whenever the CPU needs to read a word, it reads [PC], then increases PC by two.
+Shorthand for this is [PC+2]. In some cases, the CPU will modify a value before
+reading it, in this case the shorthand is [++X].
+
+The DCPU instrucction set is based in 16 bit words, so each time that the PC is
+incremented, is incremented by two.
 
 For stability and to reduce bugs, it's strongly suggested all multi-word
 operations use little endian in all RCPU programs, wherever possible.
 
 
-
-=== OPERATION MODES ============================================================
-
-This CPU have two operation modes : DCPU emulation mode and native mode
-The RCPU boots in DCPU mode always.
-
-When the the RCPU changes from DCPU mode to native, A, B, C, X, Y, Z, I and J 
-registers are maped to R0 to R7 registers, DCPU SP and IA is stored in SP and 
-IA. FLAGS its cleared and EX register is stored in R8.
-
-When the RCPU changes from native to DCPU emualtion, R0 to R7 are maped to A, B,
- C, X, Y, Z, I and J registers. SP and IA native registers are maped on DCPU SP 
-and IA registers. EX register takes his value from R8. R9 to R13 keeps his 
-values but are hidden in DCPU emulation mode.
-
-
-=== DCPU EMULATION MODE ========================================================
-
-In DCPU emulation mode, works exactly like the DCPU but adds a extra new 
-special opcode:
---- Special opcodes: (5 bits) --------------------------------------------------
- C | VAL  | NAME  | DESCRIPTION
----+------+-------+-------------------------------------------------------------
- - | 0x1f | RCPU a| Switch to RCPU native mode
----+------+-------+-------------------------------------------------------------
-
-
-=== NATIVE MODE ================================================================
-
-17 Registers :
-  - R0 .. R13 - General Purpose Registers
+19 Registers :
+  - R0 - Reads always 0 value
+  - R1 .. R13 - General Purpose Registers
   - R14 - SP - Stack Pointer -> Points to the last value Pushed
   - R15 - FLAGS register
+  - Y - Multiplication/Division register
+  - IA - Interrupt Address
   - PC - Program Counter  
 
 FLAGS register :
@@ -68,11 +45,11 @@ FLAGS register :
   BIT 3 -> OVERFLOW FLAG 1 if signed arthimectic operation overflowed
   BIT 2 -> CARRY FLAG 1 if the last ADDx/SUBx carried or borrowed a bit
   BIT 1 -> Reserved (read always 0)
-  BIT 0 -> INTERRUPT FLAG 1 if interrupts are enabled
+  BIT 0 -> INTERRUPT FLAG 1 if interrupts is rised
 
 === INSTRUCTIONS ===============================================================
 
-Note: 4 bit Literals are defined from 0 to 30. 31 Literal (1111) are reserved to
+Note: 4 bit Literals are defined from 0 to 30. 31 Literal (1111) is reserved to
       mark that the next word is a 16 bit Literal value.
 
 Instructions with 3 parameters :
@@ -97,65 +74,61 @@ Instructions with 2 parameters :
  0  1  x  x  x  x  x  x r2 r2 r2 r2 r3 r3 r3 r3
 
 ADD     REG3 op REG2 -> REG3          0100 0000 RRRR RRRR
-ADD.B   REG3 op REG2 -> REG3          0100 0001 RRRR RRRR
+ADD     REG3 op LITERAL -> REG3       0100 0001 LLLL RRRR
 SUB     REG3 op REG2 -> REG3          0100 0010 RRRR RRRR
-SUB.B   REG3 op REG2 -> REG3          0100 0011 RRRR RRRR
+SUB     REG3 op LITERAL -> REG3       0100 0011 LLLL RRRR
 ADDC    REG3 op REG2 -> REG3          0100 0100 RRRR RRRR
 SUBC    REG3 op REG2 -> REG3          0100 0101 RRRR RRRR
-AND     REG3 op REG2 -> REG3          0100 0110 RRRR RRRR
-AND.B   REG3 op REG2 -> REG3          0100 0111 RRRR RRRR
+SUBC    REG3 op LITERAL -> REG3       0100 0110 LLLL RRRR
+
+AND     REG3 op REG2 -> REG3          0100 0111 RRRR RRRR
 OR      REG3 op REG2 -> REG3          0100 1000 RRRR RRRR
-OR.B    REG3 op REG2 -> REG3          0100 1001 RRRR RRRR
-XOR     REG3 op REG2 -> REG3          0100 1010 RRRR RRRR
-XOR.B   REG3 op REG2 -> REG3          0100 1011 RRRR RRRR
-SHL     REG3 op REG2 -> REG3          0100 1100 RRRR RRRR
-SHL.B   REG3 op REG2 -> REG3          0100 1101 RRRR RRRR
-SHR     REG3 op REG2 -> REG3          0100 1110 RRRR RRRR
-SHR.B   REG3 op REG2 -> REG3          0100 1111 RRRR RRRR
-SSHL    REG3 op REG2 -> REG3          0101 0000 RRRR RRRR
-SSHL.B  REG3 op REG2 -> REG3          0101 0001 RRRR RRRR
-SSHR    REG3 op REG2 -> REG3          0101 0010 RRRR RRRR
-SSHR.B  REG3 op REG2 -> REG3          0101 0011 RRRR RRRR
-ROTL    REG3 op REG2 -> REG3          0101 0100 RRRR RRRR
-ROTL.B  REG3 op REG2 -> REG3          0101 0101 RRRR RRRR
-ROTR    REG3 op REG2 -> REG3          0101 0110 RRRR RRRR
-ROTR.B  REG3 op REG2 -> REG3          0101 0111 RRRR RRRR
+XOR     REG3 op REG2 -> REG3          0100 1001 RRRR RRRR
 
-BEQ     REG2 op REG3                  0101 1000 RRRR RRRR
-BNEQ    REG2 op REG3                  0101 1001 RRRR RRRR
-BG      REG2 op REG3                  0101 1010 RRRR RRRR
-BGE     REG2 op REG3                  0101 1011 RRRR RRRR
-BUG     REG2 op REG3                  0101 1100 RRRR RRRR
-BUGE    REG2 op REG3                  0101 1101 RRRR RRRR
-BBITS   REG2 op REG3                  0101 1110 RRRR RRRR
-BCLEAR  REG2 op REG3                  0101 1111 RRRR RRRR
+SLL     REG3 op REG2 -> REG3          0100 1010 RRRR RRRR
+SLL     REG3 op LITERAL -> REG3       0100 1011 LLLL RRRR
+SRL     REG3 op REG2 -> REG3          0100 1100 RRRR RRRR
+SRL     REG3 op LITERAL -> REG3       0100 1101 LLLL RRRR
+SRA     REG3 op REG2 -> REG3          0100 1110 RRRR RRRR
+SRA     REG3 op LITERAL -> REG3       0100 1111 LLLL RRRR
 
-SHL     REG3 op LITERAL -> REG3       0110 0000 LLLL RRRR
-SHL.B   REG3 op LITERAL -> REG3       0110 0001 LLLL RRRR
-SHR     REG3 op LITERAL -> REG3       0110 0010 LLLL RRRR
-SHR.B   REG3 op LITERAL -> REG3       0110 0011 LLLL RRRR
-SSHL    REG3 op LITERAL -> REG3       0110 0100 LLLL RRRR
-SSHL.B  REG3 op LITERAL -> REG3       0110 0101 LLLL RRRR
-SSHR    REG3 op LITERAL -> REG3       0110 0110 LLLL RRRR
-SSHR.B  REG3 op LITERAL -> REG3       0110 0111 LLLL RRRR
+ROTL    REG3 op REG2 -> REG3          0101 0000 RRRR RRRR
+ROTL    REG3 op LITERAL -> REG3       0101 0001 LLLL RRRR
+ROTR    REG3 op REG2 -> REG3          0101 0010 RRRR RRRR
+ROTR    REG3 op LITERAL -> REG3       0101 0011 LLLL RRRR
 
-SWP     REG2, REG3                    0110 1000 RRRR RRRR
+MUL     REG3 op REG2-> REG3           0101 0100 RRRR RRRR
+MUL     REG3 op LITERAL-> REG3        0101 0101 LLLL RRRR
+DIV     REG3 op REG2-> REG3           0101 0110 RRRR RRRR
+DIV     REG3 op LITERAL-> REG3        0101 0111 LLLL RRRR
 
-MUL.B   REG3 op REG2-> REG3           0110 1001 RRRR RRRR
-DIV.B   REG3 op REG2-> REG3           0110 1010 RRRR RRRR
+SWP     REG2, REG3                    0101 1000 RRRR RRRR
 
-CPY     REG2 -> REG3                  0110 1011 RRRR RRRR
-SET     LITERAL -> REG3               0110 1100 LLLL RRRR
+CPY     REG2 -> REG3                  0101 1001 RRRR RRRR
+SET     LITERAL -> REG3               0101 1010 LLLL RRRR
 
+BEQ     REG2 op REG3                  0101 1011 RRRR RRRR
+BEQ     LITERAL op REG3               0101 1101 LLLL RRRR
+BNEQ    REG2 op REG3                  0101 1111 RRRR RRRR
+BNEQ    LITERAL op REG3               0110 0000 LLLL RRRR
+BG      REG2 op REG3                  0110 0001 RRRR RRRR
+BG      LITERAL op REG3               0110 0010 LLLL RRRR
+BGE     REG2 op REG3                  0110 0011 RRRR RRRR
+BGE     LITERAL op REG3               0110 0100 LLLL RRRR
+BUG     REG2 op REG3                  0110 0101 RRRR RRRR
+BUG     LITERAL op REG3               0110 0110 LLLL RRRR
+BUGE    REG2 op REG3                  0110 0111 RRRR RRRR
+BUGE    LITERAL op REG3               0110 1000 LLLL RRRR
+BBITS   REG2 op REG3                  0101 0010 RRRR RRRR
+BCLEAR  REG2 op REG3                  0101 0011 RRRR RRRR
 
-ADD     REG3 op LITERAL -> REG3       0111 000L LLLL RRRR
-ADD.B   REG3 op LITERAL -> REG3       0111 001L LLLL RRRR
-SUB     REG3 op LITERAL -> REG3       0111 010L LLLL RRRR
-SUB.B   REG3 op LITERAL -> REG3       0111 011L LLLL RRRR
-SUBC    REG3 op LITERAL -> REG3       0111 100L LLLL RRRR
+INP     REG2 op REG3                  0101 0100 RRRR RRRR
+INP     LITERAL op REG3               0101 0101 LLLL RRRR
+OUT     REG2 op REG3                  0101 0110 RRRR RRRR
+OUT     LITERAL op REG3               0101 0111 LLLL RRRR
 
-JMP (Absolute)  to [REG3 + LITERAL]   0111 110L LLLL RRRR
-CALL (Absolute) to [REG3 + LITERAL]   0111 111L LLLL RRRR
+JMP (Absolute)  to [REG3 + LITERAL]   0111 1110 LLLL RRRR
+CALL (Absolute) to [REG3 + LITERAL]   0111 1111 LLLL RRRR
 
 Instructions with 1 parameter :
 
@@ -163,31 +136,32 @@ Instructions with 1 parameter :
 -----------------------------------------------
  0  0  1  x  x  x  x  x  x  x  x  x r3 r3 r3 r3
 
-NOT     REG3                          0010 0000 0000 RRRR
-NEG     REG3                          0010 0000 0001 RRRR
-XCHG    REG3                          0010 0000 0010 RRRR
-SXTBD   REG3                          0010 0000 0011 RRRR
+NOT      REG3                         0010 0000 0000 RRRR
+NEG      REG3                         0010 0000 0001 RRRR
 
-PUSH    REG3                          0010 0000 0100 RRRR
-POP     REG3                          0010 0000 0101 RRRR
+XCHG     REG3                         0010 0000 0010 RRRR
+SXTBD    REG3                         0010 0000 0011 RRRR
 
-GETPC   REG3                          0010 0000 0110 RRRR
+PUSH     REG3                         0010 0000 0100 RRRR
+POP      REG3                         0010 0000 0101 RRRR
 
-(TODO - CHECK that this opcodes not clash with others )
-INT     REG3                          0010 0000 1000 RRRR
-INT     LITERAL                       0010 0000 1001 LLLL
-IAG     REG3                          0010 0000 1010 RRRR
-IAS     REG3                          0010 0000 1011 RRRR
-IAQ     LITERAL                       0010 0000 1100 LLLL
+GETPC    REG3                         0010 0000 0110 RRRR
+GETFLAGS REG3                         0010 0000 0111 RRRR
 
-HWN     REG3                          0010 0000 1101 RRRR
-HWQ     REG3                          0010 0000 1110 RRRR
-HWI     REG3                          0010 0000 1111 RRRR
+SETY     REG3                         0010 0000 0111 RRRR
+SETY     LITERAL                      0010 0000 1000 RRRR
+GETY     REG3                         0010 0000 1001 RRRR
+
+INT     REG3                          0010 0000 1010 RRRR
+INT     LITERAL                       0010 0000 1011 LLLL
+GETIA   REG3                          0010 0000 1100 RRRR
+SETIA   REG3                          0010 0000 1101 RRRR
+SETIA   LITERAL                       0010 0000 1111 LLLL
 
 reserved REG3                         0011 xxxx xxxx RRRR
 
 
-Instructions with 1 parameter ans long literal :
+Instructions with 1 parameter and long literal (-256 to 255) :
 
 15 14 13 12 11 10 09 08 07 06 05 04 03 02 01 00
 -----------------------------------------------
@@ -209,12 +183,8 @@ SLEEP                                 0000 0000 0000 0001
 RET                                   0000 0000 0000 0010
 RFI                                   0000 0000 0000 0011
 
-PUSHA                                 0000 0000 0000 0100
-POPA                                  0000 0000 0000 0101
-
 BOVF                                  0000 0000 0000 1000
-
-DCPU                                  0000 0000 0000 1111
+BOCF                                  0000 0000 0000 1001
 
 reserved                              1xxx xxxx xxxx xxxx
 
@@ -243,11 +213,8 @@ reserved                              1xxx xxxx xxxx xxxx
   
   ADD REG3, REG2
   ADD REG3, LITERAL
-  ADD.B REG3, REG2
-  ADD.B REG3, LITERAL
   
   Do the addiont of REG3 + REG2 (or LITERAL) and put it on REG3.
-  ADD.B operates only over the LSB of REG2 and REG3
   
   
   ADDC REG3, REG2
@@ -257,17 +224,33 @@ reserved                              1xxx xxxx xxxx xxxx
   
   SUB REG3, REG2
   SUB REG3, LITERAL
-  SUB.B REG3, REG2
-  SUB.B REG3, LITERAL
   
   Do the substraction of REG3 - REG2 (or LITERAL) and put it on REG3.
-  SUB.B operates only over the LSB of REG2 and REG3
   
   
   SUBC REG3, REG2
+  SUBC REG3, LITERAL
 
-  Do the substraction of REG3 - REG2 with Carry Bit and put it on REG3. 
+  Do the substraction of REG3 - REG2 (or LITERAL) with Carry Bit and put it on
+  REG3. 
   
+
+  MUL REG3, REG2
+  MUL REG3, LITERAL
+
+  Do the 16x16 bit multiplication of Reg3 x Reg2 (or literal).
+  Stores the 16 bit most significant bits in the Y register. The lowest
+  significant 16 bit are stored in Reg3
+
+
+  DIV REG3, REG2
+  DIV REG3, LITERAL
+
+  Do the 32/16 bit multiplication of Y:Reg3 / Reg2 (or literal).
+  Uses the value of Y register as the 16 most significant bits of the dividend
+  and Reg3 as the 16 lowest significant bits.
+  The quation are stores in Y:Reg3, where the Y register stores the 16 bit most
+  significant bits and the Reg3 stores the 16 bit less significant bits.
 
   NOT REG3
 
@@ -281,66 +264,48 @@ reserved                              1xxx xxxx xxxx xxxx
   
 
   AND REG3, REG2
-  AND.B REG3, REG2
   
   Do the logic AND operation between REG3 and REG2 and put it to REG3.
-  AND.B only operates over the LSB of REG2 and REG3.
   
   
   OR REG3, REG2
-  OR.B REG3, REG2
   
   Do the logic OR operation between REG3 and REG2 and put it to REG3.
-  OR.B only operates over the LSB of REG2 and REG3.
   
   
   XOR REG3, REG2
-  XOR.B REG3, REG2
   
   Do the logic XOR operation between REG3 and REG2 and put it to REG3.
-  XOR.B only operates over the LSB of REG2 and REG3.
   
   
-  SHL REG3, REG2
-  SHL.B REG3, REG2
+  SLL REG3, REG2
   
   Do the Logic Left Shift of REG3, displacing value of REG2 bits and put it to 
-  REG3. SHL.B only operates over the LSB of REG2 and REG3.
+  REG3. The output bit are stores in Carry Flag.
 
   
-  SHR REG3, REG2
-  SHR.B REG3, REG2
+  SRL REG3, REG2
   
   Do the Logic Right Shift of REG3, displacing value of REG2 bits and put it to 
-  REG3. SHR.B only operates over the LSB of REG2 and REG3.
+  REG3. The output bit are stores in Carry Flag.
 
   
-  SSHL REG3, REG2
-  SSHL.B REG3, REG2
+  SRA REG3, REG2
   
-  Do the Arithmetic Left Shift of REG3, displacing value of REG2 bits and put it
-  to REG3. SSHL.B only operates over the LSB of REG2 and REG3.
-
-  
-  SSHR REG3, REG2
-  SSHR.B REG3, REG2
-  
-  Do the Arithmetic Right Shift of REG3, displacing value of REG2 bits and put
-  it to REG3. SSHL.B only operates over the LSB of REG2 and REG3.
+  Do the Arithmetic Right Shift of REG3, displacing value of REG2 bits and put it
+  to REG3. The output bit are stores in Carry Flag. 
 
   
   ROTL REG3, REG2
-  ROTL.B REG3, REG2
   
   Do the Left Rotation of REG3, displacing value of REG2 bits and put it to
-  REG3. SSHL.B only operates over the LSB of REG2 and REG3.
+  REG3. 
 
   
   ROTL REG3, REG2
-  ROTR.B REG3, REG2
   
   Do the Right Rotation of REG3, displacing value of REG2 bits and put it to 
-  REG3. SSHL.B only operates over the LSB of REG2 and REG3.
+  REG3. 
   
 === BRANCHING OPERATIONS =======================================================
 
@@ -352,21 +317,30 @@ reserved                              1xxx xxxx xxxx xxxx
   
   
   BEQ REG3, REG2       Branch On Equal
+  BEQ REG3, LITERAL    "
   BNEQ REG3, REG2      Branch On NOT Equal
+  BNEQ REG3, LITERAL   "
   BG REG3, REG2        Branch if Reg3 > Reg2 (signed ints)
+  BG REG3, LITERAL     "
   BGE REG3, REG2       Branch if Reg3 >= Reg2 (signed ints)
+  BGE REG3, LITERAL    "
   BUG REG3, REG2       Branch if Reg3 > Reg2 (unsigned ints)
+  BUG REG3, LITERAL    "
   BUGE REG3, REG2      Branch if Reg3 >= Reg2 (unsigned ints)
+  BUGE REG3, LITERAL   "
+
   BBITS REG3, REG2     Branch if Reg3 & Reg2 != 0 (bitwise AND operation)
   BCLEAR REG3, REG2    Branch if Reg3 & Reg2 == 0
 
   BOVF                 Branch if Overflow FLAG is setted ( == 1 )
+  BOCF                 Branch if Carry FLAG is setted ( == 1 )
 
 === REGISTER OPERATIONS ========================================================
 
   SWP REG3, REG2       Swaps Reg3 and Reg2 values
   CPY REG3, REG2       Copy the value of Reg2 to Reg3
   SET REG3, LITERAL    Puts a literal value on Reg3
+  
   XCHG REG3            Swaps LSB and MSB bytes of Reg3
   SXTBD REG3           Extends LSB byte of Reg3 to fill Reg3 and keeps the sign
 
@@ -374,11 +348,11 @@ reserved                              1xxx xxxx xxxx xxxx
   Jump Instrucctions:
 
   JMP [REG3 + LITERAL] Jumps to Reg3 + literal. Absolute Address
-  JMP [LITERAL]        Jumps to PC + 8 bit literal (-128 to 127). 
+  JMP [LITERAL]        Jumps to PC + 9 bit literal (-256 to 255). 
                        Relative Address.
   CALL [REG3+ LITERAL] Jumps to Reg3 + literal and Push PC to the stack. 
                        Absolute Address.
-  CALL [LITERAL]       Jumps to PC + 8 bit literal (-128 to 127) and Push PC to
+  CALL [LITERAL]       Jumps to PC + 9 bit literal (-256 to 255) and Push PC to
                        the stack. Relative Address.
   RET                  Pops a value from stack and sets PC to these value. 
                        (Return from CALL)
@@ -387,87 +361,61 @@ reserved                              1xxx xxxx xxxx xxxx
 
   PUSH REG3            Writes Reg3 value at [--SP], aka Push Reg3 to the stack
   POP REG3             Reads at [SP++] and put to Reg3, aka Pop stack into Reg3
-  PUSHA                Push R0 to R13, FLAGS and R14 register to the stack
-  POPA                 Pop from the stak the values of R0 to R13, FLAGS and R14
 
 === SPECIAL INSTRUCCTIONS ======================================================
 
   NOP                  Not Operation (Do nothing)
   SLEEP                Sleeps the CPU and wakes when an hardware interrupt is 
                        triggered
-  GETPC REG3           Puts PC+1 value in Reg3
- 
-  DCPU                 Changes to the DCPU emulation mode
+  GETPC REG3           Puts PC+2 value in Reg3
+  GETFLAGS REG3        Puts FLAGS value in Reg3
+
+  SETY REG3            Sets Y register value
+  SETY LITERAL         "
+  GETY REG3            Puts Y register value in Reg3
  
 === INTERRUPT INSTRUCCTIONS ====================================================
 
   INT REG3
   INT LITERAL          
-
   Triggers a software interrupt with message of REG3 or 4 bit Literal.
 
-  
-  IAG REG3             Sets REG3 to IA value
-  IAS REG3             Sets IA to REG3 value
-  IAQ LITERAL          If REG3 is nonzero, interrupts will be added to the queue
-                       instead of triggered. if REG3 is zero, interrupts will be
-                       triggered as normal again
-  RFI                  Disables interrupt queueing, pops R0 from the stack, then 
-                       pops PC from the stack
+
+  GETIA REG3           Sets REG3 to IA value
+  SETIA REG3           Sets IA to REG3 value
+  SETIA LITERAL        "
+
+  RFI                  Return from interrupt
 
 === HARDWARE INTERFACE INSTRUCCTIONS ===========================================
-  HWN REG3             Sets REG3 to number of connected hardware devices
-  HWQ REG3             Sets R0, R1, R2, R3, R4 registers to information about 
-                       hardware REG3
-                       R0+(R1<<16) is a 32 bit word identifying the hardware ID
-                       R2 is the hardware version
-                       R3+(R4<<16) is a 32 bit word identifying the manufacturer
-  HWI REG3             Sends an interrupt to hardware REG3
+INP REG3, REG2         Reads Reg2 IO address and write the value to Reg3
+INP REG3, LITERAL      "
 
+OUT REG3, REG2         Writes Reg2 IO address the value of Reg3
+OUT REG3, LITERAL      "
   
   
 
 === INTERRUPTS =================================================================    
 
-The DCPU-16 will perform at most one interrupt between each instruction. If
-multiple interrupts are triggered at the same time, they are added to a queue.
-If the queue grows longer than 256 interrupts, the DCPU-16 will catch fire. 
+When the RDCPU have IA register set to a value != 0, then the interrupts are
+enabled. Interrupts can be generated by software by INT instrucction or by 
+hardware geting to Low the INT line. An interrupt is procesed when the RDCPU is
+ready to process a new instrucction, this means that all instructions are
+atomic.
 
-When IA is set to something other than 0, interrupts triggered on the DCPU-16
-will turn on interrupt queueing, push PC to the stack, followed by pushing A to
-the stack, then set the PC to IA, and A to the interrupt message.
- 
-If IA is set to 0, a triggered interrupt does nothing. Software interrupts still
-take up four clock cycles, but immediately return, incoming hardware interrupts
-are ignored. Note that a queued interrupt is considered triggered when it leaves
-the queue, not when it enters it.
+When a Interrupt happens, the RDCPU push to the stack, the values of PC and R1
+register, jumps to IA address, and sets the INTERRUPT FLAG to 1. If it's a 
+software interrupt, the message is put on R1 to be processed. If it's a hardware
+interrupt, sets R1 to value read in the data bus.
 
-Interrupt handlers should end with RFI, which will disable interrupt queueing
-and pop A and PC from the stack as a single atomic instruction.
-IAQ is normally not needed within an interrupt handler, but is useful for time
-critical code.
-
-
-
+When the interrupt service rutine ends, executing a RFI, the RDCPU pops R1
+register, sets IACK (Interrupt Acknoledg) line to High a long a clock cycle, and
+push the stack to set the old value of PC.
 
 === HARDWARE ===================================================================    
 
-The RCPU supports up to 65535 connected hardware devices. These devices can
-be anything from additional storage, sensors, monitors or speakers.
-How to control the hardware is specified per hardware device, but the RCPU
-supports a standard enumeration method for detecting connected hardware via
-the HWN, HWQ and HWI instructions.
-
-Interrupts sent to hardware can't contain messages, can take additional cycles,
-and can read or modify any registers, except R9 to R13 and FLGAS, or memory 
-adresses on the RCPU. This behavior changes per hardware device and is 
-described in the hardware's documentation. The hardware access to registers are
-mapped like A -> R0, B -> R1, ... , J -> R7 and EX -> R8
-
-Hardware must NOT start modifying registers or ram on the RCPU before at
-least one HWI call has been made to the hardware.
-
-The RPCU does not support hot swapping hardware. The behavior of connecting
-or disconnecting hardware while the RCPU is running is undefined.
+The RDCPU have a separate IO address space of 8 bit that can be accessed using
+INP and OUT instrucctions.
 
 

@@ -312,7 +312,7 @@ reserved                              1xxx xxxx xxxx xxxx
   When they skip a conditional instruction, they will skip an additional
   instruction at the cost of one extra cycle. This continues until a non-
   conditional instruction has been skipped. This lets you easily chain
-  conditionals. Interrupts are not triggered while the RCPU is skipping.
+  conditionals. Interrupts are not triggered while the RDCPU is skipping.
   
   
   BEQ REG3, REG2       Branch On Equal

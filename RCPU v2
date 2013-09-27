@@ -43,7 +43,7 @@ FLAGS register :
   BIT 15-4 -> Unused (read always 0)
   BIT 3 -> OVERFLOW FLAG 1 if signed arithmetic operation overflowed
   BIT 2 -> CARRY FLAG 1 if the last ADDx/SUBx carried or borrowed a bit
-  BIT 1 -> Reserved (read always 0)
+  BIT 1 -> DIVISION ERROR FLAG 1 if was a division error.
   BIT 0 -> INTERRUPT FLAG 1 if interrupts is rised
 
 
@@ -188,6 +188,8 @@ SLEEP                                 0000 0000 0000 0001
 RET                                   0000 0000 0000 0010
 RFI                                   0000 0000 0000 0011
 
+CLRDIVERR                             0000 0000 0000 0100
+
 BOVF                                  0000 0000 0000 1000
 BOCF                                  0000 0000 0000 1001
 
@@ -256,6 +258,8 @@ reserved                              1xxx xxxx xxxx xxxx
   and Reg3 as the 16 lowest significant bits.
   The quotient are stores in Y:Reg3, where the Y register stores the 16 bit most
   significant bits and the Reg3 stores the 16 bit less significant bits.
+  If a division error happens, the RDCPU will throw a exception with message 0, 
+  and will be set Division Error flag to 1
 
   NOT REG3
 
@@ -378,6 +382,8 @@ reserved                              1xxx xxxx xxxx xxxx
   SETY REG3            Sets Y register value
   SETY LITERAL         "
   GETY REG3            Puts Y register value in Reg3
+
+  CLRDIVERR            Clears Division Error Flag
  
 === INTERRUPT INSTRUCTIONS ====================================================
 
@@ -425,6 +431,8 @@ push the stack to set the old value of PC.
 The first 256 (0-255) interrupt messages are reserved for software interrupts. 
 The rest could be used by hardware devices and the devices specs should clarify 
 what interrupt message uses, if throws any interrupt.
+
+If a division error happens, the RDCPU will throw a exception with message 0.
 
 
 === HARDWARE ===================================================================    

@@ -10,6 +10,7 @@ Version 0.3
  * 16 bit RISC CPU, can access 0x10000 words of ram (0x0000 to 0xFFFF)
  * 14 general purpose registers (R0 to R13)
  * Multiplication register Y
+ * Base Pointer (BP)
  * Stack Pointer (SP)
  * Flags Register (FLAGS)
  * Interrupt Address (IA)

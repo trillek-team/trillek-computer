@@ -8,7 +8,6 @@ Version 0.3
 === SUMMARY ====================================================================
 
  * 16 bit RISC CPU, can access 0x10000 words of ram (0x0000 to 0xFFFF)
- * Operates in 16 bit words.
  * 14 general purpose registers (R0 to R13)
  * Multiplication register Y
  * Stack Pointer (SP)

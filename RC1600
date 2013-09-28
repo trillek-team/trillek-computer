@@ -52,18 +52,21 @@ operations use little endian in all RC1600  programs, wherever possible.
   - IS - Interrupt Segment
 
 FLAGS register :
-  BIT 15-10-> Reserved
-  BIT 9    -> ENABLE ARTIHMETIC ERRORS (AE)
-  BIT 8    -> ENABLE SINGLE-STEP MODE (TF)
+  BIT 15-11-> Reserved
+  BIT 10   -> ENABLE DIVISRION ERRORS (TDE)
+  BIT 9    -> ENABLE OVERFLOW ERRORS  (TOE)
+  BIT 8    -> ENABLE SINGLE-STEP MODE (TSS)
   BIT 4-7  -> Reserved
-  BIT 3    -> INTERRUPT FLAG: 1 If an interrupt is happening.
-  BIT 2    -> DIVISION ERROR FLAG: 1 If was a division error.
-  BIT 1    -> OVERFLOW FLAG: 1 If an arithmetic operation overflowed 
-  BIT 0    -> CARRY FLAG: 1 If the last ADDx/SUBx carried or borrowed a bit
+  BIT 3    -> INTERRUPT FLAG: 1 If an interrupt is happening. (IF)
+  BIT 2    -> DIVISION ERROR FLAG: 1 If was a division error. (DE)
+  BIT 1    -> OVERFLOW FLAG: 1 If an arithmetic operation overflowed. (OF)
+  BIT 0    -> CARRY FLAG: 1 If the last ADDx/SUBx carried or borrowed a bit. (CF)
 
-If AE bit is enabled, the RC1600  will generated an appropriated interrupt if an 
-overflow or a division error happens.
-If TF bit is enable, the RC1600  will generate an appropriated interrupt with 
+If TOE bit is enabled, the RC1600  will generated an appropriated interrupt if an 
+overflow happens. 
+If TDE bit is enabled, the RC1600  will generated an appropriated interrupt if an 
+division error happens.
+If TSS bit is enable, the RC1600  will generate an appropriated interrupt with 
 message 1
 
 
@@ -370,7 +373,7 @@ When the RC1600  gets a interrupt and IA != 0, jumps to the address [IS:IA].
   and Reg3 as the 16 lowest significant bits. UDIV does the unsigned operation.
   The quotient are stored in Y:Reg3, where the Y register stores the 16 bit most
   significant bits and the Reg3 stores the 16 bit less significant bits.
-  If a division error happens and AE bit is enable, the RC1600  will throw an 
+  If a division error happens and TDE bit is enable, the RC1600  will throw an 
   interrupt with message 0, and will be set Division Error flag to 1.
 
 
@@ -383,7 +386,7 @@ When the RC1600  gets a interrupt and IA != 0, jumps to the address [IS:IA].
   Uses the value of Y register as the 16 most significant bits of the dividend
   and Reg3 as the 16 lowest significant bits. UMOD does the unsigned operation.
   The rest is stored in Reg3.
-  If a division error happens and AE bit is enable, the RC1600  will throw an 
+  If a division error happens and TDE bit is enable, the RC1600  will throw an 
   interrupt with message 0, and will be set Division Error flag to 1.
 
 
@@ -578,12 +581,13 @@ interrupts, that a OS can define what will do.
 The rest could be used by hardware devices and the devices specs should clarify 
 what interrupt message uses, if throws any interrupt.
 
-If a division error happens and AE bit is enable, the RC1600  will throw an 
+If a division error happens and TDE bit is enable, the RC1600  will throw an 
 interrupt with message 0.
-If a overflow error happens and AE bit is enable, the RC1600  will throw an 
+If a overflow error happens and TOE bit is enable, the RC1600  will throw an 
 interrupt with message 4.
-If single-step mode is active and INTERRUPT FLAG is not enable, the RC1600  will 
-throw an interrupt with message 1, when executes any instruction.
+If single-step mode is active (TSS bit is enable) and INTERRUPT FLAG is not 
+enable, the RC1600  will throw an interrupt with message 1, when executes any 
+instruction.
 
 
 === HARDWARE ===================================================================    

@@ -3,7 +3,7 @@ NOTE: WIP
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
 RC1600 (RISC CPU 1600) Specification
-Version 0.4b 
+Version 0.4c 
 
 === SUMMARY ====================================================================
 
@@ -87,7 +87,7 @@ Instructions with 3 parameters :
 -----------------------------------------------
  1  x  x  x r1 r1 r1 r1 r2 r2 r2 r2 r3 r3 r3 r3
 
-Instrucction     Parameters                 Format           Cycle Count
+Instruction     Parameters                 Format           Cycle Count
 -------------------------------------------------------------------------------
 LOAD    [REG1 + LITERAL], REG3        1000 RRRR LLLL RRRR    4
 LOAD    [REG1 + REG2], REG3           1001 RRRR RRRR RRRR    4
@@ -104,7 +104,7 @@ Instructions with 2 parameters :
 -----------------------------------------------
  0  1  x  x  x  x  x  x r2 r2 r2 r2 r3 r3 r3 r3
 
-Instrucction     Parameters                 Format           Cycle Count
+Instruction     Parameters                 Format           Cycle Count
 -------------------------------------------------------------------------------
 
 ADD     REG3 op REG2 -> REG3          0100 0000 RRRR RRRR    3
@@ -185,7 +185,7 @@ Instructions with 1 parameter :
 -----------------------------------------------
  0  0  1  x  x  x  x  x  x  x  x  x r3 r3 r3 r3
 
-Instrucction     Parameters                 Format           Cycle Count
+Instruction     Parameters                 Format           Cycle Count
 -------------------------------------------------------------------------------
 
 NOT      REG3                         0010 0000 0000 RRRR    3
@@ -238,7 +238,7 @@ Instructions with 1 parameter and long literal (-256 to 255) :
 -----------------------------------------------
  0  0  0  1  x  x  x  L  L  L  L  L  L  L  L  L
 
-Instrucction     Parameters                 Format           Cycle Count
+Instruction     Parameters                 Format           Cycle Count
 -------------------------------------------------------------------------------
 
 JMP (Relative)  to [LITERAL + PC]     0001 000L LLLL LLLL    3
@@ -251,7 +251,7 @@ Instructions 0 parameters :
 -----------------------------------------------
  0  0  0  0  x  x  x  x  x  x  x  x  x  x  x  x
 
-Instrucction     Parameters                 Format           Cycle Count
+Instruction     Parameters                 Format           Cycle Count
 -------------------------------------------------------------------------------
 
 NOP                                   0000 0000 0000 0000    1
@@ -498,7 +498,7 @@ When the RC1600  gets a interrupt and IA != 0, jumps to the address [IS:IA].
   LJMP [REG3:REG2]     Long jump to [REG3:REG2] address, so sets PC to REG2 and
                        CS to REG3
   LCALL [REG3:REG2]    Long jump to [REG3:REG2] address, so sets PC to REG2 and
-                       CS to REG3
+                       CS to REG3. Before push CS, and push PC to the stack.
 
   RET                  Pops PC. (Return from CALL)
 

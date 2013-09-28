@@ -36,7 +36,7 @@ For stability and to reduce bugs, it's strongly suggested all multi-word
 operations use little endian in all RDCPU programs, wherever possible.
 
 
-20 Registers :
+24 Registers :
   - R0 - Reads always 0 value
   - R1 .. R13 - General Purpose Registers (GPR)
   - R14 - BP - Base Pointer -> Also can is a GPR 
@@ -51,12 +51,18 @@ operations use little endian in all RDCPU programs, wherever possible.
   - IS - Interrupt Segment
 
 FLAGS register :
-  BIT 15-4 -> Unused (read always 0)
-  BIT 3 -> OVERFLOW FLAG 1 if signed arithmetic operation overflowed
-  BIT 2 -> CARRY FLAG 1 if the last ADDx/SUBx carried or borrowed a bit
-  BIT 1 -> DIVISION ERROR FLAG 1 if was a division error.
-  BIT 0 -> INTERRUPT FLAG 1 if interrupts is rised
+  BIT 15-10-> Reserved
+  BIT 9    -> ENABLE ARTIHMETIC ERRORS (AR)
+  BIT 8    -> ENABLE SINGLE-STEP MODE (TF)
+  BIT 4-7  -> Reserved
+  BIT 3    -> INTERRUPT FLAG: 1 If an interrupt is happening.
+  BIT 2    -> DIVISION ERROR FLAG: 1 If was a division error.
+  BIT 1    -> OVERFLOW FLAG: 1 If an arithmetic operation overflowed (ADD 0xFFFF, 1)
+  BIT 0    -> CARRY FLAG: 1 If the last ADDx/SUBx carried or borrowed a bit
 
+If AR bit is enabled, the RDCPU will generated an appropriated interrupt if an 
+overflow or a division error happens.
+If TF bit is enable, the RDCPU will generate an appropriated interrupt with message 1
 
 === BOOT/RESET STATUS ==========================================================
 
@@ -495,7 +501,8 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
   SETIA REG3           Sets IA to REG3 value
   SETIA LITERAL        "
 
-  RFI                  Return from interrupt. Pops R1, pops PC and pops CS.
+  RFI                  Return from interrupt. Pops R1, pops PC and pops CS. And
+                       cleans INTERRUPT FLAG
 
 === HARDWARE INTERFACE INSTRUCTIONS ===========================================
 INP REG3, REG2         Reads Reg2 IO address and write the value to Reg3
@@ -526,7 +533,8 @@ a software interrupt, the message is put on R1 to be processed. If it's a hardwa
 interrupt, sets R1 to value read in the data bus.
 
 When the interrupt service routine ends, executing a RFI, the RDCPU pops R1
-register, sets IACK (Interrupt Acknowledge) line to Low, and pops PC and CS.
+register, sets IACK (Interrupt Acknowledge) line to Low, and pops PC and CS, and 
+the INTERRUPT FLAG is set to 0.
 
 
 === INTERRUPT LIST =============================================================
@@ -536,8 +544,12 @@ that a OS can define what will do.
 The rest could be used by hardware devices and the devices specs should clarify 
 what interrupt message uses, if throws any interrupt.
 
-If a division error happens, the RDCPU will throw a exception with message 0.
-If a overflow error happens, the RDCPU will throw a exception with message 4.
+If a division error happens and AR bit is enable, the RDCPU will throw an 
+interrupt with message 0.
+If a overflow error happens and AR bit is enable, the RDCPU will throw an 
+interrupt with message 4.
+If single-step mode is active and INTERRUPT FLAG is not enable, the RDCPU will 
+throw an interrupt with message 1, when executes any instruction.
 
 
 === HARDWARE ===================================================================    

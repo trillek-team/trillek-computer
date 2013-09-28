@@ -238,8 +238,8 @@ Instructions with 1 parameter and long literal (-256 to 255) :
 Instrucction     Parameters                 Format           Cycle Count
 -------------------------------------------------------------------------------
 
-JMP (Relative)  to [LITERAL + PC]     0001 001L LLLL LLLL    3
-CALL (Relative) to [LITERAL + PC]     0001 010L LLLL LLLL    4
+JMP (Relative)  to [LITERAL + PC]     0001 000L LLLL LLLL    3
+CALL (Relative) to [LITERAL + PC]     0001 001L LLLL LLLL    4
 
 
 Instructions 0 parameters :

@@ -261,7 +261,7 @@ RFI                                   0000 0000 0000 0100    8
 BOVF                                  0000 0000 0000 1000    6
 BOCF                                  0000 0000 0000 1001    6
 
-reserved                              1xxx xxxx xxxx xxxx
+reserved                              0000 1xxx xxxx xxxx
 
 
 === ADDRESS MODEL =============================================================

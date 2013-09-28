@@ -52,7 +52,7 @@ operations use little endian in all RDCPU programs, wherever possible.
 
 FLAGS register :
   BIT 15-10-> Reserved
-  BIT 9    -> ENABLE ARTIHMETIC ERRORS (AR)
+  BIT 9    -> ENABLE ARTIHMETIC ERRORS (AE)
   BIT 8    -> ENABLE SINGLE-STEP MODE (TF)
   BIT 4-7  -> Reserved
   BIT 3    -> INTERRUPT FLAG: 1 If an interrupt is happening.
@@ -60,7 +60,7 @@ FLAGS register :
   BIT 1    -> OVERFLOW FLAG: 1 If an arithmetic operation overflowed (ADD 0xFFFF, 1)
   BIT 0    -> CARRY FLAG: 1 If the last ADDx/SUBx carried or borrowed a bit
 
-If AR bit is enabled, the RDCPU will generated an appropriated interrupt if an 
+If AE bit is enabled, the RDCPU will generated an appropriated interrupt if an 
 overflow or a division error happens.
 If TF bit is enable, the RDCPU will generate an appropriated interrupt with message 1
 
@@ -339,8 +339,8 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
   and Reg3 as the 16 lowest significant bits.
   The quotient are stored in Y:Reg3, where the Y register stores the 16 bit most
   significant bits and the Reg3 stores the 16 bit less significant bits.
-  If a division error happens, the RDCPU will throw a exception with message 0, 
-  and will be set Division Error flag to 1.
+  If a division error happens and AE bit is enable, the RDCPU will throw an 
+  interrupt with message 0, and will be set Division Error flag to 1.
 
 
   MOD     REG3 op REG2-> REG3           0101 1000 RRRR RRRR
@@ -350,9 +350,8 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
   Uses the value of Y register as the 16 most significant bits of the dividend
   and Reg3 as the 16 lowest significant bits.
   The rest is stored in Reg3.
-  If a division error happens, the RDCPU will throw a exception with message 0, 
-  and will be set Division Error flag to 1.
-
+  If a division error happens and AE bit is enable, the RDCPU will throw an 
+  interrupt with message 0, and will be set Division Error flag to 1.
 
 
   NOT REG3
@@ -450,11 +449,11 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
 === JUMP INSTRUCTIONS =========================================================
   Jump Instructions:
 
-  JMP [REG3 + LITERAL] Jumps to [CS:(Reg3 + literal)&0xFFFF]. Absolute Address
+  JMP [REG3 + LITERAL] Jumps to [CS:(Reg3 + literal)]. Absolute Address
   JMP [LITERAL]        Jumps to [CS:PC + 9 bit literal] (-256 to 255). 
                        Relative Address.
 
-  CALL [REG3+ LITERAL] Jumps to [CS:(Reg3 + literal)&0xFFFF] and Push PC to the stack. 
+  CALL [REG3+ LITERAL] Jumps to [CS:(Reg3 + literal)] and Push PC to the stack. 
                        Absolute Address.
   CALL [LITERAL]       Jumps to [CS:PC + 9 bit literal] (-256 to 255) and Push PC to
                        the stack. 
@@ -471,8 +470,8 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
 
 === STACK INSTRUCTIONS ========================================================
 
-  PUSH REG3            Writes Reg3 value at [--SP], aka Push Reg3 to the stack
-  POP REG3             Reads at [SP++] and put to Reg3, aka Pop stack into Reg3
+  PUSH REG3            Writes Reg3 value at [SS:--SP], aka Push Reg3 to the stack
+  POP REG3             Reads at [SS:SP++] and put to Reg3, aka Pop stack into Reg3
 
 === SPECIAL INSTRUCTIONS ======================================================
 
@@ -539,14 +538,14 @@ the INTERRUPT FLAG is set to 0.
 
 === INTERRUPT LIST =============================================================
 
-The first 256 (0-255) interrupt messages are reserved for software interrupts,
-that a OS can define what will do. 
+The first 256 (0-255) interrupt messages should be reserved for software 
+interrupts, that a OS can define what will do. 
 The rest could be used by hardware devices and the devices specs should clarify 
 what interrupt message uses, if throws any interrupt.
 
-If a division error happens and AR bit is enable, the RDCPU will throw an 
+If a division error happens and AE bit is enable, the RDCPU will throw an 
 interrupt with message 0.
-If a overflow error happens and AR bit is enable, the RDCPU will throw an 
+If a overflow error happens and AE bit is enable, the RDCPU will throw an 
 interrupt with message 4.
 If single-step mode is active and INTERRUPT FLAG is not enable, the RDCPU will 
 throw an interrupt with message 1, when executes any instruction.

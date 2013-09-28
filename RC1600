@@ -68,7 +68,8 @@ If TDE bit is enabled, the RC1600  will generated an appropriated interrupt if a
 division error happens.
 If TSS bit is enable, the RC1600  will generate an appropriated interrupt with 
 message 1
-
+The Carry flag is gets his value, doing a XOR of the carry bit and the sign bit 
+of the result, when an arithmetic operation happens.
 
 === BOOT/RESET STATUS ==========================================================
 

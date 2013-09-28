@@ -2,8 +2,8 @@ NOTE: WIP
 
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
-Risc Dumb CPU Specification
-Version 0.4 
+RC1600 (RISC CPU 1600) Specification
+Version 0.4a 
 
 === SUMMARY ====================================================================
 
@@ -26,14 +26,15 @@ the location the stack pointer is pointing at, in the Stack Segment.
 Whenever the CPU needs to read a word, it reads [CS:PC], then increases PC by 
 two. Shorthand for this is [CS:PC+2]. In some cases, the CPU will modify a 
 value before reading it, in this case the shorthand is [xS:++X]. When we say 
-that the RDCPU Push a value to the Stack, writes these value at [SS:--SP]. When
-we say that RDCPU Pops a value from the stack, reads a value from [SS:SP++].
+that the RC1600  Push a value to the Stack, writes these value at [SS:--SP]. 
+When we say that RC1600  Pops a value from the stack, reads a value from 
+[SS:SP++].
 
-The RDCPU instruction set is based in 16 bit words, so each time that the PC is
-incremented, is incremented by two.
+The RC1600 instruction set is based in 16 bit words, so each time that the PC 
+is incremented, is incremented by two.
 
 For stability and to reduce bugs, it's strongly suggested all multi-word
-operations use little endian in all RDCPU programs, wherever possible.
+operations use little endian in all RC1600  programs, wherever possible.
 
 
 24 Registers :
@@ -57,22 +58,25 @@ FLAGS register :
   BIT 4-7  -> Reserved
   BIT 3    -> INTERRUPT FLAG: 1 If an interrupt is happening.
   BIT 2    -> DIVISION ERROR FLAG: 1 If was a division error.
-  BIT 1    -> OVERFLOW FLAG: 1 If an arithmetic operation overflowed (ADD 0xFFFF, 1)
+  BIT 1    -> OVERFLOW FLAG: 1 If an arithmetic operation overflowed 
   BIT 0    -> CARRY FLAG: 1 If the last ADDx/SUBx carried or borrowed a bit
 
-If AE bit is enabled, the RDCPU will generated an appropriated interrupt if an 
+If AE bit is enabled, the RC1600  will generated an appropriated interrupt if an 
 overflow or a division error happens.
-If TF bit is enable, the RDCPU will generate an appropriated interrupt with message 1
+If TF bit is enable, the RC1600  will generate an appropriated interrupt with 
+message 1
+
 
 === BOOT/RESET STATUS ==========================================================
 
-All registers are set to 0 when the RDCPU boot-up or does a reset
+All registers are set to 0 when the RC1600 boot-up or does a reset.
 
 
 === INSTRUCTIONS ===============================================================
 
 Note: 4 bit Literals are defined from 0 to 30. 31 Literal (1111) is reserved to
-      mark that the next word is a 16 bit Literal value.
+      mark that the next word is a 16 bit Literal value. Access to the next word
+      for long literals takes a extra clock cycle
 
 Instructions with 3 parameters :
 
@@ -80,14 +84,16 @@ Instructions with 3 parameters :
 -----------------------------------------------
  1  x  x  x r1 r1 r1 r1 r2 r2 r2 r2 r3 r3 r3 r3
 
-LOAD    [REG1 + LITERAL], REG3        1000 RRRR LLLL RRRR
-LOAD    [REG1 + REG2], REG3           1001 RRRR RRRR RRRR
-LOAD.B  [REG1 + LITERAL], REG3        1010 RRRR LLLL RRRR
-LOAD.B  [REG1 + REG2], REG3           1011 RRRR RRRR RRRR
-STORE   [REG1 + LITERAL], REG3        1100 RRRR LLLL RRRR
-STORE   [REG1 + REG2], REG3           1101 RRRR RRRR RRRR
-STORE.B [REG1 + LITERAL], REG3        1110 RRRR LLLL RRRR
-STORE.B [REG1 + REG2], REG3           1111 RRRR RRRR RRRR
+Instrucction     Parameters                 Format           Cycle Count
+-------------------------------------------------------------------------------
+LOAD    [REG1 + LITERAL], REG3        1000 RRRR LLLL RRRR    4
+LOAD    [REG1 + REG2], REG3           1001 RRRR RRRR RRRR    4
+LOAD.B  [REG1 + LITERAL], REG3        1010 RRRR LLLL RRRR    4
+LOAD.B  [REG1 + REG2], REG3           1011 RRRR RRRR RRRR    4
+STORE   [REG1 + LITERAL], REG3        1100 RRRR LLLL RRRR    4
+STORE   [REG1 + REG2], REG3           1101 RRRR RRRR RRRR    4
+STORE.B [REG1 + LITERAL], REG3        1110 RRRR LLLL RRRR    4
+STORE.B [REG1 + REG2], REG3           1111 RRRR RRRR RRRR    4
 
 Instructions with 2 parameters :
 
@@ -95,77 +101,80 @@ Instructions with 2 parameters :
 -----------------------------------------------
  0  1  x  x  x  x  x  x r2 r2 r2 r2 r3 r3 r3 r3
 
-ADD     REG3 op REG2 -> REG3          0100 0000 RRRR RRRR
-ADD     REG3 op LITERAL -> REG3       0100 0001 LLLL RRRR
-SUB     REG3 op REG2 -> REG3          0100 0010 RRRR RRRR
-SUB     REG3 op LITERAL -> REG3       0100 0011 LLLL RRRR
-ADDC    REG3 op REG2 -> REG3          0100 0100 RRRR RRRR
-SUBC    REG3 op REG2 -> REG3          0100 0101 RRRR RRRR
-SUBC    REG3 op LITERAL -> REG3       0100 0110 LLLL RRRR
+Instrucction     Parameters                 Format           Cycle Count
+-------------------------------------------------------------------------------
 
-AND     REG3 op REG2 -> REG3          0100 0111 RRRR RRRR
-OR      REG3 op REG2 -> REG3          0100 1000 RRRR RRRR
-XOR     REG3 op REG2 -> REG3          0100 1001 RRRR RRRR
+ADD     REG3 op REG2 -> REG3          0100 0000 RRRR RRRR    3
+ADD     REG3 op LITERAL -> REG3       0100 0001 LLLL RRRR    3
+SUB     REG3 op REG2 -> REG3          0100 0010 RRRR RRRR    3
+SUB     REG3 op LITERAL -> REG3       0100 0011 LLLL RRRR    3
+ADDC    REG3 op REG2 -> REG3          0100 0100 RRRR RRRR    3
+SUBC    REG3 op REG2 -> REG3          0100 0101 RRRR RRRR    3
+SUBC    REG3 op LITERAL -> REG3       0100 0110 LLLL RRRR    3
 
-SLL     REG3 op REG2 -> REG3          0100 1010 RRRR RRRR
-SLL     REG3 op LITERAL -> REG3       0100 1011 LLLL RRRR
-SRL     REG3 op REG2 -> REG3          0100 1100 RRRR RRRR
-SRL     REG3 op LITERAL -> REG3       0100 1101 LLLL RRRR
-SRA     REG3 op REG2 -> REG3          0100 1110 RRRR RRRR
-SRA     REG3 op LITERAL -> REG3       0100 1111 LLLL RRRR
+AND     REG3 op REG2 -> REG3          0100 0111 RRRR RRRR    3
+OR      REG3 op REG2 -> REG3          0100 1000 RRRR RRRR    3
+XOR     REG3 op REG2 -> REG3          0100 1001 RRRR RRRR    3
 
-ROTL    REG3 op REG2 -> REG3          0101 0000 RRRR RRRR
-ROTL    REG3 op LITERAL -> REG3       0101 0001 LLLL RRRR
-ROTR    REG3 op REG2 -> REG3          0101 0010 RRRR RRRR
-ROTR    REG3 op LITERAL -> REG3       0101 0011 LLLL RRRR
+SLL     REG3 op REG2 -> REG3          0100 1010 RRRR RRRR    3
+SLL     REG3 op LITERAL -> REG3       0100 1011 LLLL RRRR    3
+SRL     REG3 op REG2 -> REG3          0100 1100 RRRR RRRR    3
+SRL     REG3 op LITERAL -> REG3       0100 1101 LLLL RRRR    3
+SRA     REG3 op REG2 -> REG3          0100 1110 RRRR RRRR    3
+SRA     REG3 op LITERAL -> REG3       0100 1111 LLLL RRRR    3
 
-UMUL     REG3 op REG2-> REG3          0101 0100 RRRR RRRR
-UMUL     REG3 op LITERAL-> REG3       0101 0101 LLLL RRRR
-UDIV     REG3 op REG2-> REG3          0101 0110 RRRR RRRR
-UDIV     REG3 op LITERAL-> REG3       0101 0111 LLLL RRRR
+ROTL    REG3 op REG2 -> REG3          0101 0000 RRRR RRRR    3
+ROTL    REG3 op LITERAL -> REG3       0101 0001 LLLL RRRR    3
+ROTR    REG3 op REG2 -> REG3          0101 0010 RRRR RRRR    3
+ROTR    REG3 op LITERAL -> REG3       0101 0011 LLLL RRRR    3
 
-UMOD     REG3 op REG2-> REG3          0101 1000 RRRR RRRR
-UMOD     REG3 op LITERAL-> REG3       0101 1001 LLLL RRRR
+UMUL     REG3 op REG2-> REG3          0101 0100 RRRR RRRR    80
+UMUL     REG3 op LITERAL-> REG3       0101 0101 LLLL RRRR    80
+UDIV     REG3 op REG2-> REG3          0101 0110 RRRR RRRR    100
+UDIV     REG3 op LITERAL-> REG3       0101 0111 LLLL RRRR    100
 
-MUL     REG3 op REG2-> REG3           0101 1010 RRRR RRRR
-MUL     REG3 op LITERAL-> REG3        0101 1011 LLLL RRRR
-DIV     REG3 op REG2-> REG3           0101 1100 RRRR RRRR
-DIV     REG3 op LITERAL-> REG3        0101 1101 LLLL RRRR
+UMOD     REG3 op REG2-> REG3          0101 1000 RRRR RRRR    100
+UMOD     REG3 op LITERAL-> REG3       0101 1001 LLLL RRRR    100
 
-MOD     REG3 op REG2-> REG3           0101 1110 RRRR RRRR
-MOD     REG3 op LITERAL-> REG3        0101 1111 LLLL RRRR
+MUL     REG3 op REG2-> REG3           0101 1010 RRRR RRRR    100
+MUL     REG3 op LITERAL-> REG3        0101 1011 LLLL RRRR    100
+DIV     REG3 op REG2-> REG3           0101 1100 RRRR RRRR    120
+DIV     REG3 op LITERAL-> REG3        0101 1101 LLLL RRRR    120
 
-SWP     REG2, REG3                    0110 0000 RRRR RRRR
+MOD     REG3 op REG2-> REG3           0101 1110 RRRR RRRR    120
+MOD     REG3 op LITERAL-> REG3        0101 1111 LLLL RRRR    120
 
-CPY     REG2 -> REG3                  0110 0001 RRRR RRRR
-SET     LITERAL -> REG3               0110 0010 LLLL RRRR
+SWP     REG2, REG3                    0110 0000 RRRR RRRR    3
 
-BEQ     REG2 op REG3                  0110 0011 RRRR RRRR
-BEQ     LITERAL op REG3               0110 0101 LLLL RRRR
-BNEQ    REG2 op REG3                  0110 0111 RRRR RRRR
-BNEQ    LITERAL op REG3               0110 1000 LLLL RRRR
-BG      REG2 op REG3                  0110 1001 RRRR RRRR
-BG      LITERAL op REG3               0110 1010 LLLL RRRR
-BGE     REG2 op REG3                  0110 1011 RRRR RRRR
-BGE     LITERAL op REG3               0110 1100 LLLL RRRR
-BUG     REG2 op REG3                  0110 1101 RRRR RRRR
-BUG     LITERAL op REG3               0110 1110 LLLL RRRR
-BUGE    REG2 op REG3                  0110 1111 RRRR RRRR
-BUGE    LITERAL op REG3               0111 0000 LLLL RRRR
-BBITS   REG2 op REG3                  0111 0001 RRRR RRRR
-BCLEAR  REG2 op REG3                  0111 0010 RRRR RRRR
+CPY     REG2 -> REG3                  0110 0001 RRRR RRRR    2
+SET     LITERAL -> REG3               0110 0010 LLLL RRRR    2
 
-INP     REG2 op REG3                  0111 0011 RRRR RRRR
-INP     LITERAL op REG3               0111 0100 LLLL RRRR
-OUT     REG2 op REG3                  0111 0101 RRRR RRRR
-OUT     LITERAL op REG3               0111 0110 LLLL RRRR
+BEQ     REG2 op REG3                  0110 0011 RRRR RRRR    5
+BEQ     LITERAL op REG3               0110 0101 LLLL RRRR    5
+BNEQ    REG2 op REG3                  0110 0111 RRRR RRRR    5
+BNEQ    LITERAL op REG3               0110 1000 LLLL RRRR    5
+BG      REG2 op REG3                  0110 1001 RRRR RRRR    5
+BG      LITERAL op REG3               0110 1010 LLLL RRRR    5
+BGE     REG2 op REG3                  0110 1011 RRRR RRRR    5
+BGE     LITERAL op REG3               0110 1100 LLLL RRRR    5
+BUG     REG2 op REG3                  0110 1101 RRRR RRRR    5
+BUG     LITERAL op REG3               0110 1110 LLLL RRRR    5
+BUGE    REG2 op REG3                  0110 1111 RRRR RRRR    5
+BUGE    LITERAL op REG3               0111 0000 LLLL RRRR    5
+BBITS   REG2 op REG3                  0111 0001 RRRR RRRR    6
+BCLEAR  REG2 op REG3                  0111 0010 RRRR RRRR    6
+
+INP     REG2 op REG3                  0111 0011 RRRR RRRR    3
+INP     LITERAL op REG3               0111 0100 LLLL RRRR    3
+OUT     REG2 op REG3                  0111 0101 RRRR RRRR    3
+OUT     LITERAL op REG3               0111 0110 LLLL RRRR    3
 
 
-LJMP [REG3:REG2]  (Absolute)          0111 1100 RRRR RRRR
-LCALL [REG3:REG2] (Absolute)          0111 1101 RRRR RRRR
+LJMP [REG3:REG2]  (Absolute)          0111 1100 RRRR RRRR    3
+LCALL [REG3:REG2] (Absolute)          0111 1101 RRRR RRRR    5
 
-JMP REG3+LITERAL (Absolute)           0111 1110 LLLL RRRR
-CALL REG3+LITERAL(Absolute)           0111 1111 LLLL RRRR
+JMP REG3+LITERAL  (Absolute)          0111 1110 LLLL RRRR    3
+CALL REG3+LITERAL (Absolute)          0111 1111 LLLL RRRR    4
 
 Instructions with 1 parameter :
 
@@ -173,46 +182,49 @@ Instructions with 1 parameter :
 -----------------------------------------------
  0  0  1  x  x  x  x  x  x  x  x  x r3 r3 r3 r3
 
-NOT      REG3                         0010 0000 0000 RRRR
-NEG      REG3                         0010 0000 0001 RRRR
+Instrucction     Parameters                 Format           Cycle Count
+-------------------------------------------------------------------------------
 
-XCHG     REG3                         0010 0000 0010 RRRR
-SXTBD    REG3                         0010 0000 0011 RRRR
+NOT      REG3                         0010 0000 0000 RRRR    3
+NEG      REG3                         0010 0000 0001 RRRR    3
 
-PUSH     REG3                         0010 0000 0100 RRRR
-POP      REG3                         0010 0000 0101 RRRR
+XCHG     REG3                         0010 0000 0010 RRRR    3
+SXTBD    REG3                         0010 0000 0011 RRRR    3
 
-GETPC    REG3                         0010 0000 0110 RRRR
+PUSH     REG3                         0010 0000 0100 RRRR    3
+POP      REG3                         0010 0000 0101 RRRR    3
 
-SETFLAGS REG3                         0010 0000 0111 RRRR
-GETFLAGS REG3                         0010 0000 1000 RRRR
+GETPC    REG3                         0010 0000 0110 RRRR    2
 
-SETY     REG3                         0010 0000 1001 RRRR
-SETY     LITERAL                      0010 0000 1010 RRRR
-GETY     REG3                         0010 0000 1011 RRRR
+SETFLAGS REG3                         0010 0000 0111 RRRR    3
+GETFLAGS REG3                         0010 0000 1000 RRRR    2
 
-INT     REG3                          0010 0000 1100 RRRR
-INT     LITERAL                       0010 0000 1101 LLLL
+SETY     REG3                         0010 0000 1001 RRRR    3
+SETY     LITERAL                      0010 0000 1010 RRRR    3
+GETY     REG3                         0010 0000 1011 RRRR    2
 
-SETIA   REG3                          0010 0000 1110 RRRR
-SETIA   LITERAL                       0010 0000 1111 LLLL
-GETIA   REG3                          0010 0001 0000 RRRR
+INT     REG3                          0010 0000 1100 RRRR    8
+INT     LITERAL                       0010 0000 1101 LLLL    8
 
-SETCS   REG3                          0010 0001 0001 RRRR
-SETCS   LITERAL                       0010 0001 0010 LLLL
-GETCS   REG3                          0010 0001 0011 RRRR
+SETIA   REG3                          0010 0000 1110 RRRR    3
+SETIA   LITERAL                       0010 0000 1111 LLLL    3
+GETIA   REG3                          0010 0001 0000 RRRR    2
 
-SETDS   REG3                          0010 0001 0100 RRRR
-SETDS   LITERAL                       0010 0001 0101 LLLL
-GETDS   REG3                          0010 0001 0110 RRRR
+SETCS   REG3                          0010 0001 0001 RRRR    3
+SETCS   LITERAL                       0010 0001 0010 LLLL    3
+GETCS   REG3                          0010 0001 0011 RRRR    2
 
-SETSS   REG3                          0010 0001 0111 RRRR
-SETSS   LITERAL                       0010 0001 1000 LLLL
-GETSS   REG3                          0010 0001 1001 RRRR
+SETDS   REG3                          0010 0001 0100 RRRR    3
+SETDS   LITERAL                       0010 0001 0101 LLLL    3
+GETDS   REG3                          0010 0001 0110 RRRR    2
 
-SETIS   REG3                          0010 0001 1010 RRRR
-SETIS   LITERAL                       0010 0001 1011 LLLL
-GETIS   REG3                          0010 0001 1100 RRRR
+SETSS   REG3                          0010 0001 0111 RRRR    3
+SETSS   LITERAL                       0010 0001 1000 LLLL    3
+GETSS   REG3                          0010 0001 1001 RRRR    2
+
+SETIS   REG3                          0010 0001 1010 RRRR    3
+SETIS   LITERAL                       0010 0001 1011 LLLL    3
+GETIS   REG3                          0010 0001 1100 RRRR    2
 
 reserved REG3                         0011 xxxx xxxx RRRR
 
@@ -223,8 +235,11 @@ Instructions with 1 parameter and long literal (-256 to 255) :
 -----------------------------------------------
  0  0  0  1  x  x  x  L  L  L  L  L  L  L  L  L
 
-JMP (Relative)  to [LITERAL + PC]     0001 001L LLLL LLLL
-CALL (Relative) to [LITERAL + PC]     0001 010L LLLL LLLL
+Instrucction     Parameters                 Format           Cycle Count
+-------------------------------------------------------------------------------
+
+JMP (Relative)  to [LITERAL + PC]     0001 001L LLLL LLLL    3
+CALL (Relative) to [LITERAL + PC]     0001 010L LLLL LLLL    4
 
 
 Instructions 0 parameters :
@@ -233,23 +248,26 @@ Instructions 0 parameters :
 -----------------------------------------------
  0  0  0  0  x  x  x  x  x  x  x  x  x  x  x  x
 
-NOP                                   0000 0000 0000 0000
-SLEEP                                 0000 0000 0000 0001
+Instrucction     Parameters                 Format           Cycle Count
+-------------------------------------------------------------------------------
 
-RET                                   0000 0000 0000 0010
-LRET                                  0000 0000 0000 0011
-RFI                                   0000 0000 0000 0100
+NOP                                   0000 0000 0000 0000    1
+SLEEP                                 0000 0000 0000 0001    At least 1
 
-BOVF                                  0000 0000 0000 1000
-BOCF                                  0000 0000 0000 1001
+RET                                   0000 0000 0000 0010    4
+LRET                                  0000 0000 0000 0011    5
+RFI                                   0000 0000 0000 0100    8
+
+BOVF                                  0000 0000 0000 1000    6
+BOCF                                  0000 0000 0000 1001    6
 
 reserved                              1xxx xxxx xxxx xxxx
 
 
 === ADDRESS MODEL =============================================================
 
-The RDCPU is a 16 bit cpu. In theory, using only a 16 bit register, only can 
-address to 64KiB of RAM directly. To address more RAM, the RDCPU uses Segment 
+The RC1600  is a 16 bit cpu. In theory, using only a 16 bit register, only can 
+address to 64KiB of RAM directly. To address more RAM, the RC1600  uses Segment 
 registers to generate a 32 bit address, but actually only the four less 
 significant bits of the segment registers are used, creating a effective 20 bit
 addresses. Future compatible processors, could use extra bits of segment 
@@ -261,22 +279,22 @@ There is four segment registers:
 - SS : Stack Segment
 - IS : Interrupt Segment
 
-When the RDCPU fetches a instruction, it reads at address [CS:PC], also when the
-PC register overflows (does PC++ and its over 0xFFFF), then the PC register is
-set to 0 and CS is incremented by 1. This allow to use code that is bigger that
-64KiB directly.
+When the RC1600  fetches a instruction, it reads at address [CS:PC], also when 
+the PC register overflows (does PC++ and its over 0xFFFF), then the PC register
+is set to 0 and CS is incremented by 1. This allow to use code that is bigger 
+that 64KiB directly.
 
-When the RDCPU uses a load/store instruction with REG1 being any register from
+When the RC1600  uses a load/store instruction with REG1 being any register from
 R0 to R13, it access to the address [DS:xxxx] were xxxx is the 16 bit address 
 that takes load/store as argument. If REG1 is SP or BP registers, then access 
 to [SP:xxxx].
 
-When the RDCPU uses a stack instruction, it access to [SS:(--SP)] (PUSH) or to 
+When the RC1600  uses a stack instruction, it access to [SS:(--SP)] (PUSH) or to 
 [SS:(SP++)] (POP). Also when the SP register does a overflow, the SS register is
 incremented by one and when the SP register does a underflow, the SS register 
 decrements by one.
 
-When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
+When the RC1600  gets a interrupt and IA != 0, jumps to the address [IS:IA].
 
 
 === DESCRIPTION OF INSTRUCTIONS ===============================================
@@ -352,7 +370,7 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
   and Reg3 as the 16 lowest significant bits. UDIV does the unsigned operation.
   The quotient are stored in Y:Reg3, where the Y register stores the 16 bit most
   significant bits and the Reg3 stores the 16 bit less significant bits.
-  If a division error happens and AE bit is enable, the RDCPU will throw an 
+  If a division error happens and AE bit is enable, the RC1600  will throw an 
   interrupt with message 0, and will be set Division Error flag to 1.
 
 
@@ -365,7 +383,7 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
   Uses the value of Y register as the 16 most significant bits of the dividend
   and Reg3 as the 16 lowest significant bits. UMOD does the unsigned operation.
   The rest is stored in Reg3.
-  If a division error happens and AE bit is enable, the RDCPU will throw an 
+  If a division error happens and AE bit is enable, the RC1600  will throw an 
   interrupt with message 0, and will be set Division Error flag to 1.
 
 
@@ -376,8 +394,8 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
 
   NEG REG3
   
-  Does the two complement of REG3 and put it on REG3. (Converts a positive number
-  to a negative )
+  Does the two complement of REG3 and put it on REG3. (Converts a positive 
+  number to a negative )
   
 
   AND REG3, REG2
@@ -409,8 +427,8 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
   
   SRA REG3, REG2
   
-  Do the Arithmetic Right Shift of REG3, displacing value of REG2 bits and put it
-  to REG3. The output bit are stores in Carry Flag. 
+  Do the Arithmetic Right Shift of REG3, displacing value of REG2 bits and put
+  it to REG3. The output bit are stores in Carry Flag. 
 
   
   ROTL REG3, REG2
@@ -430,7 +448,7 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
   When they skip a conditional instruction, they will skip an additional
   instruction at the cost of one extra cycle. This continues until a non-
   conditional instruction has been skipped. This lets you easily chain
-  conditionals. Interrupts are not triggered while the RDCPU is skipping.
+  conditionals. Interrupts are not triggered while the RC1600  is skipping.
   
   
   BEQ REG3, REG2       Branch On Equal
@@ -470,8 +488,8 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
 
   CALL [REG3+ LITERAL] Jumps to [CS:(Reg3 + literal)] and Push PC to the stack. 
                        Absolute Address.
-  CALL [LITERAL]       Jumps to [CS:PC + 9 bit literal] (-256 to 255) and Push PC to
-                       the stack. 
+  CALL [LITERAL]       Jumps to [CS:PC + 9 bit literal] (-256 to 255) and Push 
+                       PC to the stack. 
                        Relative Address.
 
   LJMP [REG3:REG2]     Long jump to [REG3:REG2] address, so sets PC to REG2 and
@@ -485,8 +503,10 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
 
 === STACK INSTRUCTIONS ========================================================
 
-  PUSH REG3            Writes Reg3 value at [SS:--SP], aka Push Reg3 to the stack
-  POP REG3             Reads at [SS:SP++] and put to Reg3, aka Pop stack into Reg3
+  PUSH REG3            Writes Reg3 value at [SS:--SP], aka Push Reg3 to the 
+                       stack
+  POP REG3             Reads at [SS:SP++] and put to Reg3, aka Pop stack into 
+                       Reg3
 
 === SPECIAL INSTRUCTIONS ======================================================
 
@@ -529,24 +549,24 @@ OUT REG3, LITERAL      "
 
 === INTERRUPTS =================================================================    
 
-The RDCPU uses what is know how interrupt polling handling scheme. There not is 
-a vector table, instead there is only a interrupt vector were the OS installs a 
-ISR, that polls FLAGS register and/or reads R1 register to discover what kind of
-interrupt happen and who launch it.
+The RC1600  uses what is know how interrupt polling handling scheme. There not 
+is a vector table, instead there is only a interrupt vector were the OS installs
+a ISR, that polls FLAGS register and/or reads R1 register to discover what kind
+of interrupt happen and who launch it.
 
-When the RDCPU have IA register set to a value != 0, then the interrupts are
+When the RC1600  have IA register set to a value != 0, then the interrupts are
 enabled. Interrupts can be generated by software by INT instruction or by 
-hardware getting to Low the INT line. An interrupt is processed when the RDCPU 
+hardware getting to Low the INT line. An interrupt is processed when the RC1600  
 is ready to process a new instruction. When an interrupt is being processed, the
-IACQ line goes to high indicating that the RDCPU will ignore the INT line or any
-software interrupt This means that all instructions are atomic.
+IACQ line goes to high indicating that the RC1600  will ignore the INT line or 
+any software interrupt This means that all instructions are atomic.
 
-When a Interrupt happens, the RDCPU push to the stack, the values of CS, PC and 
-R1 register, jumps to [IS:IA address], and sets the INTERRUPT FLAG to 1. If it's
-a software interrupt, the message is put on R1 to be processed. If it's a hardware
-interrupt, sets R1 to value read in the data bus.
+When a Interrupt happens, the RC1600  push to the stack, the values of CS, PC 
+and R1 register, jumps to [IS:IA address], and sets the INTERRUPT FLAG to 1. If
+it's a software interrupt, the message is put on R1 to be processed. If it's a 
+hardware interrupt, sets R1 to value read in the data bus.
 
-When the interrupt service routine ends, executing a RFI, the RDCPU pops R1
+When the interrupt service routine ends, executing a RFI, the RC1600  pops R1
 register, sets IACK (Interrupt Acknowledge) line to Low, and pops PC and CS, and 
 the INTERRUPT FLAG is set to 0.
 
@@ -558,17 +578,17 @@ interrupts, that a OS can define what will do.
 The rest could be used by hardware devices and the devices specs should clarify 
 what interrupt message uses, if throws any interrupt.
 
-If a division error happens and AE bit is enable, the RDCPU will throw an 
+If a division error happens and AE bit is enable, the RC1600  will throw an 
 interrupt with message 0.
-If a overflow error happens and AE bit is enable, the RDCPU will throw an 
+If a overflow error happens and AE bit is enable, the RC1600  will throw an 
 interrupt with message 4.
-If single-step mode is active and INTERRUPT FLAG is not enable, the RDCPU will 
+If single-step mode is active and INTERRUPT FLAG is not enable, the RC1600  will 
 throw an interrupt with message 1, when executes any instruction.
 
 
 === HARDWARE ===================================================================    
 
-The RDCPU have a separate IO address space of 8 bit that can be accessed using
+The RC1600  have a separate IO address space of 8 bit that can be accessed using
 INP and OUT instructions.
 
 
@@ -600,9 +620,8 @@ a example memory map for a 1MiB space address:
          |   ROM   |
 [0:0000] |---------|
 
-It uses a 4KiB video ram to represent a text only video mode, and uses a ROM that
-sets the hardware, gives some basic ISR, and launch user code from a floppy.
-
-
+It uses a 4KiB video ram to represent a text only video mode, and uses a ROM 
+that sets the hardware, gives some basic ISR, and launch user code from a 
+floppy.
 
 

@@ -119,38 +119,47 @@ ROTL    REG3 op LITERAL -> REG3       0101 0001 LLLL RRRR
 ROTR    REG3 op REG2 -> REG3          0101 0010 RRRR RRRR
 ROTR    REG3 op LITERAL -> REG3       0101 0011 LLLL RRRR
 
-MUL     REG3 op REG2-> REG3           0101 0100 RRRR RRRR
-MUL     REG3 op LITERAL-> REG3        0101 0101 LLLL RRRR
-DIV     REG3 op REG2-> REG3           0101 0110 RRRR RRRR
-DIV     REG3 op LITERAL-> REG3        0101 0111 LLLL RRRR
+UMUL     REG3 op REG2-> REG3          0101 0100 RRRR RRRR
+UMUL     REG3 op LITERAL-> REG3       0101 0101 LLLL RRRR
+UDIV     REG3 op REG2-> REG3          0101 0110 RRRR RRRR
+UDIV     REG3 op LITERAL-> REG3       0101 0111 LLLL RRRR
 
-SWP     REG2, REG3                    0101 1000 RRRR RRRR
+UMOD     REG3 op REG2-> REG3          0101 1000 RRRR RRRR
+UMOD     REG3 op LITERAL-> REG3       0101 1001 LLLL RRRR
 
-CPY     REG2 -> REG3                  0101 1001 RRRR RRRR
-SET     LITERAL -> REG3               0101 1010 LLLL RRRR
+MUL     REG3 op REG2-> REG3           0101 1010 RRRR RRRR
+MUL     REG3 op LITERAL-> REG3        0101 1011 LLLL RRRR
+DIV     REG3 op REG2-> REG3           0101 1100 RRRR RRRR
+DIV     REG3 op LITERAL-> REG3        0101 1101 LLLL RRRR
 
-BEQ     REG2 op REG3                  0101 1011 RRRR RRRR
-BEQ     LITERAL op REG3               0101 1101 LLLL RRRR
-BNEQ    REG2 op REG3                  0101 1111 RRRR RRRR
-BNEQ    LITERAL op REG3               0110 0000 LLLL RRRR
-BG      REG2 op REG3                  0110 0001 RRRR RRRR
-BG      LITERAL op REG3               0110 0010 LLLL RRRR
-BGE     REG2 op REG3                  0110 0011 RRRR RRRR
-BGE     LITERAL op REG3               0110 0100 LLLL RRRR
-BUG     REG2 op REG3                  0110 0101 RRRR RRRR
-BUG     LITERAL op REG3               0110 0110 LLLL RRRR
-BUGE    REG2 op REG3                  0110 0111 RRRR RRRR
-BUGE    LITERAL op REG3               0110 1000 LLLL RRRR
-BBITS   REG2 op REG3                  0101 0010 RRRR RRRR
-BCLEAR  REG2 op REG3                  0101 0011 RRRR RRRR
+MOD     REG3 op REG2-> REG3           0101 1110 RRRR RRRR
+MOD     REG3 op LITERAL-> REG3        0101 1111 LLLL RRRR
 
-INP     REG2 op REG3                  0101 0100 RRRR RRRR
-INP     LITERAL op REG3               0101 0101 LLLL RRRR
-OUT     REG2 op REG3                  0101 0110 RRRR RRRR
-OUT     LITERAL op REG3               0101 0111 LLLL RRRR
+SWP     REG2, REG3                    0110 0000 RRRR RRRR
 
-MOD     REG3 op REG2-> REG3           0101 1000 RRRR RRRR
-MOD     REG3 op LITERAL-> REG3        0101 1001 LLLL RRRR
+CPY     REG2 -> REG3                  0110 0001 RRRR RRRR
+SET     LITERAL -> REG3               0110 0010 LLLL RRRR
+
+BEQ     REG2 op REG3                  0110 0011 RRRR RRRR
+BEQ     LITERAL op REG3               0110 0101 LLLL RRRR
+BNEQ    REG2 op REG3                  0110 0111 RRRR RRRR
+BNEQ    LITERAL op REG3               0110 1000 LLLL RRRR
+BG      REG2 op REG3                  0110 1001 RRRR RRRR
+BG      LITERAL op REG3               0110 1010 LLLL RRRR
+BGE     REG2 op REG3                  0110 1011 RRRR RRRR
+BGE     LITERAL op REG3               0110 1100 LLLL RRRR
+BUG     REG2 op REG3                  0110 1101 RRRR RRRR
+BUG     LITERAL op REG3               0110 1110 LLLL RRRR
+BUGE    REG2 op REG3                  0110 1111 RRRR RRRR
+BUGE    LITERAL op REG3               0111 0000 LLLL RRRR
+BBITS   REG2 op REG3                  0111 0001 RRRR RRRR
+BCLEAR  REG2 op REG3                  0111 0010 RRRR RRRR
+
+INP     REG2 op REG3                  0111 0011 RRRR RRRR
+INP     LITERAL op REG3               0111 0100 LLLL RRRR
+OUT     REG2 op REG3                  0111 0101 RRRR RRRR
+OUT     LITERAL op REG3               0111 0110 LLLL RRRR
+
 
 LJMP [REG3:REG2]  (Absolute)          0111 1100 RRRR RRRR
 LCALL [REG3:REG2] (Absolute)          0111 1101 RRRR RRRR
@@ -325,30 +334,36 @@ When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
 
   MUL REG3, REG2
   MUL REG3, LITERAL
+  UMUL REG3, REG2
+  UMUL REG3, LITERAL
 
   Do the 16x16 bit multiplication of Reg3 x Reg2 (or literal).
   Stores the 16 bit most significant bits in the Y register. The lowest
-  significant 16 bit are stored in Reg3
+  significant 16 bit are stored in Reg3. UMUL does the unsigned operation.
 
 
   DIV REG3, REG2
   DIV REG3, LITERAL
+  UDIV REG3, REG2
+  UDIV REG3, LITERAL
 
   Do the 32/16 bit division of Y:Reg3 / Reg2 (or literal).
   Uses the value of Y register as the 16 most significant bits of the dividend
-  and Reg3 as the 16 lowest significant bits.
+  and Reg3 as the 16 lowest significant bits. UDIV does the unsigned operation.
   The quotient are stored in Y:Reg3, where the Y register stores the 16 bit most
   significant bits and the Reg3 stores the 16 bit less significant bits.
   If a division error happens and AE bit is enable, the RDCPU will throw an 
   interrupt with message 0, and will be set Division Error flag to 1.
 
 
-  MOD     REG3 op REG2-> REG3           0101 1000 RRRR RRRR
-  MOD     REG3 op LITERAL-> REG3        0101 1001 LLLL RRRR
+  MOD REG3, REG2
+  MOD REG3, LITERAL
+  UMOD REG3, REG2
+  UMOD REG3, LITERAL
 
   Do the 32/16 bit division of Y:Reg3 / Reg2 (or literal).
   Uses the value of Y register as the 16 most significant bits of the dividend
-  and Reg3 as the 16 lowest significant bits.
+  and Reg3 as the 16 lowest significant bits. UMOD does the unsigned operation.
   The rest is stored in Reg3.
   If a division error happens and AE bit is enable, the RDCPU will throw an 
   interrupt with message 0, and will be set Division Error flag to 1.

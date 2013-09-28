@@ -1,41 +1,45 @@
-NOTE: WIP. Need to check that are any opcodes clash
+NOTE: WIP
 
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
 Risc Dumb CPU Specification
-Version 0.3 
+Version 0.4 
 
 === SUMMARY ====================================================================
 
- * 16 bit RISC CPU, can access 0x10000 octets of ram (0x0000 to 0xFFFF)
+ * 16 bit RISC CPU, that can use a 20 bit address space [0:0000] to [F:FFFF]
  * 13 general purpose registers (R1 to R13)
  * Multiplication register Y
- * Base Pointer (BP)
- * Stack Pointer (SP)
+ * Base Pointer (BP) and Stack Pointer (SP)
  * Flags Register (FLAGS)
  * Interrupt Address (IA)
- * Segment Registers to access 20 bit Address space
+ * Segment Registers to access 20 bit Address space (CS, DS, SS and IS)
+ * IO address space of 8 bit
 
-In this document, anything within [brackets] is shorthand for "the value of the
-RAM at the location of the value inside the brackets". For example, SP means
-stack pointer, but [SP] means the value of the RAM at the location the stack
-pointer is pointing at.
+In this document, anything with writes by x:y is a shorthand to a value of 32 
+bits stored in two 16 bit registers, being x the Most Significant Bits and y the
+Lowest Significant Bits. Also anything within [brackets] is shorthand for 
+"the value of the RAM at the location of the value inside the brackets". 
+For example, SP means "stack pointer", but [SS:SP] means the value of the RAM at
+the location the stack pointer is pointing at, in the Stack Segment.
 
-Whenever the CPU needs to read a word, it reads [PC], then increases PC by two.
-Shorthand for this is [PC+2]. In some cases, the CPU will modify a value before
-reading it, in this case the shorthand is [++X].
+Whenever the CPU needs to read a word, it reads [CS:PC], then increases PC by 
+two. Shorthand for this is [CS:PC+2]. In some cases, the CPU will modify a 
+value before reading it, in this case the shorthand is [xS:++X]. When we say 
+that the RDCPU Push a value to the Stack, writes these value at [SS:--SP]. When
+we say that RDCPU Pops a value from the stack, reads a value from [SS:SP++].
 
 The RDCPU instruction set is based in 16 bit words, so each time that the PC is
 incremented, is incremented by two.
 
 For stability and to reduce bugs, it's strongly suggested all multi-word
-operations use little endian in all RCPU programs, wherever possible.
+operations use little endian in all RDCPU programs, wherever possible.
 
 
 20 Registers :
   - R0 - Reads always 0 value
-  - R1 .. R13 - General Purpose Registers
-  - R14 - BP - Base Pointer -> Acts like a GPR 
+  - R1 .. R13 - General Purpose Registers (GPR)
+  - R14 - BP - Base Pointer -> Also can is a GPR 
   - R15 - SP - Stack Pointer -> Points to the last value Pushed
   - FLAGS register
   - Y - Multiplication/Division register
@@ -56,7 +60,7 @@ FLAGS register :
 
 === BOOT/RESET STATUS ==========================================================
 
-All registers are set to 0 when the RDCPU bootup or does a reset
+All registers are set to 0 when the RDCPU boot-up or does a reset
 
 
 === INSTRUCTIONS ===============================================================
@@ -139,8 +143,14 @@ INP     LITERAL op REG3               0101 0101 LLLL RRRR
 OUT     REG2 op REG3                  0101 0110 RRRR RRRR
 OUT     LITERAL op REG3               0101 0111 LLLL RRRR
 
-JMP (Absolute)  to [REG3 + LITERAL]   0111 1110 LLLL RRRR
-CALL (Absolute) to [REG3 + LITERAL]   0111 1111 LLLL RRRR
+MOD     REG3 op REG2-> REG3           0101 1000 RRRR RRRR
+MOD     REG3 op LITERAL-> REG3        0101 1001 LLLL RRRR
+
+LJMP [REG3:REG2]  (Absolute)          0111 1100 RRRR RRRR
+LCALL [REG3:REG2] (Absolute)          0111 1101 RRRR RRRR
+
+JMP REG3+LITERAL (Absolute)           0111 1110 LLLL RRRR
+CALL REG3+LITERAL(Absolute)           0111 1111 LLLL RRRR
 
 Instructions with 1 parameter :
 
@@ -158,17 +168,36 @@ PUSH     REG3                         0010 0000 0100 RRRR
 POP      REG3                         0010 0000 0101 RRRR
 
 GETPC    REG3                         0010 0000 0110 RRRR
-GETFLAGS REG3                         0010 0000 0111 RRRR
 
-SETY     REG3                         0010 0000 0111 RRRR
-SETY     LITERAL                      0010 0000 1000 RRRR
-GETY     REG3                         0010 0000 1001 RRRR
+SETFLAGS REG3                         0010 0000 0111 RRRR
+GETFLAGS REG3                         0010 0000 1000 RRRR
 
-INT     REG3                          0010 0000 1010 RRRR
-INT     LITERAL                       0010 0000 1011 LLLL
-GETIA   REG3                          0010 0000 1100 RRRR
-SETIA   REG3                          0010 0000 1101 RRRR
+SETY     REG3                         0010 0000 1001 RRRR
+SETY     LITERAL                      0010 0000 1010 RRRR
+GETY     REG3                         0010 0000 1011 RRRR
+
+INT     REG3                          0010 0000 1100 RRRR
+INT     LITERAL                       0010 0000 1101 LLLL
+
+SETIA   REG3                          0010 0000 1110 RRRR
 SETIA   LITERAL                       0010 0000 1111 LLLL
+GETIA   REG3                          0010 0001 0000 RRRR
+
+SETCS   REG3                          0010 0001 0001 RRRR
+SETCS   LITERAL                       0010 0001 0010 LLLL
+GETCS   REG3                          0010 0001 0011 RRRR
+
+SETDS   REG3                          0010 0001 0100 RRRR
+SETDS   LITERAL                       0010 0001 0101 LLLL
+GETDS   REG3                          0010 0001 0110 RRRR
+
+SETSS   REG3                          0010 0001 0111 RRRR
+SETSS   LITERAL                       0010 0001 1000 LLLL
+GETSS   REG3                          0010 0001 1001 RRRR
+
+SETIS   REG3                          0010 0001 1010 RRRR
+SETIS   LITERAL                       0010 0001 1011 LLLL
+GETIS   REG3                          0010 0001 1100 RRRR
 
 reserved REG3                         0011 xxxx xxxx RRRR
 
@@ -193,15 +222,46 @@ NOP                                   0000 0000 0000 0000
 SLEEP                                 0000 0000 0000 0001
 
 RET                                   0000 0000 0000 0010
-RFI                                   0000 0000 0000 0011
-
-CLRDIVERR                             0000 0000 0000 0100
+LRET                                  0000 0000 0000 0011
+RFI                                   0000 0000 0000 0100
 
 BOVF                                  0000 0000 0000 1000
 BOCF                                  0000 0000 0000 1001
 
 reserved                              1xxx xxxx xxxx xxxx
 
+
+=== ADDRESS MODEL =============================================================
+
+The RDCPU is a 16 bit cpu. In theory, using only a 16 bit register, only can 
+address to 64KiB of RAM directly. To address more RAM, the RDCPU uses Segment 
+registers to generate a 32 bit address, but actually only the four less 
+significant bits of the segment registers are used, creating a effective 20 bit
+addresses. Future compatible processors, could use extra bits of segment 
+registers to access bigger address spaces.
+
+There is four segment registers:
+- CS : Code Segment
+- DS : Data Segment
+- SS : Stack Segment
+- IS : Interrupt Segment
+
+When the RDCPU fetches a instruction, it reads at address [CS:PC], also when the
+PC register overflows (does PC++ and its over 0xFFFF), then the PC register is
+set to 0 and CS is incremented by 1. This allow to use code that is bigger that
+64KiB directly.
+
+When the RDCPU uses a load/store instruction with REG1 being any register from
+R0 to R13, it access to the address [DS:xxxx] were xxxx is the 16 bit address 
+that takes load/store as argument. If REG1 is SP or BP registers, then access 
+to [SP:xxxx].
+
+When the RDCPU uses a stack instruction, it access to [SS:(--SP)] (PUSH) or to 
+[SS:(SP++)] (POP). Also when the SP register does a overflow, the SS register is
+incremented by one and when the SP register does a underflow, the SS register 
+decrements by one.
+
+When the RDCPU gets a interrupt and IA != 0, jumps to the address [IS:IA].
 
 
 === DESCRIPTION OF INSTRUCTIONS ===============================================
@@ -221,6 +281,14 @@ reserved                              1xxx xxxx xxxx xxxx
   
   Write REG3 value in RAM at REG1 + REG2 values or REG1 + Literal value.
   STORE.B only writes on LSB BYTE from the LSB of REG3
+
+
+  If the REG1 register is any register from R0 to R13, the effective address :
+    [DS:(REG1 + REG2)&0xFFFF]
+    [DS:(REG1 + LITERAL)&0xFFFF]
+  If the REG1 register is BP or SP, the effective address is:
+    [SS:(REG1 + REG2)&0xFFFF]
+    [SS:(REG1 + LITERAL)&0xFFFF]
   
   
 === ALU OPERATIONS =============================================================
@@ -260,13 +328,26 @@ reserved                              1xxx xxxx xxxx xxxx
   DIV REG3, REG2
   DIV REG3, LITERAL
 
-  Do the 32/16 bit multiplication of Y:Reg3 / Reg2 (or literal).
+  Do the 32/16 bit division of Y:Reg3 / Reg2 (or literal).
   Uses the value of Y register as the 16 most significant bits of the dividend
   and Reg3 as the 16 lowest significant bits.
-  The quotient are stores in Y:Reg3, where the Y register stores the 16 bit most
+  The quotient are stored in Y:Reg3, where the Y register stores the 16 bit most
   significant bits and the Reg3 stores the 16 bit less significant bits.
   If a division error happens, the RDCPU will throw a exception with message 0, 
-  and will be set Division Error flag to 1
+  and will be set Division Error flag to 1.
+
+
+  MOD     REG3 op REG2-> REG3           0101 1000 RRRR RRRR
+  MOD     REG3 op LITERAL-> REG3        0101 1001 LLLL RRRR
+
+  Do the 32/16 bit division of Y:Reg3 / Reg2 (or literal).
+  Uses the value of Y register as the 16 most significant bits of the dividend
+  and Reg3 as the 16 lowest significant bits.
+  The rest is stored in Reg3.
+  If a division error happens, the RDCPU will throw a exception with message 0, 
+  and will be set Division Error flag to 1.
+
+
 
   NOT REG3
 
@@ -363,15 +444,24 @@ reserved                              1xxx xxxx xxxx xxxx
 === JUMP INSTRUCTIONS =========================================================
   Jump Instructions:
 
-  JMP [REG3 + LITERAL] Jumps to Reg3 + literal. Absolute Address
-  JMP [LITERAL]        Jumps to PC + 9 bit literal (-256 to 255). 
+  JMP [REG3 + LITERAL] Jumps to [CS:(Reg3 + literal)&0xFFFF]. Absolute Address
+  JMP [LITERAL]        Jumps to [CS:PC + 9 bit literal] (-256 to 255). 
                        Relative Address.
-  CALL [REG3+ LITERAL] Jumps to Reg3 + literal and Push PC to the stack. 
+
+  CALL [REG3+ LITERAL] Jumps to [CS:(Reg3 + literal)&0xFFFF] and Push PC to the stack. 
                        Absolute Address.
-  CALL [LITERAL]       Jumps to PC + 9 bit literal (-256 to 255) and Push PC to
-                       the stack. Relative Address.
-  RET                  Pops a value from stack and sets PC to these value. 
-                       (Return from CALL)
+  CALL [LITERAL]       Jumps to [CS:PC + 9 bit literal] (-256 to 255) and Push PC to
+                       the stack. 
+                       Relative Address.
+
+  LJMP [REG3:REG2]     Long jump to [REG3:REG2] address, so sets PC to REG2 and
+                       CS to REG3
+  LCALL [REG3:REG2]    Long jump to [REG3:REG2] address, so sets PC to REG2 and
+                       CS to REG3
+
+  RET                  Pops PC. (Return from CALL)
+
+  LRET                 Pops PC and pops CS (Return from LCALL)
 
 === STACK INSTRUCTIONS ========================================================
 
@@ -383,14 +473,16 @@ reserved                              1xxx xxxx xxxx xxxx
   NOP                  Not Operation (Do nothing)
   SLEEP                Sleeps the CPU and wakes when an hardware interrupt is 
                        triggered
+
   GETPC REG3           Puts PC+2 value in Reg3
+
+  SETFLAGS REG3        Sets FLAGS value 
   GETFLAGS REG3        Puts FLAGS value in Reg3
 
   SETY REG3            Sets Y register value
   SETY LITERAL         "
   GETY REG3            Puts Y register value in Reg3
 
-  CLRDIVERR            Clears Division Error Flag
  
 === INTERRUPT INSTRUCTIONS ====================================================
 
@@ -403,7 +495,7 @@ reserved                              1xxx xxxx xxxx xxxx
   SETIA REG3           Sets IA to REG3 value
   SETIA LITERAL        "
 
-  RFI                  Return from interrupt
+  RFI                  Return from interrupt. Pops R1, pops PC and pops CS.
 
 === HARDWARE INTERFACE INSTRUCTIONS ===========================================
 INP REG3, REG2         Reads Reg2 IO address and write the value to Reg3
@@ -428,14 +520,13 @@ is ready to process a new instruction. When an interrupt is being processed, the
 IACQ line goes to high indicating that the RDCPU will ignore the INT line or any
 software interrupt This means that all instructions are atomic.
 
-When a Interrupt happens, the RDCPU push to the stack, the values of PC and R1
-register, jumps to IA address, and sets the INTERRUPT FLAG to 1. If it's a 
-software interrupt, the message is put on R1 to be processed. If it's a hardware
+When a Interrupt happens, the RDCPU push to the stack, the values of CS, PC and 
+R1 register, jumps to [IS:IA address], and sets the INTERRUPT FLAG to 1. If it's
+a software interrupt, the message is put on R1 to be processed. If it's a hardware
 interrupt, sets R1 to value read in the data bus.
 
 When the interrupt service routine ends, executing a RFI, the RDCPU pops R1
-register, sets IACK (Interrupt Acknowledge) line to Low, and
-push the stack to set the old value of PC.
+register, sets IACK (Interrupt Acknowledge) line to Low, and pops PC and CS.
 
 
 === INTERRUPT LIST =============================================================
@@ -446,6 +537,7 @@ The rest could be used by hardware devices and the devices specs should clarify
 what interrupt message uses, if throws any interrupt.
 
 If a division error happens, the RDCPU will throw a exception with message 0.
+If a overflow error happens, the RDCPU will throw a exception with message 4.
 
 
 === HARDWARE ===================================================================    
@@ -457,48 +549,34 @@ INP and OUT instructions.
 === EXAMPLE MEMORY MAP =========================================================
 
 The memory map is defined by the OS and computer architecture, but here we give
-a example memory map:
+a example memory map for a 1MiB space address:
 
-0xFFFF |---------|
-       |  STACK  |
-0xDFFF |---------|
-       |         |
-       |         |
-       |Available|
-       |         |
-       |         |
-0x5000 |---------|
-       |  Video  |
-       |   RAM   |
-0x4000 |---------|
-       |   BOOT  |
-       |   ROM   |
-0x0000 |---------|
+[F:FFFF] |---------|
+         |  STACK  |
+[Fx0000] |---------|
+         |         |
+         :         :
+         :         :
+         :         :
+         :Available:
+         :         :
+         :         :
+         |         |
+[0:6000] |---------|
+         |  Video  |
+         |   RAM   |
+[0:5000] |---------|
+         |Interrupt|
+         | Service |
+         |  Rutine |
+[0:4000] |---------|
+         |   BOOT  |
+         |   ROM   |
+[0:0000] |---------|
 
 It uses a 4KiB video ram to represent a text only video mode, and uses a ROM that
-sets the hardware and launch user code from a floppy
+sets the hardware, gives some basic ISR, and launch user code from a floppy.
 
 
 
-=== ANNEX ======================================================================
 
-The actual specs, only can address to 64KiB of RAM directly, needing a external 
-device to do bank switching or MMU. I have some  ideas to add segment registers 
-and extend address space much more. The idea is add four special registers :
-- CS : Code Segment
-- DS : Data Segment
-- SS : Stack Segment
-- IS : Interrupt Segment
-
-This registers are read like 16 bit registers, but only can be written the low 4
-bits. The  higher bits always are read to be 0.
-The idea is that the the RDCPU uses 20 bit address using the segment register 
-as most significant bits. So the RDCPU reads a instruction at [CS:PC]; does 
-load/store at [DS:xxxx]; operates over the stack at [SS:SP]; and jumps on a 
-interrupt to the address [IS:IA]. So the segments have a fixed size of 64KiB, 
-and not overlap like in the x86 real mode. The good point is that is more 
-flexible and can be expanded to handle huge address spaces, using more bits.
-A side effect is that the DCPU must handle load/store with the BP and SP 
-registers using the Stack segment instead of Data Segment, to peek and use stack
-variables and arguments. The other is add instructions to set and read the value
- of these registers

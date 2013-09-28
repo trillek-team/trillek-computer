@@ -7,13 +7,14 @@ Version 0.3
 
 === SUMMARY ====================================================================
 
- * 16 bit RISC CPU, can access 0x10000 octects of ram (0x0000 to 0xFFFF)
+ * 16 bit RISC CPU, can access 0x10000 octets of ram (0x0000 to 0xFFFF)
  * 13 general purpose registers (R1 to R13)
  * Multiplication register Y
  * Base Pointer (BP)
  * Stack Pointer (SP)
  * Flags Register (FLAGS)
  * Interrupt Address (IA)
+ * Segment Registers to access 20 bit Address space
 
 In this document, anything within [brackets] is shorthand for "the value of the
 RAM at the location of the value inside the brackets". For example, SP means
@@ -40,6 +41,10 @@ operations use little endian in all RCPU programs, wherever possible.
   - Y - Multiplication/Division register
   - IA - Interrupt Address
   - PC - Program Counter  
+  - CS - Code Segment
+  - DS - Data Segment
+  - SS - Stack Segment
+  - IS - Interrupt Segment
 
 FLAGS register :
   BIT 15-4 -> Unused (read always 0)

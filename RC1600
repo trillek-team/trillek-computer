@@ -154,24 +154,24 @@ CPY     REG2 -> REG3                  0110 0001 RRRR RRRR    2
 SET     LITERAL -> REG3               0110 0010 LLLL RRRR    2
 
 BEQ     REG2 op REG3                  0110 0011 RRRR RRRR    5
-BEQ     LITERAL op REG3               0110 0101 LLLL RRRR    5
-BNEQ    REG2 op REG3                  0110 0110 RRRR RRRR    5
-BNEQ    LITERAL op REG3               0110 0111 LLLL RRRR    5
-BG      REG2 op REG3                  0110 1000 RRRR RRRR    5
-BG      LITERAL op REG3               0110 1001 LLLL RRRR    5
-BGE     REG2 op REG3                  0110 1010 RRRR RRRR    5
-BGE     LITERAL op REG3               0110 1011 LLLL RRRR    5
-BUG     REG2 op REG3                  0110 1100 RRRR RRRR    5
-BUG     LITERAL op REG3               0110 1101 LLLL RRRR    5
-BUGE    REG2 op REG3                  0110 1110 RRRR RRRR    5
-BUGE    LITERAL op REG3               0110 1111 LLLL RRRR    5
-BBITS   REG2 op REG3                  0111 0000 RRRR RRRR    6
-BCLEAR  REG2 op REG3                  0111 0001 RRRR RRRR    6
+BEQ     LITERAL op REG3               0110 0100 LLLL RRRR    5
+BNEQ    REG2 op REG3                  0110 0101 RRRR RRRR    5
+BNEQ    LITERAL op REG3               0110 0110 LLLL RRRR    5
+BG      REG2 op REG3                  0110 0111 RRRR RRRR    5
+BG      LITERAL op REG3               0110 1000 LLLL RRRR    5
+BGE     REG2 op REG3                  0110 1001 RRRR RRRR    5
+BGE     LITERAL op REG3               0110 1010 LLLL RRRR    5
+BUG     REG2 op REG3                  0110 1011 RRRR RRRR    5
+BUG     LITERAL op REG3               0110 1100 LLLL RRRR    5
+BUGE    REG2 op REG3                  0110 1101 RRRR RRRR    5
+BUGE    LITERAL op REG3               0110 1110 LLLL RRRR    5
+BBITS   REG2 op REG3                  0110 1111 RRRR RRRR    6
+BCLEAR  REG2 op REG3                  0111 0000 RRRR RRRR    6
 
-INP     REG2 op REG3                  0111 0010 RRRR RRRR    3
-INP     LITERAL op REG3               0111 0011 LLLL RRRR    3
-OUT     REG2 op REG3                  0111 0100 RRRR RRRR    3
-OUT     LITERAL op REG3               0111 0101 LLLL RRRR    3
+INP     REG2 op REG3                  0111 0001 RRRR RRRR    3
+INP     LITERAL op REG3               0111 0010 LLLL RRRR    3
+OUT     REG2 op REG3                  0111 0011 RRRR RRRR    3
+OUT     LITERAL op REG3               0111 0100 LLLL RRRR    3
 
 
 LJMP [REG3:REG2]  (Absolute)          0111 1100 RRRR RRRR    3

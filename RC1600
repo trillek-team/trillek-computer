@@ -3,7 +3,7 @@ NOTE: WIP
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
 RC1600 (RISC CPU 1600) Specification
-Version 0.4d 
+Version 0.4e 
 
 === SUMMARY ====================================================================
 
@@ -15,6 +15,7 @@ Version 0.4d
  * Interrupt Address (IA)
  * Segment Registers to access 20 bit Address space (CS, DS, SS and IS)
  * IO address space of 8 bit
+ * Big Endian
 
 In this document, anything with writes by x:y is a shorthand to a value of 32 
 bits stored in two 16 bit registers, being x the Most Significant Bits and y the
@@ -31,11 +32,9 @@ When we say that RC1600  Pops a value from the stack, reads a value from
 [SS:SP++].
 
 The RC1600 instruction set is based in 16 bit words, so each time that the PC 
-is incremented, is incremented by two.
-
-For stability and to reduce bugs, it's strongly suggested all multi-word
-operations use little endian in all RC1600  programs, wherever possible.
-
+is incremented, is incremented by two. Also is Big Endian, so the MSB of a 
+word is stored in the lowest address, and the LSB is stored in the highest 
+address.
 
 24 Registers :
   - R0 - Reads always 0 value

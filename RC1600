@@ -3,7 +3,7 @@ NOTE: WIP
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
 RC1600 (RISC CPU 1600) Specification
-Version 0.4f 
+Version 0.4g 
 
 === SUMMARY ====================================================================
 
@@ -112,8 +112,8 @@ ADD     REG3 op LITERAL -> REG3       0100 0001 LLLL RRRR    3
 SUB     REG3 op REG2 -> REG3          0100 0010 RRRR RRRR    3
 SUB     REG3 op LITERAL -> REG3       0100 0011 LLLL RRRR    3
 ADDC    REG3 op REG2 -> REG3          0100 0100 RRRR RRRR    3
-SUBC    REG3 op REG2 -> REG3          0100 0101 RRRR RRRR    3
-SUBC    REG3 op LITERAL -> REG3       0100 0110 LLLL RRRR    3
+SUBB    REG3 op REG2 -> REG3          0100 0101 RRRR RRRR    3
+SUBB    REG3 op LITERAL -> REG3       0100 0110 LLLL RRRR    3
 
 AND     REG3 op REG2 -> REG3          0100 0111 RRRR RRRR    3
 OR      REG3 op REG2 -> REG3          0100 1000 RRRR RRRR    3
@@ -297,9 +297,7 @@ that takes load/store as argument. If REG1 is SP or BP registers, then access
 to [SP:xxxx].
 
 When the RC1600  uses a stack instruction, it access to [SS:(--SP)] (PUSH) or to 
-[SS:(SP++)] (POP). Also when the SP register does a overflow, the SS register is
-incremented by one and when the SP register does a underflow, the SS register 
-decrements by one.
+[SS:(SP++)] (POP).
 
 When the RC1600  gets a interrupt and IA != 0, jumps to the address [IS:IA].
 
@@ -350,11 +348,11 @@ When the RC1600  gets a interrupt and IA != 0, jumps to the address [IS:IA].
   Do the subtraction of REG3 - REG2 (or LITERAL) and put it on REG3.
   
   
-  SUBC REG3, REG2
-  SUBC REG3, LITERAL
+  SUBB REG3, REG2
+  SUBB REG3, LITERAL
 
-  Do the subtraction of REG3 - REG2 (or LITERAL) with Carry Bit and put it on
-  REG3. 
+  Do the subtraction of REG3 - REG2 (or LITERAL) with Borrow Bit 
+  (Carry flag) and put it on REG3. 
   
 
   MUL REG3, REG2

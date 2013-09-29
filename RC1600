@@ -3,7 +3,7 @@ NOTE: WIP
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
 RC1600 (RISC CPU 1600) Specification
-Version 0.4e 
+Version 0.4f 
 
 === SUMMARY ====================================================================
 
@@ -32,7 +32,7 @@ When we say that RC1600  Pops a value from the stack, reads a value from
 [SS:SP++].
 
 The RC1600 instruction set is based in 16 bit words, so each time that the PC 
-is incremented, is incremented by two. Also is Big Endian, so the MSB of a 
+is incremented, is incremented by two. Also is Little Endian, so the MSB of a 
 word is stored in the lowest address, and the LSB is stored in the highest 
 address.
 
@@ -285,7 +285,11 @@ There is four segment registers:
 When the RC1600  fetches a instruction, it reads at address [CS:PC], also when 
 the PC register overflows (does PC++ and its over 0xFFFF), then the PC register
 is set to 0 and CS is incremented by 1. This allow to use code that is bigger 
-that 64KiB directly.
+that 64KiB directly. The only exception to this rule are in relative calls and 
+jumps. A relative Jump, can cross a segment if PC+offset > 0xFFFF or 
+CS+offset < 0xFFFF, in this case auto-incrementing/decreasing CS. A relative Call
+, only can access the same segment that called it, so PC+offset is limited 
+always to 0x0000-0xFFFF range. 
 
 When the RC1600  uses a load/store instruction with REG1 being any register from
 R0 to R13, it access to the address [DS:xxxx] were xxxx is the 16 bit address 
@@ -506,10 +510,12 @@ When the RC1600  gets a interrupt and IA != 0, jumps to the address [IS:IA].
 
 === STACK INSTRUCTIONS ========================================================
 
-  PUSH REG3            Writes Reg3 value at [SS:--SP], aka Push Reg3 to the 
-                       stack
-  POP REG3             Reads at [SS:SP++] and put to Reg3, aka Pop stack into 
-                       Reg3
+  PUSH REG3            Writes Reg3 MSB at [SS:--SP], and writes LSB at [SS:-SP]
+                       In other words, stores always a word and decrements SP 
+                       by two.
+  POP REG3             Reads at [SS:SP++] and put to LSB of Reg3, then Reads at
+                       [SS:SP++] and put to MSB of Reg3. In other words, reads 
+                       always a word and increments SP by two.
 
 === SPECIAL INSTRUCTIONS ======================================================
 
@@ -538,15 +544,15 @@ When the RC1600  gets a interrupt and IA != 0, jumps to the address [IS:IA].
   SETIA REG3           Sets IA to REG3 value
   SETIA LITERAL        "
 
-  RFI                  Return from interrupt. Pops R1, pops PC and pops CS. And
-                       cleans INTERRUPT FLAG
+  RFI                  Return from interrupt. Pops PC , pops CS and pops r1. 
+                       And cleans INTERRUPT FLAG and IACK signal.
 
 === HARDWARE INTERFACE INSTRUCTIONS ===========================================
-INP REG3, REG2         Reads Reg2 IO address and write the value to Reg3
-INP REG3, LITERAL      "
+  INP REG3, REG2       Reads Reg2 IO address and write the value to Reg3
+  INP REG3, LITERAL    "
 
-OUT REG3, REG2         Writes Reg2 IO address the value of Reg3
-OUT REG3, LITERAL      "
+  OUT REG3, REG2       Writes Reg2 IO address the value of Reg3
+  OUT REG3, LITERAL    "
   
   
 
@@ -564,14 +570,15 @@ is ready to process a new instruction. When an interrupt is being processed, the
 IACQ line goes to high indicating that the RC1600  will ignore the INT line or 
 any software interrupt This means that all instructions are atomic.
 
-When a Interrupt happens, the RC1600  push to the stack, the values of CS, PC 
-and R1 register, jumps to [IS:IA address], and sets the INTERRUPT FLAG to 1. If
-it's a software interrupt, the message is put on R1 to be processed. If it's a 
-hardware interrupt, sets R1 to value read in the data bus.
+When a Interrupt happens, the RC1600  push to the stack, the values of R1, CS 
+and PC registers, jumps to [IS:IA address], and sets the INTERRUPT FLAG to 1, 
+also sets IACK signal to High. If it's a software interrupt, the message is put
+on R1 to be processed. If it's a hardware interrupt, sets R1 to value read in 
+the data bus.
 
-When the interrupt service routine ends, executing a RFI, the RC1600  pops R1
-register, sets IACK (Interrupt Acknowledge) line to Low, and pops PC and CS, and 
-the INTERRUPT FLAG is set to 0.
+When the interrupt service routine ends, executing a RFI, the RC1600  pops PC, 
+CS and R1 registers, sets IACK (Interrupt Acknowledge) signal to Low, and the 
+INTERRUPT FLAG is set to 0.
 
 
 === INTERRUPT LIST =============================================================

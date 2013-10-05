@@ -3,12 +3,12 @@ NOTE: WIP
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
 RC1600 (RISC CPU 1600) Specification
-Version 0.4g 
+Version 0.4h 
 
 === SUMMARY ====================================================================
 
  * 16 bit RISC CPU, that can use a 20 bit address space [0:0000] to [F:FFFF]
- * 13 general purpose registers (R1 to R13)
+ * 14 general purpose registers (R0 to R13)
  * Multiplication register Y
  * Base Pointer (BP) and Stack Pointer (SP)
  * Flags Register (FLAGS)
@@ -37,8 +37,7 @@ word is stored in the lowest address, and the LSB is stored in the highest
 address.
 
 24 Registers :
-  - R0 - Reads always 0 value
-  - R1 .. R13 - General Purpose Registers (GPR)
+  - R0 .. R13 - General Purpose Registers (GPR)
   - R14 - BP - Base Pointer -> Also can is a GPR 
   - R15 - SP - Stack Pointer -> Points to the last value Pushed
   - FLAGS register

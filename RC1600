@@ -15,7 +15,7 @@ Version 0.4h
  * Interrupt Address (IA)
  * Segment Registers to access 20 bit Address space (CS, DS, SS and IS)
  * IO address space of 8 bit
- * Big Endian
+ * Little Endian
 
 In this document, anything with writes by x:y is a shorthand to a value of 32 
 bits stored in two 16 bit registers, being x the Most Significant Bits and y the

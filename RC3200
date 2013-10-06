@@ -87,7 +87,7 @@ Instructions with 3 parameters :
  1  1 x  x  x  x  x  x  x  x  x  x  x  x  x  x  M  r1 r1 r1 r1 r1 r2 r2 r2 r2 r2 r3 r3 r3 r3 r3
 
 M bit marks if r2 is a 5 bit literal or a register. 5 bit Literals are defined 
-from 15 to -15. -16 Literal (1 000) is reserved to mark that the next word is a 
+from 15 to -15. -16 Literal (1 0000) is reserved to mark that the next word is a
 32 bit Long Literal value. Access to the next  word for a Long Literals takes a
 extra clock cycle
 
@@ -126,30 +126,30 @@ XOR      REG1 op LITERAL -> REG3     11 00000000001110 1 RRRRR LLLLL RRRRR    4
 NAND     REG1 op REG2 -> REG3        11 00000000001111 0 RRRRR RRRRR RRRRR    3
 NAND     REG1 op LITERAL -> REG3     11 00000000001111 1 RRRRR LLLLL RRRRR    4
 
-SLL      REG1 op LITERAL -> REG3     11 00000000010000 0 RRRRR LLLLL RRRRR    3
+SLL      REG1 op REG2 -> REG3        11 00000000010000 0 RRRRR RRRRR RRRRR    3
 SLL      REG1 op LITERAL -> REG3     11 00000000010000 1 RRRRR LLLLL RRRRR    4
-SRL      REG1 op LITERAL -> REG3     11 00000000010001 0 RRRRR LLLLL RRRRR    3
+SRL      REG1 op REG2 -> REG3        11 00000000010001 0 RRRRR RRRRR RRRRR    3
 SRL      REG1 op LITERAL -> REG3     11 00000000010001 1 RRRRR LLLLL RRRRR    4
-SRA      REG1 op LITERAL -> REG3     11 00000000010010 0 RRRRR LLLLL RRRRR    3
+SRA      REG1 op REG2 -> REG3        11 00000000010010 0 RRRRR RRRRR RRRRR    3
 SRA      REG1 op LITERAL -> REG3     11 00000000010010 1 RRRRR LLLLL RRRRR    4
 
-ROTL     REG1 op LITERAL -> REG3     11 00000000010011 0 RRRRR LLLLL RRRRR    3
+ROTL     REG1 op REG2 -> REG3        11 00000000010011 0 RRRRR RRRRR RRRRR    3
 ROTL     REG1 op LITERAL -> REG3     11 00000000010011 1 RRRRR LLLLL RRRRR    4
-ROTR     REG1 op LITERAL -> REG3     11 00000000010100 0 RRRRR LLLLL RRRRR    3
+ROTR     REG1 op REG2 -> REG3        11 00000000010100 0 RRRRR RRRRR RRRRR    3
 ROTR     REG1 op LITERAL -> REG3     11 00000000010100 1 RRRRR LLLLL RRRRR    4
 
-UMUL     REG1 op LITERAL -> REG3     11 00000000010101 0 RRRRR LLLLL RRRRR   30
+UMUL     REG1 op REG2 -> REG3        11 00000000010101 0 RRRRR RRRRR RRRRR   30
 UMUL     REG1 op LITERAL -> REG3     11 00000000010101 1 RRRRR LLLLL RRRRR   31
-UDIV     REG1 op LITERAL -> REG3     11 00000000010110 0 RRRRR LLLLL RRRRR   40
+UDIV     REG1 op REG2 -> REG3        11 00000000010110 0 RRRRR RRRRR RRRRR   40
 UDIV     REG1 op LITERAL -> REG3     11 00000000010110 1 RRRRR LLLLL RRRRR   41
-UMOD     REG1 op LITERAL -> REG3     11 00000000010111 0 RRRRR LLLLL RRRRR   40
+UMOD     REG1 op REG2 -> REG3        11 00000000010111 0 RRRRR RRRRR RRRRR   40
 UMOD     REG1 op LITERAL -> REG3     11 00000000010111 1 RRRRR LLLLL RRRRR   41
 
-MUL      REG1 op LITERAL -> REG3     11 00000000011000 0 RRRRR LLLLL RRRRR   40
+MUL      REG1 op REG2 -> REG3        11 00000000011000 0 RRRRR RRRRR RRRRR   40
 MUL      REG1 op LITERAL -> REG3     11 00000000011001 1 RRRRR LLLLL RRRRR   41
-DIV      REG1 op LITERAL -> REG3     11 00000000011010 0 RRRRR LLLLL RRRRR   50
+DIV      REG1 op REG2 -> REG3        11 00000000011010 0 RRRRR RRRRR RRRRR   50
 DIV      REG1 op LITERAL -> REG3     11 00000000011011 1 RRRRR LLLLL RRRRR   51
-MOD      REG1 op LITERAL -> REG3     11 00000000011100 0 RRRRR LLLLL RRRRR   50
+MOD      REG1 op REG2 -> REG3        11 00000000011100 0 RRRRR RRRRR RRRRR   50
 MOD      REG1 op LITERAL -> REG3     11 00000000011101 1 RRRRR LLLLL RRRRR   51
 
 Instructions with 2 parameters :
@@ -438,14 +438,14 @@ BOCF                                  00 000000000000000000000000001001       3
   ROTL REG1, REG2, REG3
   ROTL REG1, LITERAL, REG3
   
-  Do the Left Rotation of REG1, rotatin the value in REG2 (or literal) bits and
+  Do the Left Rotation of REG1, rotating the value in REG2 (or literal) bits and
   put it to REG3. 
 
   
   ROTR REG1, REG2, REG3
   ROTR REG1, LITERAL, REG3
   
-  Do the Right Rotation of REG1, rotatin the value in REG2 (or literal) bits 
+  Do the Right Rotation of REG1, rotating the value in REG2 (or literal) bits
   and put it to REG3. 
   
 === BRANCHING OPERATIONS =======================================================
@@ -485,8 +485,8 @@ BOCF                                  00 000000000000000000000000001001       3
   BCLEAR REG3, REG2    Branch if Reg3 & Reg2 == 0
   BCLEAR REG3, LITERAL "
 
-  BOVF                 Branch if Overflow FLAG is setted ( == 1 )
-  BOCF                 Branch if Carry FLAG is setted ( == 1 )
+  BOVF                 Branch if Overflow FLAG is set ( == 1 )
+  BOCF                 Branch if Carry FLAG is set ( == 1 )
 
 === REGISTER OPERATIONS ========================================================
 
@@ -529,9 +529,9 @@ BOCF                                  00 000000000000000000000000001001       3
   
   POP REG3
   
-  Reads from the stackat a dword value and stores it in the REG3 register. As 
-  the RC32000 is little endian, It pops each byte of dword value from the 
-  stack, so the SP register incremented his value by 4.
+  Reads from the stack a dword value and stores it in the REG3 register. As the
+  RC32000 is little endian, It pops each byte of dword value from the stack, so
+  the SP register incremented his value by 4.
 
 
 === SPECIAL INSTRUCTIONS ======================================================
@@ -567,7 +567,7 @@ BOCF                                  00 000000000000000000000000001001       3
 
 === HARDWARE INTERFACE INSTRUCTIONS ===========================================
 
-Note: INP and OUT instrucctions accepts IO addresses of 32 bits, but only uses
+Note: INP and OUT instructions accepts IO addresses of 32 bits, but only uses
 the LSB byte as IO address.
 
   INP REG3, REG2       
@@ -660,7 +660,7 @@ a example memory map for a 1MiB space address:
 [05000]  |---------|
          |Interrupt|
          | Service |
-         | Rutines |
+         |Routines |
 [04000]  |---------|
          |         |
          |   BOOT  |

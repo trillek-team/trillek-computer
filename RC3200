@@ -14,7 +14,7 @@ Version 0.1
  * Flags Register (FLAGS)
  * Interrupt Address (IA)
  * IO address space of 8 bit
- * Big Endian
+ * Little Endian
 
 In this document, anything within [brackets] is shorthand for 
 "the value of the RAM at the location of the value inside the brackets". 

@@ -3,7 +3,7 @@ NOTE: WIP
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
 RC3200 (RISC CPU 1600) Specification
-Version 0.1a 
+Version 0.1b 
 
 === SUMMARY ====================================================================
 
@@ -87,7 +87,7 @@ Instructions with 3 parameters :
  1  1 x  x  x  x  x  x  x  x  x  x  x  x  x  x  M  r1 r1 r1 r1 r1 r2 r2 r2 r2 r2 r3 r3 r3 r3 r3
 
 M bit marks if r2 is a 5 bit literal or a register. 5 bit Literals are defined 
-from 15 to -15. -16 Literal (1000) is reserved to mark that the next word is a 
+from 15 to -15. -16 Literal (1 000) is reserved to mark that the next word is a 
 32 bit Long Literal value. Access to the next  word for a Long Literals takes a
 extra clock cycle
 
@@ -159,7 +159,7 @@ Instructions with 2 parameters :
  1  0 x  x  x  x  x  x  x  x  x  x  x  x  x  x  M  l  l  l  l  l  r2 r2 r2 r2 r2 r3 r3 r3 r3 r3
 
 M bit marks if l+r2 is a 10 bit literal or r2 is a register. 10 bit Literals 
-are defined from 511 to -511. -512 Literal (1000000000) is reserved to mark 
+are defined from 511 to -511. -512 Literal (10 0000 0000) is reserved to mark 
 that the next word is a 32 bit Long Literal value. Access to the next word for 
 a Long Literals takes a extra clock cycle.
 Note: x means "Don't care"
@@ -218,7 +218,7 @@ Instructions with 1 parameters :
  0  1 x  x  x  x  x  x  x  x  x  x  x  x  x  x  M  l  l  l  l  l  l  l  l  l  l  r3 r3 r3 r3 r3
 
 M bit marks if l+r3 is a 15 bit literal or r3 is a register. 15 bit Literals 
-are defined from 16383 to -16383. -16384 Literal (100 0000 0000 0004) is 
+are defined from 16383 to -16383. -16384 Literal (100 0000 0000 0000) is 
 reserved to mark that the next word is a 32 bit Long Literal value. Access to 
 the next word for a Long Literals takes a extra clock cycle.
 Note: x means "Don't care"

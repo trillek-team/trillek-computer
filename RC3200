@@ -3,7 +3,7 @@ NOTE: WIP
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
 RC3200 (RISC CPU 1600) Specification
-Version 0.1 
+Version 0.1a 
 
 === SUMMARY ====================================================================
 
@@ -280,14 +280,6 @@ RET                                   00 000000000000000000000000000101       7
 BOVF                                  00 000000000000000000000000001000       3   
 BOCF                                  00 000000000000000000000000001001       3   
 
-
-=== ADDRESS BUS =============================================================
-
-The RC3200  is a 32 bit cpu, so have a 32 bit flat address space. But the actual
-chip encapsulation and building process limits to a external 20bit address bus,
-so the 12 MSB bits of any address are ignored. This give access to a 1MiB max 
-of RAM with the actual version of the chip. Future version of the chip could
-havea increase external address size to address more real RAM.
 
 === DESCRIPTION OF INSTRUCTIONS ===============================================
   

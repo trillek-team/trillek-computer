@@ -1,0 +1,222 @@
+NOTE: WIP
+ 
+License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
+
+DCPU-32 Specification
+Version 0.1
+
+
+
+=== SUMMARY ====================================================================
+
+* 32 bit CISC CPU
+* 10 registers (A, B, C, X, Y, Z, I, J, K, BP)
+* program counter (PC)
+* Flags Register (FLAGS)
+* stack pointer (SP)
+* interrupt address (IA)
+* Little endian
+
+In this document, anything within [brackets] is shorthand for "the value of the
+RAM at the location of the value inside the brackets". For example, SP means
+stack pointer, but [SP] means the value of the RAM at the location the stack
+pointer is pointing at. Also in the notation we will use
+BYTES for 8 bit values, WORDS for 16 bit values and DWORDs for 32 bit values. 
+
+Whenever the CPU needs to read a instruction, it reads [PC], then increases PC
+by four as a instruction uses a dword. Shorthand for this is [PC+4]. In some 
+cases, the CPU will modify a value before reading it, in this case the 
+shorthand is [++x].
+
+Also the internal architecture is a not pipelined 4 stages (FETCH, DECODE,
+EXECUTE, RAM WRITE/READ), So the majority of instructions need only 3 cycles
+to be fully executed, with the exception of multiplication/division/modulus
+instructions, that halts the EXECUTE stage using the internal ALU to implement,
+and the RAM and IO instructions that uses the fourth stage.
+
+
+=== INSTRUCTIONS ===============================================================
+
+Instructions are 1-3 dwords long and are fully defined by the first word.
+In a basic instruction, the lower 18 bits of the first word of the instruction
+are the opcode, and the remaining 14 bits are split into a 6 bit value b
+and a eight bit value a.
+b is always handled by the processor after a, and is the lower 18 bits.
+In bits (in LSB-0 format), a basic instruction has the format:
+   31                                0
+    aaaaaaaa bbbbbb oooooooooooooooooo
+
+In the tables below, C is the time required in cycles to look up the value, or
+perform the opcode, VALUE is the numerical value, NAME is the mnemonic, and
+DESCRIPTION is a short text that describes the opcode or value.
+
+
+--- Values: (6/8 bits) ---------------------------------------------------------
+ C | VALUE     | DESCRIPTION
+---+-----------+----------------------------------------------------------------
+ 0 | 0x00-0x09 | register (A, B, C, X, Y, Z, I, J, K, BP, in that order)
+ 1 | 0x0A-0x13 | [register]
+ 2 | 0x14-0x1E | [register + next dword]
+ 1 |      0x1C | PUSH if in b, or POP if in a
+ 1 |      0x1D | [SP] / PEEK
+ 2 |      0x1E | [SP + next dword] / PICK n
+ 0 |      0x1F | SP
+ 0 |      0x20 | PC
+ 1 |      0x21 | [next dword]
+ 1 |      0x22 | next dword (literal)
+ 0 | 0x23-0xFF | literal value (-4..216) (literal) (only for a)
+ --+-----------+----------------------------------------------------------------
+  
+* "next dword" means "[PC+4]". Increases the  length of the instruction by 4
+    bytes.
+* By using 0x1C, 0x1D, 0x1E as PEEK, POP/PUSH, and PICK there's a reverse stack
+    starting at memory location 0xFFFFFFFF. 
+    Example: "SET PUSH, 10", "SET X, POP"
+* Attempting to write to a literal value fails silently
+
+FLAGS register :
+BIT 31-11-> Reserved
+BIT 10 -> ENABLE DIVISION ERRORS (TDE)
+BIT 9 ->  ENABLE OVERFLOW ERRORS (TOE)
+BIT 8 ->  ENABLE SINGLE-STEP MODE (TSS)
+BIT 4-7 -> Reserved
+BIT 3 -> INTERRUPT FLAG: 1 If an interrupt is happening. (IF)
+BIT 2 -> DIVISION ERROR FLAG: 1 If was a division error. (DE)
+BIT 1 -> OVERFLOW FLAG: 1 If an arithmetic operation overflowed. (OF)
+BIT 0 -> CARRY FLAG: 1 If the last ADDx/SUBx carried or borrowed a bit. (CF)
+
+
+--- Two paramenter opcodes (18 bits) -------------------------------------------
+ C | VAL     | NAME     | DESCRIPTION
+---+---------+----------+-------------------------------------------------------
+ - | 0x00000 | n/a      | One parameter opcodes - see below
+ 3 | 0x00001 | SET b, a | sets b to a
+ 3 | 0x00002 | ADD b, a | sets b to b+a
+ 3 | 0x00003 | SUB b, a | sets b to b-a
+ 30| 0x00004 | MUL b, a | sets b to b*a, sets Y to MSB dword of the 64 bit
+   |         |          |  result
+ 40| 0x00005 | MLI b, a | like MUL, but treat b, a as signed
+ 40| 0x00006 | DIV b, a | sets b to b/a, Uses Y register as the MSB dword of
+   |         |          | the 64 bit division
+ 50| 0x00007 | DVI b, a | like DIV, but treat b, a as signed. Rounds towards 0
+ 30| 0x00008 | MOD b, a | sets b to b%a. if a==0, sets b to 0 instead.
+ 40| 0x00009 | MDI b, a | like MOD, but treat b, a as signed. (MDI -7, 16 ==-7)
+ 3 | 0x0000A | AND b, a | sets b to b&a
+ 3 | 0x0000B | BOR b, a | sets b to b|a
+ 3 | 0x0000C | XOR b, a | sets b to b^a
+ 3 | 0x0000D | SHR b, a | Does a logical right shift to b, displacing it by a 
+   |         |          | bits.
+ 3 | 0x0000E | ASR b, a | Does the arimethic rifht shift to b, displacing it by
+   |         |          | a bits.
+ 3 | 0x0000F | SHL b, a | Does a logical left shift to b, displacing it by a
+   |         |          | bits. 
+ 3+| 0x00010 | IFB b, a | performs next instruction only if (b&a)!=0
+ 3+| 0x00011 | IFC b, a | performs next instruction only if (b&a)==0
+ 3+| 0x00012 | IFE b, a | performs next instruction only if b==a 
+ 3+| 0x00013 | IFN b, a | performs next instruction only if b!=a 
+ 3+| 0x00014 | IFG b, a | performs next instruction only if b>a 
+ 3+| 0x00015 | IFA b, a | performs next instruction only if b>a (signed)
+ 3+| 0x00016 | IFL b, a | performs next instruction only if b<a 
+ 3+| 0x00017 | IFU b, a | performs next instruction only if b<a (signed)
+ 3+| 0x00018 | IFGE b, a| performs next instruction only if b>=a 
+ 3+| 0x00019 | IFAE b, a| performs next instruction only if b>=a (signed)
+ 3+| 0x0001A | IFLE b, a| performs next instruction only if b<=a 
+ 3+| 0x0001B | IFUE b, a| performs next instruction only if b<=a (signed)
+ 4 | 0x0001C | ADDC b, a| sets b to b+a+CF
+ 4 | 0x0001D | SUBB b, a| sets b to b-(a+CF) (CF acts like borrow bit)
+ 4 | 0x0001E | STI b, a | sets b to a, then increases I and J by 1
+ 4 | 0x0001F | STD b, a | sets b to a, then decreases I and J by 1
+ 3 | 0x00020 | INP b, a | Reads at IO address a and puts the value in b
+ 3 | 0x00021 | OUT b, a | Writes at IO address a , the value in b
+---+---------+----------+------------------------------------------------------
+
+* The conditional opcodes take one cycle longer to perform if the test fails.
+  When they skip a conditional instruction, they will skip an additional
+  instruction at the cost of one extra cycle. This continues until a non-
+  conditional instruction has been skipped. This lets you easily chain
+  conditionals. Interrupts are not triggered while the DCPU-16 is skipping.
+    
+* Signed numbers are represented using two's complement.
+
+    
+One parameter opcodes always have their lower 8 bits unset, have one value and a
+five bit opcode. In binary, they have the format: 
+   31                                0
+    aaaaaaaa oooooooooooooooo 00000000
+The value (a) is in the same 8 bit format as defined earlier.
+
+--- One parameter opcodes: (8 bits) --------------------------------------------
+ C | VAL    | NAME   | DESCRIPTION
+---+--------+--------+----------------------------------------------------------
+ - | 0x0000 | n/a    | Zero parameter opcodes - see below
+ 4 | 0x0001 | CALL a | pushes the address of the next instruction to the stack,
+   |        |        | then sets PC to a
+ 5 | 0x0002 | INT a  | triggers a software interrupt with message a
+ 3 | 0x0003 | IAG a  | sets a to IA 
+ 3 | 0x0004 | IAS a  | sets IA to a
+ 4 | 0x0005 | IAQ a  | Push IA to the stack and sets a to IA 
+ 4 | 0x0006 | XCHGW a| Swaps LSB and MSB words in a
+ 4 | 0x0007 | XCHGB a| Swaps LSB and MSB bytes in a LSB word
+ 4 | 0x0008 | SGXTW a| Extends the sign of the LSB word to a dword value
+ 4 | 0x0009 | SGXTB a| Extends the sign of the LSB byte to a dword value
+---+--------+--------+----------------------------------------------------------
+
+    
+Zero parameter opcodes always have their lower 8 bits unset, have one value and
+a 8 bit opcode. In binary, they have the format: 
+   31                               0
+    oooooooo 000000000000000000000000
+
+--- Zero paremete opcodes: (6 bits) --------------------------------------------
+ C | VAL  | NAME   | DESCRIPTION
+---+------+--------+-----------------------------------------------------------
+ 1 | 0x00 | NOP    | Does nothing
++1 | 0x01 | SLEEP  | Sleeps the CPU and wake ups when an interrupt hapens.
+ 6 | 0x02 | RFI    | Pops A from the stack, then pops PC from the stack an
+   |      |        | cleans IF
+---+------+--------+------------------------------------------------------------
+
+
+
+=== INTERRUPTS =================================================================    
+
+The DCPU-32 will perform at most one interrupt between each instruction. 
+
+When IA is set to something other than 0, interrupts triggered on the DCPU-32
+will set high IACQ signal to High, to indicate to hardware that is busy handling
+an interrupt. Then will push PC and A registers in teh stack, followed by 
+setting the PC to IA, and A to the interrupt message. Also, IF flags will be set
+to 1.
+ 
+If IA is set to 0, a triggered interrupt does nothing. Software interrupts still
+take up 5 clock cycles, but immediately return, incoming hardware interrupts
+are ignored. 
+
+Interrupt handlers should end with RFI, which will disable interrupt queueing
+and pop A and PC from the stack as a single atomic instruction, plus restores
+IACQ signal to Low value, to indicate to hardware that the CPU can handle now an
+new interrupt, and sets IF flag to 0.
+
+The interrupt messages should be defined by hardware devices specs. But there a
+few interrupts that could be launched by the RC3200 itself, when meets some
+special conditions like Division error, Overflow or if single-step mode is
+active.
+ 
+
+=== INTERRUPT LIST =============================================================
+
+If a division error happens, TDE bit is enable and INTERRUPT FLAG is not
+enable, the DCPU-32 will throw an interrupt with message 0.
+If a overflow error happens, TOE bit is enable and INTERRUPT FLAG is not
+enable, the DCPU-32 will throw an interrupt with message 4.
+If single-step mode is active (TSS bit is enable) and INTERRUPT FLAG is not
+enable, the DCPU-32 will throe an interrupt with message 1.
+
+
+=== HARDWARE ===================================================================    
+
+The DCPU-32 supports up to 256 connected hardware devices. These devices can
+be anything from additional storage, sensors, monitors or speakers.
+How to control the hardware is specified per hardware device, but the DCPU-32
+supports memory mapped devices and IO address mapped devices.
+

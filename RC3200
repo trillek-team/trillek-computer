@@ -27,20 +27,20 @@ is incremented, is incremented by four. Also is Little Endian, so the MSB of a
 word or dword is stored in the lowest address, and the LSB is stored in the 
 highest address.
 
-Whenever the CPU needs to read a instrucction, it reads [PC], then increases PC
-by four as a instrucction uses dword. Shorthand for this is [PC+4]. In some 
+Whenever the CPU needs to read a instruction, it reads [PC], then increases PC
+by four as a instruction uses dword. Shorthand for this is [PC+4]. In some 
 cases, the CPU will modify a value before reading it, in this case the 
 shorthand is [++X]. When we say that the RC3200 Push a value to the Stack, 
 writes these value at [--SP]. When we say that RC3200 Pops a value from the 
-stack, reads a value from [SP++]. Rememeber that we work with 32 bit values in
+stack, reads a value from [SP++]. Remember that we work with 32 bit values in
 Little Endian, so to store a value in the stack, we need to push each byte of 
 the dword value.
 
 Also the internal architecture is a not pipelined 4 stages (FETCH, DECODE,
-EXECUTE, RAM WRITE/READ), So the mayority of instrucctions need only 3 cycles 
+EXECUTE, RAM WRITE/READ), So the majority of instructions need only 3 cycles 
 to be fully executed, with the exception of multiplication/division/modulus
-insrucctions, that halts the EXECUTE stage using the internal ALU to implement,
-and the RAM and IO instrucctions that uses the fourth stage.
+instructions, that halts the EXECUTE stage using the internal ALU to implement,
+and the RAM and IO instructions that uses the fourth stage.
 
 
  Registers :
@@ -138,19 +138,19 @@ ROTL     REG1 op LITERAL -> REG3     11 00000000010011 1 RRRRR LLLLL RRRRR    4
 ROTR     REG1 op LITERAL -> REG3     11 00000000010100 0 RRRRR LLLLL RRRRR    3
 ROTR     REG1 op LITERAL -> REG3     11 00000000010100 1 RRRRR LLLLL RRRRR    4
 
-UMUL     REG1 op LITERAL -> REG3     11 00000000010101 0 RRRRR LLLLL RRRRR    3
-UMUL     REG1 op LITERAL -> REG3     11 00000000010101 1 RRRRR LLLLL RRRRR    4
-UDIV     REG1 op LITERAL -> REG3     11 00000000010110 0 RRRRR LLLLL RRRRR    3
-UDIV     REG1 op LITERAL -> REG3     11 00000000010110 1 RRRRR LLLLL RRRRR    4
-UMOD     REG1 op LITERAL -> REG3     11 00000000010111 0 RRRRR LLLLL RRRRR    3
-UMOD     REG1 op LITERAL -> REG3     11 00000000010111 1 RRRRR LLLLL RRRRR    4
+UMUL     REG1 op LITERAL -> REG3     11 00000000010101 0 RRRRR LLLLL RRRRR   30
+UMUL     REG1 op LITERAL -> REG3     11 00000000010101 1 RRRRR LLLLL RRRRR   31
+UDIV     REG1 op LITERAL -> REG3     11 00000000010110 0 RRRRR LLLLL RRRRR   40
+UDIV     REG1 op LITERAL -> REG3     11 00000000010110 1 RRRRR LLLLL RRRRR   41
+UMOD     REG1 op LITERAL -> REG3     11 00000000010111 0 RRRRR LLLLL RRRRR   40
+UMOD     REG1 op LITERAL -> REG3     11 00000000010111 1 RRRRR LLLLL RRRRR   41
 
-MUL      REG1 op LITERAL -> REG3     11 00000000011000 0 RRRRR LLLLL RRRRR    3
-MUL      REG1 op LITERAL -> REG3     11 00000000011001 1 RRRRR LLLLL RRRRR    4
-DIV      REG1 op LITERAL -> REG3     11 00000000011010 0 RRRRR LLLLL RRRRR    3
-DIV      REG1 op LITERAL -> REG3     11 00000000011011 1 RRRRR LLLLL RRRRR    4
-MOD      REG1 op LITERAL -> REG3     11 00000000011100 0 RRRRR LLLLL RRRRR    3
-MOD      REG1 op LITERAL -> REG3     11 00000000011101 1 RRRRR LLLLL RRRRR    4
+MUL      REG1 op LITERAL -> REG3     11 00000000011000 0 RRRRR LLLLL RRRRR   40
+MUL      REG1 op LITERAL -> REG3     11 00000000011001 1 RRRRR LLLLL RRRRR   41
+DIV      REG1 op LITERAL -> REG3     11 00000000011010 0 RRRRR LLLLL RRRRR   50
+DIV      REG1 op LITERAL -> REG3     11 00000000011011 1 RRRRR LLLLL RRRRR   51
+MOD      REG1 op LITERAL -> REG3     11 00000000011100 0 RRRRR LLLLL RRRRR   50
+MOD      REG1 op LITERAL -> REG3     11 00000000011101 1 RRRRR LLLLL RRRRR   51
 
 Instructions with 2 parameters :
 

@@ -2,8 +2,8 @@ NOTE: WIP
 
 License : CC BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
 
-RC3200 (RISC CPU 1600) Specification
-Version 0.1b 
+RC3200 (RISC CPU 3200) Specification
+Version 0.2 
 
 === SUMMARY ====================================================================
 
@@ -142,15 +142,11 @@ UMUL     REG1 op REG2 -> REG3        11 00000000010101 0 RRRRR RRRRR RRRRR   30
 UMUL     REG1 op LITERAL -> REG3     11 00000000010101 1 RRRRR LLLLL RRRRR   31
 UDIV     REG1 op REG2 -> REG3        11 00000000010110 0 RRRRR RRRRR RRRRR   40
 UDIV     REG1 op LITERAL -> REG3     11 00000000010110 1 RRRRR LLLLL RRRRR   41
-UMOD     REG1 op REG2 -> REG3        11 00000000010111 0 RRRRR RRRRR RRRRR   40
-UMOD     REG1 op LITERAL -> REG3     11 00000000010111 1 RRRRR LLLLL RRRRR   41
 
-MUL      REG1 op REG2 -> REG3        11 00000000011000 0 RRRRR RRRRR RRRRR   40
-MUL      REG1 op LITERAL -> REG3     11 00000000011001 1 RRRRR LLLLL RRRRR   41
-DIV      REG1 op REG2 -> REG3        11 00000000011010 0 RRRRR RRRRR RRRRR   50
-DIV      REG1 op LITERAL -> REG3     11 00000000011011 1 RRRRR LLLLL RRRRR   51
-MOD      REG1 op REG2 -> REG3        11 00000000011100 0 RRRRR RRRRR RRRRR   50
-MOD      REG1 op LITERAL -> REG3     11 00000000011101 1 RRRRR LLLLL RRRRR   51
+MUL      REG1 op REG2 -> REG3        11 00000000010111 0 RRRRR RRRRR RRRRR   40
+MUL      REG1 op LITERAL -> REG3     11 00000000010111 1 RRRRR LLLLL RRRRR   41
+DIV      REG1 op REG2 -> REG3        11 00000000011000 0 RRRRR RRRRR RRRRR   50
+DIV      REG1 op LITERAL -> REG3     11 00000000011000 1 RRRRR LLLLL RRRRR   51
 
 Instructions with 2 parameters :
 
@@ -353,25 +349,11 @@ BOCF                                  00 000000000000000000000000001001       3
   UDIV REG1, REG2, REG3
   UDIV REG1, LITERAL, REG3
 
-  Do the 64/32 bit division of Y:Reg1 / Reg2 (or literal).
+  Does the 32/32 bit division of Y:Reg1 / Reg2 (or literal).
   Uses the value of Y register as the 32 MSB of the dividend and Reg1 as LSB. 
   UDIV does the unsigned operation.
-  The quotient are stored in Y:Reg3, where the Y register stores the 32 MSB and
-  Reg3 stores the 32 LSB.
-  If a division error happens and TDE bit is enable, the RC3200  will throw an 
-  interrupt with message 0, and will be set Division Error flag to 1.
-
-
-  MOD  REG1, REG2, REG3
-  MOD  REG1, LITERAL, REG3
-  UMOD REG1, REG2, REG3
-  UMOD REG1, LITERAL, REG3
-
-  Do the 64/32 bit division of Y:Reg1 / Reg2 (or literal).
-  Uses the value of Y register as the 32 MSB of the dividend and Reg1 as LSB. 
-  UMOD does the unsigned operation.
-  The rest is MSB is stored in Y register and the LSB is stored in Reg3.
-  If a division error happens and TDE bit is enable, the RC3200  will throw an 
+  The quotient are stored in Reg3 and the rest is stored in the Y register,
+  If a division error happens and TDE bit is enable, the RC3200 will throw an 
   interrupt with message 0, and will be set Division Error flag to 1.
 
 

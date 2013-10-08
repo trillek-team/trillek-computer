@@ -31,7 +31,7 @@ Produces this :
             set     r1, 2
             set     r2, 3
             set     r3, 4
-            push    5               ; Fith argument tothe stack
+            push    5               ; Fifth argument tothe stack
             
             call    callee           
             sub     SP, 4, SP       ; Code that recovers BP value
@@ -78,10 +78,10 @@ Produces this :
             set     r1, 2
             set     r2, 3
             set     r3, 4
-            push    5               ; Fith argument tothe stack
+            push    5               ; Fifth argument to the stack
             
             call    callee           
-            sub     SP, 4, SP       ; Code that recovers BP value
+            sub     SP, 4           ; Code that recovers BP value
             pop     BP
             
             cpy     r4, r0
@@ -123,7 +123,7 @@ Produces this :
             set     A, 1
             set     B, 2
             set     PUSH, 5         ; Extra arguments in reverse order
-            set     PUSH, 4
+            set     PUSH, 4         ; to the stack
             set     PUSH, 3
             
             call    callee           

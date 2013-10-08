@@ -84,7 +84,8 @@ Produces this :
             sub     SP, 4, SP       ; Code that recovers BP value
             pop     BP
             
-            add     r4, 5, r0
+            cpy     r4, r0
+            add     r4, 5
 
             cpy     r0, r4          ; Epilogue. Sets r0 to return value and
             pop     r4              ; restores used r4

@@ -1,0 +1,220 @@
+Generic Keyboard specs
+ 
+Interrupt msg = 0x0011
+Port 0x60 and 0x64
+
+Reading Port 0x60, gets the last keyevent.
+Reading Port 0x64, gets the status byte.
+
+Writing at Port 0x60, push a keyevent to the keyboard buffer
+
+Port 0x64 accepts this commands:
+ VALUE |  NAME      | BEHAVIOUR
+-------+------------+----------------------------------------------------------
+  0x00 | CLEAR      | Clear keyboard buffer
+  0x01 | SET-STATUS | Sets the Status LEDs state. First send 0x01, then send
+       |            | the Status byte.
+  0x02 | D-INTERRUPT| Disables interrupts
+  0x03 | E-INTERRUPT| Enables interrupts
+-------+------------+----------------------------------------------------------
+
+When interrupts are enabled, the keyboard will trigger an interrupt when one or
+more keys have been pressed or released.
+
+Keyevent Format:
+  8  7  6  5  4  3  2  1  0
+  -------------------------
+  A  k  k  k  k  k  k  k  k
+
+Where :
+ - A (Action Bit) If the bit is at 1, this means that key is being pressed 
+     (Key Down). If is 0, means that the key was released (Key Up).
+ - kkkkkkkk Key code of the key pressed or released 
+
+Key codes are:
+  0x08: Backspace
+  0x09: Tabulator
+  0x0D: Return
+  0x0E: Shift
+  0x0F: Control
+  0x10: Insert
+  0x12: Arrow up
+  0x13: Arrow down
+  0x14: Arrow left
+  0x15: Arrow right
+  0x1B: Escape/Break
+  0x20-0x7E: ASCII characters
+  0x7F: Delete
+  Other values: Reserved for advanced keyboards or localized keyboards
+
+If the return value is 0, then means that the buffer is empty.
+
+Status byte format:
+  8  7  6  5  4  3  2  1  0
+  -------------------------
+  |      not used      |  C
+ 
+Where:
+ - C (CapsLock) Show if CapsLocks mode is active or not
+
+Status LEDs:
+  A keyboard must have at least this LED state: Caps Locks Enable.
+
+Key code events buffer:
+  The buffer can store at least 64 keyevents. Each time that a key is pressed 
+  or released, the appropriate key code event is pushed to the buffer.
+  The buffer operates in FIFO mode, in addition if the buffer is filled, then
+  the oldest key code stored is deleted.
+  Reading at port 0x60, extracts the oldest keyevent in the buffer(POP buffer).
+  Writing at Port 0x60, push a keyevent at the begin of the buffer (PUSH 
+  buffer), acting like a LIFO buffer. Writing at port 0x60 can be used to
+  simulate keyboard events by some programs or allow to intercept keyevents to
+  the OS.
+
+
+PUSH inserts here          
+----------------->       
+                   |---|
+-----------------> |   | Oldest key code event
+POP extract this   |---|
+                   |   |
+                   |---|
+                   .   .
+                   .   .
+                   .   .
+                   |---|
+                   |   | Last key code event
+                   |---|  
+                         <----------------------
+                           Keyboard inserts here
+
+Shift and Upper case letters and symbols:
+  The keyboard generates alone the appropriate symbol or upper case letter when 
+  a key is pressed/released at same time that Shift key is being keep pressed. 
+
+Caps Locks Mode : 
+  When Caps Locks key is pressed, the keyboard enters in Caps Locks mode. The 
+  next time that the Caps Lock key is pressed, then the keyboard leaves the 
+  mode. In Caps Locks mode, the Caps Locks Enable status LED is set to On, and 
+  when leaves this mode, is set to Off. 
+
+
+
+Example of Use:
+  A basic type program can use a ISR that reads at 0x60 (POP) to extract a
+  keyevent stored in the keyboard buffer. If the Action Bit is On in each key
+  code event, then writes in screen or stores in a string buffer if is an 
+  appropriate character, if not ignores it.
+  A more advanced ISR can store if Ctrl or Shift keys are being pressed, to 
+  detect Ctrl+Key or Shift+Key special actions.
+  
+
+Examples:
+== RC3200 ASM =================================================================
+; ISR
+...
+...
+BEQ r0, 0x0011                      ; If is a Keyboard Interrupt, call to the
+    CALL keyb_isr                   ; routine to handle it
+...
+...
+RFI
+
+keyb_isr:
+INP r0, 0x60                        ; Get the KeyEvent character
+BCLEAR r0, 0b1000_0000              ; Is a Key Up event ?
+    BGE r0, 0x20                    ; Is a writable character ?
+        BLE r0, 0x7E                ; 0x20 >= C <= 0x7E
+            JMP copy_char
+RET
+
+copy_char:                          ; Code that writes on screen a character
+SET r10, cursor                     ; Loads the cursor var address
+LOAD r10, r1                        ; Gets the value of the cursor in r1
+OR r0, 0x0700                       ; White on black text
+SAVE.W r1, r0                       ; Puts the character + attribute on video
+                                    ; ram
+ADD r1, 2, r1                       ; Increments the cursor var and save it
+SAVE r10, r1                        ;
+
+RET                                 
+
+cursor: .dd 0xB0000                 ; Cursor points to Video RAM address
+
+
+== RC1600 ASM =================================================================
+; ISR
+...
+...
+BEQ r0, 0x0011                      ; If is a Keyboard Interrupt, call to the
+    CALL keyb_isr                   ; routine to handle it
+...
+...
+RFI
+
+keyb_isr:
+INP r0, 0x60                        ; Get the KeyEvent character
+BCLEAR r0, 0b1000_0000              ; Is a Key Up event ?
+    BGE r0, 0x20                    ; Is a writable character ?
+        BG r0, 0x7E                 ; 0x20 >= C <= 0x7E
+            RET
+
+GETDS r11
+PUSH r11                            ; We save the actual Data Segment
+
+SET r10, vram_segment               ; Loads the cursor var address
+LOAD r11, r2                        ; Gets the segment were to write and store
+                                    ; in r2
+SET r12, cursor                     ; Loads the cursor var address
+LOAD r12, r1                        ; Gets the value of the cursor in r1
+SETDS r2
+
+OR r0, 0x0700                       ; White on black text
+SAVE.W r1, r0                       ; Puts the character + attribute on video
+                                    ; ram
+
+POP r11                             ; We restore Data Segment
+SETDS r11
+
+ADD r1, 2, r1                       ; Increments the cursor var and save it
+SAVE r12, r1                        ;
+RET                                 
+
+vram_segment: .dw 0x000B            ; Videoram is at B:0000
+cursor:       .dw 0x0000            ; Cursor points to Video RAM address
+
+== T32 ASM ====================================================================
+; ISR
+...
+...
+IFE A, 0x0011                       ; If is a Keyboard Interrupt, call to the
+    CALL keyb_isr                   ; routine to handle it
+...
+...
+RFI
+
+keyb_isr:
+INP B, 0x60                         ; Get the KeyEvent character
+IFC B, 0b1000_0000                  ; Is a Key Up event ?
+    IFG B, 0x20                     ; Is a writable character ?
+       IFLE B, 0x7E                 ; 0x20 >= C <= 0x7E
+            JMP copy_char
+RET
+
+copy_char:                          ; Code that writes on screen a character
+SET.B [cursor], B                   ; Writes the character
+ADD [cursor], 1
+SET.B [cursor], 0x07                ; Sets it White on Black attribute
+ADD [cursor], 1
+RET                                 
+
+cursor: .dd 0xB0000                 ; Cursor points to Video RAM address
+
+
+
+
+Stuff to read : 
+ - http://retired.beyondlogic.org/keyboard/keybrd.htm
+ - flint.cs.yale.edu/cs422/doc/art-of-asm/pdf/CH20.PDF
+ - http://bos.asmhackers.net/docs/keyboard/docs/KeyboardFAQ.txt
+

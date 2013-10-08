@@ -6,7 +6,7 @@ Port 0x60 and 0x64
 Reading Port 0x60, gets the last keyevent.
 Reading Port 0x64, gets the status byte.
 
-Writing at Port 0x60, pus ha keyevent to the eyboard buffer
+Writing at Port 0x60, push a keyevent to the keyboard buffer
 
 Port 0x64 accepts this commands:
  VALUE |  NAME      | BEHAVIOUR
@@ -14,6 +14,8 @@ Port 0x64 accepts this commands:
   0x00 | CLEAR      | Clear keyboard buffer
   0x01 | SET-STATUS | Sets the Status LEDs state. First send 0x01, then send
        |            | the Status byte.
+  0x02 | D-INTERRUPT| Disables interrupts
+  0x03 | E-INTERRUPT| Enables interrupts
 -------+------------+----------------------------------------------------------
 
 When interrupts are enabled, the keyboard will trigger an interrupt when one or
@@ -112,7 +114,7 @@ Examples:
 ; ISR
 ...
 ...
-BEQ r0, 0x0011                      ; If is a Keyboard Inettrupt, call to the
+BEQ r0, 0x0011                      ; If is a Keyboard Interrupt, call to the
     CALL keyb_isr                   ; routine to handle it
 ...
 ...
@@ -128,11 +130,13 @@ RET
 
 copy_char:                          ; Code that writes on screen a character
 SET r10, cursor                     ; Loads the cursor var address
-LOAD.B r10, r1                      ; Gets the value of the cursor in r1
-ADD r1, 1, r1                       ; Points to the next character
+LOAD r10, r1                        ; Gets the value of the cursor in r1
 OR r0, 0x0700                       ; White on black text
 SAVE.W r1, r0                       ; Puts the character + attribute on video
                                     ; ram
+ADD r1, 2, r1                       ; Increments the cursor var and save it
+SAVE r10, r1                        ;
+
 RET                                 
 
 cursor: .dd 0xB0000                 ; Cursor points to Video RAM address
@@ -142,7 +146,7 @@ cursor: .dd 0xB0000                 ; Cursor points to Video RAM address
 ; ISR
 ...
 ...
-BEQ r0, 0x0011                      ; If is a Keyboard Inettrupt, call to the
+BEQ r0, 0x0011                      ; If is a Keyboard Interrupt, call to the
     CALL keyb_isr                   ; routine to handle it
 ...
 ...
@@ -156,21 +160,55 @@ BCLEAR r0, 0b1000_0000              ; Is a Key Up event ?
             RET
 
 GETDS r11
-PUSH r10                            ; We save the actual Data Segment
+PUSH r11                            ; We save the actual Data Segment
 
-SET r10, vran_segment               ; Loads the cursor var address
-LOAD.B r11, r2                      ; Gets the segment were to write and store
+SET r10, vram_segment               ; Loads the cursor var address
+LOAD r11, r2                        ; Gets the segment were to write and store
                                     ; in r2
-SET r10, cursor                     ; Loads the cursor var address
-LOAD.B r10, r1                      ; Gets the value of the cursor in r1
+SET r12, cursor                     ; Loads the cursor var address
+LOAD r12, r1                        ; Gets the value of the cursor in r1
 SETDS r2
-ADD r1, 1, r1                       ; Points to the next character
+
 OR r0, 0x0700                       ; White on black text
 SAVE.W r1, r0                       ; Puts the character + attribute on video
-RET                                 ; ram
+                                    ; ram
+
+POP r11                             ; We restore Data Segment
+SETDS r11
+
+ADD r1, 2, r1                       ; Increments the cursor var and save it
+SAVE r12, r1                        ;
+RET                                 
 
 vram_segment: .dw 0x000B            ; Videoram is at B:0000
 cursor:       .dw 0x0000            ; Cursor points to Video RAM address
+
+== T32 ASM ====================================================================
+; ISR
+...
+...
+IFE A, 0x0011                       ; If is a Keyboard Interrupt, call to the
+    CALL keyb_isr                   ; routine to handle it
+...
+...
+RFI
+
+keyb_isr:
+INP B, 0x60                         ; Get the KeyEvent character
+IFC B, 0b1000_0000                  ; Is a Key Up event ?
+    IFG B, 0x20                     ; Is a writable character ?
+       IFLE B, 0x7E                 ; 0x20 >= C <= 0x7E
+            JMP copy_char
+RET
+
+copy_char:                          ; Code that writes on screen a character
+SET.B [cursor], B                   ; Writes the character
+ADD [cursor], 1
+SET.B [cursor], 0x07                ; Sets it White on Black attribute
+ADD [cursor], 1
+RET                                 
+
+cursor: .dd 0xB0000                 ; Cursor points to Video RAM address
 
 
 

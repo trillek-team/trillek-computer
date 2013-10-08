@@ -1,15 +1,10 @@
-Calling convention for RS3200 CPU
+Calling convention for RC3200 CPU
 ---------------------------------
 
-  - r0 to r3 holds th argument values passed to a subrutine, and also holds the
-    results returned from a subrutine.
-  - Subsequent arguments are passed on the stack. Function arguments of a
-    procedural language are pushed in reverse order.
-  - r4 to r29 are used for local variables. Callee subrutine or function must 
-    preserve it,
-  - r30 (BP) register must be preserved being pushed to the stack before the
-    extra arguments. r30 takes the value of r31 (SP) after pushing r30 to the 
-    stack.
+  - r0 to r3 holds th argument values passed to a subrutine, and also holds the results returned from a subrutine.
+  - Subsequent arguments are passed on the stack. Function arguments of a procedural language are pushed in reverse order.
+  - r4 to r29 are used for local variables. Callee subrutine or function must preserve it,
+  - r30 (BP) register must be preserved being pushed to the stack before the extra arguments. r30 takes the value of r31 (SP) after pushing r30 to the stack.
   - Calle function/subrutine can use BP + n to read extra arguments
 
 Example:
@@ -50,18 +45,13 @@ Produces this :
 
 
 
-Calling convention for RS1600 CPU
+Calling convention for RC1600 CPU
 ---------------------------------
 
-  - r0 to r3 holds th argument values passed to a subrutine, and also holds the
-    results returned from a subrutine.
-  - Subsequent arguments are passed on the stack. Function arguments of a
-    procedural language are pushed in reverse order.
-  - r4 to r13 are used for local variables. Callee subrutine orfunction must 
-    preserve it,
-  - r14 (BP) register must be preserved being pushed to teh stack before the
-    extra arguments. In the prolog, r14 takes the value of r15 (SP) after
-    pushing r14 to the stack.
+  - r0 to r3 holds th argument values passed to a subrutine, and also holds the results returned from a subrutine.
+  - Subsequent arguments are passed on the stack. Function arguments of a procedural language are pushed in reverse order.
+  - r4 to r13 are used for local variables. Callee subrutine or function must preserve it,
+  - r14 (BP) register must be preserved being pushed to the stack before the extra arguments. In the prologue, r14 takes the value of r15 (SP) after pushing r14 to the stack.
   - Calle function/subrutine can use BP + n to read extra arguments
 
 Example:
@@ -103,15 +93,10 @@ Produces this :
 Calling convention for T-32 CPU
 -------------------------------
 
-  - A and B registers holds the argument values passed to a subrutine, and also 
-    holds the results returned from a subrutine.
-  - Subsequent arguments are passed on the stack. Function arguments of a
-    procedural language are pushed in reverse order.
-  - C to K are used for local variables. Callee subrutine or function must 
-    preserve it,
-  - BP register must be preserved being pushed to the stack before the
-    extra arguments. BP takes the value of SP after pushing BP to the 
-    stack.
+  - A and B registers holds the argument values passed to a subrutine, and also holds the results returned from a subrutine.
+  - Subsequent arguments are passed on the stack. Function arguments of a procedural language are pushed in reverse order.
+  - C to K are used for local variables. Callee subrutine or function must preserve it,
+  - BP register must be preserved being pushed to the stack before the extra arguments. BP takes the value of SP after pushing BP to the stack.
   - Calle function/subrutine can use BP + n to read extra arguments
 
 Example:
@@ -155,9 +140,16 @@ Produces this :
 ### FAQ
 
 #### Why arguments in reverse order ?
-Reverse order of arguments in stacks allow to access each argument by the same declaration order reading at [BP - n*4] were n is the number of argument minus 3 for the T-32 and minus 5 for RS3200/RS1600 . For example, to read argument 5:
+Reverse order of arguments in stacks allow to access each argument by the same declaration order reading at [BP - n] were n:
 
-RS3200/RS1600 :
+- T-32: n = (Argument number - 3) * 4
+- RC3200:  n = (Argument number - 5) * 4 
+- RC1600:  n = (Argument number - 5) * 2 
+
+ 
+For example, to read argument 5:
+
+RC3200/RC1600 :
 
     LOAD    BP , r5
     

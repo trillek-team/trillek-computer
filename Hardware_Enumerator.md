@@ -63,8 +63,8 @@ Device Class values
 Example of Usage
 ================
 
-Pseudo Code -> Generates arrays with each device information
------------
+### Pseudo Code -> Generates arrays with each device information
+
     byte n_devices
     byte dev_class[255]
     word dev_build[255]

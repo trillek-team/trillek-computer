@@ -60,3 +60,43 @@ Device Class values
 - 0x1C : Sub-FTL Navigational and Engine Systems (Thrusters and Engines)
 - 0x1D : FTL Navigational Systems (Warp Engines)
 
+Example of Usage
+================
+
+### Pseudo Code -> Generates arrays with each device information
+
+    byte n_devices
+    byte dev_class[255]
+    word dev_build[255]
+    word dev_id[255]
+    word dev_ver[255]
+    
+    OUT 0x00, 254
+    OUT 0x00, 255
+    INP [n_devices], 254
+    for i = 0 to n_devices
+        ; Grabs Device class of device X
+        OUT i,    254
+        OUT 0x01, 255
+        INP dev_class[i], 254
+        
+        ; Grabs Device Builder of device X
+        OUT i,    254
+        OUT 0x02, 255
+        INP dev_build[i], 255
+        dev_build[i] = dev_build[i] << 8 
+        INP dev_build[i], 254         
+        
+        ; Grabs Device ID of device X
+        OUT i,    254
+        OUT 0x03, 255
+        INP dev_id[i], 255
+        dev_id[i] = dev_id[i] << 8 
+        INP dev_id[i], 254         
+        
+        ; Grabs Device Version of device X
+        OUT i,    254
+        OUT 0x04, 255
+        INP dev_ver[i], 255
+        dev_ver[i] = dev_ver[i] << 8 
+        INP dev_ver[i], 254    

@@ -110,6 +110,34 @@ Example of Use:
   
 
 Examples:
+== Z-32/Z-16 ASM ==============================================================
+; ISR
+...
+...
+IFE A, 0x0011                       ; If is a Keyboard Interrupt, call to the
+    CALL keyb_isr                   ; routine to handle it
+...
+...
+RFI
+
+keyb_isr:
+INP B, 0x60                         ; Get the KeyEvent character
+IFC B, 0b1000_0000                  ; Is a Key Up event ?
+    IFGE B, 0x20                    ; Is a writable character ?
+       IFLE B, 0x7E                 ; 0x20 >= C <= 0x7E
+            JMP copy_char
+RET
+
+copy_char:                          ; Code that writes on screen a character
+SET [cursor].B, B                   ; Writes the character
+ADD [cursor], 1
+SET [cursor].B, 0x07                ; Sets it White on Black attribute
+ADD [cursor], 1
+RET                                 
+
+cursor: .dd 0xB0000                 ; Cursor points to Video RAM address
+
+
 == RC3200 ASM =================================================================
 ; ISR
 ...
@@ -182,35 +210,6 @@ RET
 
 vram_segment: .dw 0x000B            ; Videoram is at B:0000
 cursor:       .dw 0x0000            ; Cursor points to Video RAM address
-
-== T32 ASM ====================================================================
-; ISR
-...
-...
-IFE A, 0x0011                       ; If is a Keyboard Interrupt, call to the
-    CALL keyb_isr                   ; routine to handle it
-...
-...
-RFI
-
-keyb_isr:
-INP B, 0x60                         ; Get the KeyEvent character
-IFC B, 0b1000_0000                  ; Is a Key Up event ?
-    IFG B, 0x20                     ; Is a writable character ?
-       IFLE B, 0x7E                 ; 0x20 >= C <= 0x7E
-            JMP copy_char
-RET
-
-copy_char:                          ; Code that writes on screen a character
-SET.B [cursor], B                   ; Writes the character
-ADD [cursor], 1
-SET.B [cursor], 0x07                ; Sets it White on Black attribute
-ADD [cursor], 1
-RET                                 
-
-cursor: .dd 0xB0000                 ; Cursor points to Video RAM address
-
-
 
 
 Stuff to read : 

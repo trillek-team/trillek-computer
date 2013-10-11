@@ -91,7 +91,7 @@ Produces this :
             pop     r4              ; restores used r4
             ret
 
-Calling convention for T-32 CPU
+Calling convention for Z-16/Z-32 CPU
 -------------------------------
 
   - A and B registers holds the argument values passed to a subrutine, and also holds the results returned from a subrutine.
@@ -143,7 +143,8 @@ Produces this :
 #### Why arguments in reverse order ?
 Reverse order of arguments in stacks allow to access each argument by the same declaration order reading at [BP - n] were n:
 
-- T-32: n = (Argument number - 3) * 4
+- Z-32: n = (Argument number - 3) * 4
+- Z-16: n = (Argument number - 3) * 2
 - RC3200:  n = (Argument number - 5) * 4 
 - RC1600:  n = (Argument number - 5) * 2 
 
@@ -154,9 +155,13 @@ RC3200/RC1600 :
 
     LOAD    BP , r5
     
-T-32 :
+Z-32 :
 
     SET     Y, [BP - 8]
+    
+Z-16 :
+
+    SET     Y, [BP - 4]
 
 
 

@@ -1,10 +1,10 @@
 Calling convention for RC3200 CPU
 ---------------------------------
 
-  - r0 to r3 holds th argument values passed to a subrutine, and also holds the results returned from a subrutine.
+  - %r0 to %r3 holds th argument values passed to a subrutine, and also holds the results returned from a subrutine.
   - Subsequent arguments are passed on the stack. Function arguments of a procedural language are pushed in reverse order.
-  - r4 to r29 are used for local variables. Callee subrutine or function must preserve it,
-  - r30 (BP) register must be preserved being pushed to the stack before the extra arguments. r30 takes the value of r31 (SP) after pushing r30 to the stack.
+  - %r4 to %r29 are used for local variables. Callee subrutine or function must preserve it,
+  - %r30 (%bp) register must be preserved being pushed to the stack before the extra arguments. %r30 takes the value of %r31 (%sp) after pushing %r30 to the stack.
   - Calle function/subrutine can use BP + n to read extra arguments
 
 Example:
@@ -23,118 +23,24 @@ Example:
 Produces this :
 
     caller:
-            push    r4              ; Prologue. Preserves r4 in the stack
+            push    %r4             ; Prologue. Preserves %r4 in the stack
 
-            push    BP              ; Code that preserves BP and pass the
-            cpy     BP, SP          ; arguments
-            set     r0, 1
-            set     r1, 2
-            set     r2, 3
-            set     r3, 4
-            push    5               ; Fifth argument tothe stack
-            
-            call    callee           
-            sub     SP, 4, SP       ; Code that recovers BP value
-            pop     BP
-            
-            add     r4, 5, r0
-
-            cpy     r0, r4          ; Epilogue. Sets r0 to return value and
-            pop     r4              ; restores used r4
-            ret
-
-
-
-Calling convention for RC1600 CPU
----------------------------------
-
-  - r0 to r3 holds th argument values passed to a subrutine, and also holds the results returned from a subrutine.
-  - Subsequent arguments are passed on the stack. Function arguments of a procedural language are pushed in reverse order.
-  - r4 to r13 are used for local variables. Callee subrutine or function must preserve it,
-  - r14 (BP) register must be preserved being pushed to the stack before the extra arguments. In the prologue, r14 takes the value of r15 (SP) after pushing r14 to the stack.
-  - Calle function/subrutine can use BP + n to read extra arguments
-
-Example:
-
-    int callee(int, int, int, int, int);
-     
-    int caller(void)
-    {
-            register int ret = 0;
-     
-            ret = callee(1, 2, 3, 4, 5);
-            ret += 5;
-            return ret;
-    }
-
-Produces this :
-
-    caller:
-            push    r4              ; Prologue. Preserves r4 in the stack
-
-            push    BP              ; Code that preserves BP and pass the
-            cpy     BP, SP          ; arguments
-            set     r0, 1
-            set     r1, 2
-            set     r2, 3
-            set     r3, 4
+            push    %bp             ; Code that preserves %bp and pass the
+            cpy     %bp, %sp        ; arguments
+            set     %r0, 1
+            set     %r1, 2
+            set     %r2, 3
+            set     %r3, 4
             push    5               ; Fifth argument to the stack
             
             call    callee           
-            sub     SP, 4           ; Code that recovers BP value
-            pop     BP
+            sub     %sp, 4, %sp     ; Code that recovers BP value
+            pop     %bp
             
-            cpy     r4, r0
-            add     r4, 5
+            add     %r4, 5, r0
 
-            cpy     r0, r4          ; Epilogue. Sets r0 to return value and
-            pop     r4              ; restores used r4
-            ret
-
-Calling convention for Z-16/Z-32 CPU
--------------------------------
-
-  - A and B registers holds the argument values passed to a subrutine, and also holds the results returned from a subrutine.
-  - Subsequent arguments are passed on the stack. Function arguments of a procedural language are pushed in reverse order.
-  - C to K are used for local variables. Callee subrutine or function must preserve it,
-  - BP register must be preserved being pushed to the stack before the extra arguments. BP takes the value of SP after pushing BP to the stack.
-  - Calle function/subrutine can use BP + n to read extra arguments
-
-Example:
-
-    int callee(int, int, int, int, int);
-     
-    int caller(void)
-    {
-            register int ret = 0;
-     
-            ret = callee(1, 2, 3, 4, 5);
-            ret += 5;
-            return ret;
-    }
-
-Produces this :
-
-    caller:
-            set     PUSH, C         ; Prologue. Preserves C in the stack
-
-            set     PUSH, BP        ; Code that preserves BP and pass the
-            set     BP, SP          ; arguments
-            set     A, 1
-            set     B, 2
-            set     PUSH, 5         ; Extra arguments in reverse order
-            set     PUSH, 4         ; to the stack
-            set     PUSH, 3
-            
-            call    callee           
-            sub     SP, 4*3         ; Code that recovers BP value
-            set     BP, POP
-            
-            set     C, A
-            add     C, 5
-
-            set     A, C            ; Epilogue. Sets A to return value and
-            set     C, POP          ; restores used C register
+            cpy     %r0, %r4        ; Epilogue. Sets %r0 to return value and
+            pop     %r4             ; restores used %r4
             ret
 
 
@@ -143,25 +49,13 @@ Produces this :
 #### Why arguments in reverse order ?
 Reverse order of arguments in stacks allow to access each argument by the same declaration order reading at [BP - n] were n:
 
-- Z-32: n = (Argument number - 3) * 4
-- Z-16: n = (Argument number - 3) * 2
-- RC3200:  n = (Argument number - 5) * 4 
-- RC1600:  n = (Argument number - 5) * 2 
+        n = (Argument number - 5) * 4 
 
  
-For example, to read argument 5:
+For example, to read argument 5 and 6:
 
-RC3200/RC1600 :
-
-    LOAD    BP , r5
+    LOAD    %bp, %r5                 ; %r5 = Fith argument
+    SUB     %r10, 4, %bp             ; Stores %bp - 4 in %r10
+    LOAD    %r10, %r6                ; %r6 = Sixth argument
     
-Z-32 :
-
-    SET     Y, [BP - 8]
-    
-Z-16 :
-
-    SET     Y, [BP - 4]
-
-
 

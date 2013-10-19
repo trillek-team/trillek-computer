@@ -1,5 +1,6 @@
 HARDWARE DEVICE ENUMERATOR
 ==========================
+Version 0.1 (WIP) 
 
 Device that allow to enumerate the hardware devices connected to the system.
 

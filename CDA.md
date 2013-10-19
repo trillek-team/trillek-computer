@@ -1,5 +1,6 @@
 Color Display Adapter
 =====================
+Version 0.1 (WIP) 
 
 Color Display Monitor that allows to display text modes and graphics modes in color,
 using a 16 fixed color palette.

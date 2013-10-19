@@ -1,5 +1,6 @@
 Speaker Driver
 ================================
+Version 0.1 
 
 The Sepaker Driver consistns in a square wave generator with choosable frecuency
 

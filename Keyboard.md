@@ -1,5 +1,6 @@
 Generic Keyboard
 ================
+Version 0.1 (WIP) 
 
 Generic Compatible Keyboard of RC3200 systems. Handles an internal buffer to
 store key events.

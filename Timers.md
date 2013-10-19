@@ -1,5 +1,6 @@
 Programmable Interval Timer (PIT)
 ================================
+Version 0.1 (WIP) 
 
 The Programmable Interval Timer includes two 32 bit timers capable of generating
 a interrupt to the CPU. Allows precise timings and periodic interrupts.

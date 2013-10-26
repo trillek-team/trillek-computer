@@ -86,6 +86,8 @@ In text modes, the Text Area uses a word per screen glyph. In each word, is
 defined the font glyph to use and the background/foreground color attributes.
 The first word in the Text Area is the character at row 0, column 0. The next
 word is the character at row 0, column 1, etc.
+Formula : address = base address + (column % MAX_COLUMNS)*2 + (MAX_COLUMNS*2* row)
+Were MAX_COLUMNS = 40 or 80 depending of what text mode is.
 
 The format of each word is (Little Endian format):
 

@@ -48,7 +48,7 @@ Produces this (notice that is not optimiced code for clarity) :
             sub     %sp, 4, %sp     ; Code that recovers BP value
             pop     %bp
             
-            add     %r4, 5, r0
+            add     %r4, %r0, 5     ; ret += 5
 
             cpy     %r4, %r0        ; Epilogue. Sets %r0 to return value and
             pop     %r4             ; restores used %r4
@@ -63,7 +63,7 @@ Produces this (notice that is not optimiced code for clarity) :
             add     %r4, %r2, %r4   ; tmp += c
             add     %r4, %r3, %r4   ; tmp += d
 
-            load    %bp, %r5        ; Reads e and puts in a local var
+            load    %r5, %bp        ; Reads e and puts in a local var
             add     %r4, %r5, %r4   ; tmp += e
 
             cpy     %r4 , %r0       ; Epilogue. Sets %r0 to the return value
@@ -81,9 +81,9 @@ Reverse order of arguments in stacks allow to access each argument by the same d
  
 For example, to read argument 5, 6 and 7:
 
-    LOAD    %bp, %r5                 ; %r5 = Fith argument
-    LOAD    %bp + 4, %r6             ; %r6 = Sixth argument
-    LOAD    %bp + 8, %r7             ; %r6 = Seventh argument
+    LOAD    %r5, %bp                 ; %r5 = Fith argument
+    LOAD    %r6, %bp + 4             ; %r6 = Sixth argument
+    LOAD    %r7, %bp + 8             ; %r6 = Seventh argument
 
 #### Where I put local vars if i noit have enought registers
 If you exaust the registers %r4 to %r29 for local vars, the calle function can
@@ -102,7 +102,7 @@ For example, a 32 bit interger var in the stack :
 
     ... code of the funtion
     STORE   %bp - 4 , %r5            ; Example of writing to the local var in stack
-    LOAD    %bp - 4 , %r5            ; Example of reading the local var in stack
+    LOAD    %r5, %bp - 4             ; Example of reading the local var in stack
     ... code of the function
 
     ; Epilogue

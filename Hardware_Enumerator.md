@@ -1,6 +1,6 @@
 HARDWARE DEVICE ENUMERATOR
 ==========================
-Version 0.1 (WIP) 
+Version 0.1a (WIP) 
 
 Device that allow to enumerate the hardware devices connected to the system.
 
@@ -36,13 +36,9 @@ Write a value at **HWN_CMD** register to:
     |       |             | the device xx attached. Will be 0 is xx correspond to a  |
     |       |             | not attached device.                                     |
     |-------+-------------+----------------------------------------------------------|
-    |0x1yxx | SET-JMP-1   | Set jumper 1 of device xx to the value y (0 to 15)       |
+    |0x10xx | GET-JMP-1   | Reading HWN_INFO, returns the jumper 1 value of device xx|
     |-------+-------------+----------------------------------------------------------|
-    |0x2yxx | SET-JMP-2   | Set jumper 2 of device xx to the value y (0 to 15)       |
-    |-------+-------------+----------------------------------------------------------|
-    |0x31xx | GET-JMP-1   | Reading HWN_INFO, returns the jumper 1 value of device xx|
-    |-------+-------------+----------------------------------------------------------|
-    |0x32xx | GET-JMP-2   | Reading HWN_INFO, returns the jumper 2 value of device xx|
+    |0x20xx | GET-JMP-2   | Reading HWN_INFO, returns the jumper 2 value of device xx|
     |-------+-------------+----------------------------------------------------------|
            
            
@@ -50,6 +46,7 @@ The quadruple of {Class, Builder, ID, Version}, identify a **single specific har
  . A device with the same {Class, Builder, ID} but different Version, is expect to share some kind backwards compatibility. 
  
 The value Jumpers 1 and 2 allows, if the device implements it, to change the device configuration of resources used.
+Jumpers are set physicalily in the device board.
 
 Device Class values
 -------------------

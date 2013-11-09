@@ -92,14 +92,14 @@ The format of each word is (Little Endian format):
 
 - gggggggg Chooses one of the 256 glyphs in the font
 - fff Chooses the foreground color from the palette
-- F Sets if the foreground color is bright or not
+- F Sets if the foreground color is bright or not, could be Blink attribute is bit 5 of SETUP is on.
 - bbb Chooses the background color from the palette
-- B Sets if the background color is bright or not, Could be Blink attribute is bit 5 of SETUP is on.
+- B Sets if the background color is bright or not.
 
 The color palette is :
 
-- 0  <span style="background-color:#000000;">&nbsp;&nbsp;</span> Black
-- 1  <span style="background-color:#0000CD;">&nbsp;&nbsp;</span>  Dark Blue
+- 0  <span style="background-color:#000000;">&nbsp;&nbsp;a</span> Black
+- 1  <span style="background-color:#0000CD;">&nbsp;&nbsp;</span> Dark Blue
 - 2  <span style="background-color:#00CD00;">&nbsp;&nbsp;</span> Dark Green
 - 3  <span style="background-color:#00CDCD;">&nbsp;&nbsp;</span> Dark Cyan
 - 4  <span style="background-color:#CD0000;">&nbsp;&nbsp;</span> Dark Red
@@ -110,11 +110,11 @@ The color palette is :
 With the bright bite enable, the colors are :
 
 - 0  <span style="background-color:#555555;">&nbsp;&nbsp;</span> Dark Gray 
-- 1  <span style="background-color:#0000FF;">&nbsp;&nbsp;</span>  Blue
-- 2  <span style="background-color:#00FF00;">&nbsp;&nbsp;</span>  Green
-- 3  <span style="background-color:#00FFFF;">&nbsp;&nbsp;</span>  Cyan
-- 4  <span style="background-color:#FF0000;">&nbsp;&nbsp;</span>  Red
-- 5  <span style="background-color:#FF00FF;">&nbsp;&nbsp;</span>  Magenta
+- 1  <span style="background-color:#0000FF;">&nbsp;&nbsp;</span> Blue
+- 2  <span style="background-color:#00FF00;">&nbsp;&nbsp;</span> Green
+- 3  <span style="background-color:#00FFFF;">&nbsp;&nbsp;</span> Cyan
+- 4  <span style="background-color:#FF0000;">&nbsp;&nbsp;</span> Red
+- 5  <span style="background-color:#FF00FF;">&nbsp;&nbsp;</span> Magenta
 - 6  <span style="background-color:#FFFF00;">&nbsp;&nbsp;</span> Yellow
 - 7  <span style="background-color:#FFFFFF">&nbsp;&nbsp;</span> White
 

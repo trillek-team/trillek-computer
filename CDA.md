@@ -1,6 +1,6 @@
 Color Display Adapter
 =====================
-Version 0.3 (WIP) 
+Version 0.3a (WIP) 
 
 Color Display Adapter (CDA) device that allows to display text modes and graphics modes in color, using a 16 programmable color palette.
 
@@ -68,10 +68,10 @@ Interrupt. SETUP register format :
 ### Video modes
 Bits 3 to 0 of SETUP register :
 
-- 0 000 : Video Mode 0  40x30 Text mode without border
-- 1 000 : Video Mode 8  256x192 Gaphics mode, 8x8 Attribute cell, with border
-- 1 001 : Video Mode 9  256x192 Gaphics mode, 4x4 Attribute cell, with border
-- 1 010 : Video Mode 10 320x240 Graphics mode, B&W, without border.
+- 0 000 : Text  Mode 0  40x30 Text mode without border
+- 1 000 : Video Mode 0  256x192 Gaphics mode, 8x8 Attribute cell, with border
+- 1 001 : Video Mode 1  256x192 Gaphics mode, 4x4 Attribute cell, with border
+- 1 010 : Video Mode 2 320x240 Graphics mode, B&W, without border.
 - Rest are reserved for future compatible video adapters.
 
 ### Text mode
@@ -141,7 +141,7 @@ of a row of 8 pixels, and the MSB bit defines the last pixel of the same row.
 The first byte in the Frame Buffer defines the first row of 8 pixels in the
 screen, pixels from (0,0) to (7,0).
 
-#### Mode 8 and 9
+#### Mode 0 and 1
 
 In the **Video Mode 8 and 9** the first line of the screen, (0,0) to (255,0), is defined
 by the first 32 bytes of the Frame Buffer, the next line is defined by the next 32 bytes, etc.... Each line uses 32 bytes, so the full screen uses
@@ -150,7 +150,7 @@ by the first 32 bytes of the Frame Buffer, the next line is defined by the next 
 Formula : pixel address (X,Y) = video ram address + ((X % 256)/8) + (256 * Y / 8)
           pixel bit (X) = X%8
 
-The foreground and background colors are defined for 8x8 cells in mode 8, 4x4 cells in mode 9 just before the bitplane. Each byte of this area defines the foreground and background colors of each cell on the screen. Uses the same color format that the Text Mode attributes. The first Byte defines the cell (0,0), the next byte, defines the cell (1,0), etc.
+The foreground and background colors are defined for 8x8 cells in mode 0, 4x4 cells in mode 1 just before the bitplane. Each byte of this area defines the foreground and background colors of each cell on the screen. Uses the same color format that the Text Mode attributes. The first Byte defines the cell (0,0), the next byte, defines the cell (1,0), etc.
 
 With 8x8 cells :
 
@@ -180,28 +180,28 @@ With 4x4 cells :
        | | | | | | | | | | | | | | | | | 
     (0,47) ------------------------ (63,47)
 
-In Mode 8 :
+Formula for Mode 0 :
 
 pixel attribute address (X,Y) = video ram address + 6144 + ((X % 256)/8) + (256 * Y / 8)/8
 
-In Mode 9 :
+Formula for Mode 1 :
 
 pixel attribute address (X,Y) = video ram address + 6144 + ((X % 256)/4) + (256 * Y / 4)/4
 
-In addition, mode 8 and mode 9 have a border around the active screen. This border fills the screen to a 320x240 rectangle, giving borders of 32x24 pixels. The color of the border are defined by the four LSB bits of the byte just
+In addition, mode 0 and mode 1 have a border around the active screen. This border fills the screen to a 320x240 rectangle, giving borders of 32x24 pixels. The color of the border are defined by the four LSB bits of the byte just
 before of the attribute ram.
 
-In Mode 8 :
+Formula for Mode 0 :
 
 border color address = video ram address + 6912 
 
-In Mode 9 :
+Formula for Mode 1 :
 
 border color address = video ram address + 9216 
 
-#### Mode 10
+#### Mode 2
 
-In the **Video Mode 10** the first line of the screen, (0,0) to (319,0), is defined
+In the **Video Mode 2** the first line of the screen, (0,0) to (319,0), is defined
 by the first 40 bytes of the Frame Buffer, the next line is defined by the next 40 bytes, etc... Each line uses 40 bytes, so the full screen uses 
 320x240/8 = 9600 bytes
 
@@ -238,16 +238,16 @@ If the bit 6 is not enabled, then the default palette is used. The default color
 
 ## Memory Maps
 
-### Mode 0 : Text mode of 40x30
+### Text Mode 0 : 40x30
 
     |-----------------------------------------------------------------------------|
     |                                  |          |                               |
     |            Text buffer           | Palette  |          User Font            |
     |                                  |          |                               |
     |----------------------------------|----------|-------------------------------|
-    Base Address                   +0x4B0       +0x4DB                       +0xCDB
+    Base Address                   +0x960       +0x990                      +0x1190
 
-### Mode 8 : Graphics mode of 256x192 with 8x8 attribute cells
+### Video Mode 0 : 256x192 with 8x8 attribute cells
 
     |-----------------------------------------------------------------------------|
     |                               |      Attribute      |   Border   |          |
@@ -256,7 +256,7 @@ If the bit 6 is not enabled, then the default palette is used. The default color
     |-------------------------------|---------------------|------------|----------|
     Base Address                +0x1800               +0x1B00      +0x1B01  +0x1B31
 
-### Mode 9 : Graphics mode of 256x192 with 4x4 attribute cells
+### Video Mode 1 : 256x192 with 4x4 attribute cells
 
     |-----------------------------------------------------------------------------|
     |                               |      Attribute      |   Border   |          |
@@ -265,7 +265,7 @@ If the bit 6 is not enabled, then the default palette is used. The default color
     |-------------------------------|---------------------|------------|----------|
     Base Address                +0x1800               +0x2400      +0x2401  +0x2431
 
-### Mode 10 : B&W Graphics mode of 320x240 
+### Video Mode 2 : 320x240 B&W 
 
     |-------------------------------|
     |                               |

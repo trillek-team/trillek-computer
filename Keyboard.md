@@ -95,6 +95,7 @@ Key codes are:
 If the return value is 0, then means that the buffer is empty.
 
 Status byte format:
+
     8  7  6  5  4  3  2  1  0
     -------------------------
     |      not used      |  C

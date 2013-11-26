@@ -1,6 +1,6 @@
 Generic Keyboard
 ================
-Version 0.1 (WIP) 
+Version 0.2 (WIP) 
 
 Generic Compatible Keyboard of RC3200 systems. Handles an internal buffer to
 store key events.
@@ -106,15 +106,16 @@ Where:
 
 ### Status LEDs
 A keyboard must have at least this LED state: Caps Locks Enable.
+The Statues leds can bet set on/off writing to KEY_STATUS register.
 
 ### Key code events buffer
 The buffer can store at least 64 keyevents. Each time that a key is pressed 
 or released, the appropriate key code event is pushed to the buffer.
-The buffer operates in FIFO mode, in addition if the buffer is filled, then
-the oldest key code stored is deleted.
-Reading at port 0x60, extracts the oldest keyevent in the buffer(POP buffer).
-Writing at Port 0x60, push a keyevent at the begin of the buffer (PUSH 
-buffer), acting like a LIFO buffer. Writing at port 0x60 can be used to
+The buffer operates in FIFO mode, in addition if the buffer is filled not 
+new keyevents will be store, requiring to PUSH a keyevent at least or cleaning the buffer.
+Reading KEY_REG, extracts the oldest keyevent in the buffer(POP buffer).
+Writing KEY_REG, push a keyevent at the begin of the buffer (PUSH 
+buffer), acting like a LIFO buffer. Writing at KEY_REG can be used to
 simulate keyboard events by some programs or allow to intercept keyevents to
 the OS.
 
@@ -143,7 +144,8 @@ a key is pressed/released at same time that Shift key is being keep pressed.
 When Caps Locks key is pressed, the keyboard enters in Caps Locks mode. The 
 next time that the Caps Lock key is pressed, then the keyboard leaves the 
 mode. In Caps Locks mode, the Caps Locks Enable status LED is set to On, and 
-when leaves this mode, is set to Off. 
+when leaves this mode, is set to Off. Also writing to KEY_STATUS can activate 
+or desactivate Caps Locks mode.
 
 
 Example of Use

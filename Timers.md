@@ -1,6 +1,6 @@
 Programmable Interval Timer (PIT)
 ================================
-Version 0.1 (WIP) 
+Version 0.1a (WIP) 
 
 The Programmable Interval Timer includes two 32 bit timers capable of generating
 a interrupt to the CPU. Allows precise timings and periodic interrupts.
@@ -9,8 +9,8 @@ Uses an internal precision clock of 100KHz as clock base time.
 RESOURCES
 ---------
 
-- Interrupt Message = 0x00000000 if TMR0 does underflow
-- Interrupt Message = 0x00000100 if TMR0 does underflow
+- Interrupt Message = 0x00000001 if TMR0 does underflow
+- Interrupt Message = 0x00001001 if TMR1 does underflow
 - Address 0xFF000040 (Read word): TMR0_VAL
 - Address 0xFF000040 (Write word): TMR0_RELOAD
 - Address 0xFF000044 (Read word): TMR1_VAL

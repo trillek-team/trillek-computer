@@ -12,9 +12,9 @@ RESOURCES
 - Interrupt Message = 0x00000001 if TMR0 does underflow
 - Interrupt Message = 0x00001001 if TMR1 does underflow
 - Address 0xFF000040 (Read word): TMR0_VAL
-- Address 0xFF000040 (Write word): TMR0_RELOAD
+- Address 0xFF000042 (Write word): TMR0_RELOAD
 - Address 0xFF000044 (Read word): TMR1_VAL
-- Address 0xFF000044 (Write word): TMR1_RELOAD
+- Address 0xFF000046 (Write word): TMR1_RELOAD
 - Address 0xFF000048 (Write/Read byte): TMR_CFG
 
 

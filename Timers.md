@@ -1,21 +1,21 @@
 Programmable Interval Timer (PIT)
 ================================
-Version 0.1 (WIP) 
+Version 0.1a (WIP) 
 
 The Programmable Interval Timer includes two 32 bit timers capable of generating
 a interrupt to the CPU. Allows precise timings and periodic interrupts.
-Uses an internal precision clock of 100KHz as clock base time.
+Uses CPU clock as source.
 
 RESOURCES
 ---------
 
-- Interrupt Message = 0x00000000 if TMR0 does underflow
-- Interrupt Message = 0x00000100 if TMR0 does underflow
-- Address 0xFF000040 (Read word): TMR0_VAL
-- Address 0xFF000040 (Write word): TMR0_RELOAD
-- Address 0xFF000044 (Read word): TMR1_VAL
-- Address 0xFF000044 (Write word): TMR1_RELOAD
-- Address 0xFF000048 (Write/Read byte): TMR_CFG
+- Interrupt Message = 0x00000001 if TMR0 does underflow
+- Interrupt Message = 0x00001001 if TMR1 does underflow
+- Address 0xFF000040 (Read dword): TMR0_VAL
+- Address 0xFF000044 (Write dword): TMR0_RELOAD
+- Address 0xFF000048 (Read word): TMR1_VAL
+- Address 0xFF00004C (Write word): TMR1_RELOAD
+- Address 0xFF000050 (Write/Read byte): TMR_CFG
 
 
 OPERATION
@@ -49,7 +49,7 @@ Writing at TMRx_RELOAD, overwrites TMRx_VAL with the same value.
 
 The operation of each Timer, allow to work as frequency divisor setting
 TMRx_RELOAD to the appropriated value. For example, to obtain periodic interrupts
-each second (1Hz) in Timer 0, you only need to set bit 0 and bit 1 in TMR_CFG
+each second (1Hz) in Timer 0 with a CPU of 100KHz you only need to set bit 0 and bit 1 in TMR_CFG
 to 1, and set TMR0_RELOAD to 100000. To get a periodic interruption of the Timer
 1 at a rate of 20Hz, you only need to set bit 4 and 5 to 1, and set TMR1_RELOAD
 to 5000.

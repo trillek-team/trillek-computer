@@ -1,14 +1,15 @@
 Generic Keyboard
 ================
-Version 0.2 (WIP) 
+Version 0.3 (WIP) 
 
 Generic Compatible Keyboard of RC3200 systems. Handles an internal buffer to
 store key events.
 
-Device Class    : 0x03 (HID)
-Device Build    : 0xXXXX
-Device ID       : 0x0001 (Generic Keyboard)
-Device Version  : 0xXXXX
+- Device Class    : 0x03 (HID)
+- Device Build    : 0xXXXX
+- Device ID       : 0x0001 (Generic Keyboard)
+- Device Version  : 0xXXXX
+
 
 Jumper 1 acepts values from 0 to 3
 
@@ -17,37 +18,42 @@ RESOURCES
 
 ### Jumper 1 = 0
 
-- Interrupt Message = 0x00000009
-- Address 0xFF000060 (Read/Write byte): KEY_REG
-- Address 0xFF000061 (Read/Write byte): KEY_STATUS
-- Address 0xFF000062 (Write byte): KEY_CMD
+- KeyDown Interrupt Message = 0x00000009
+- KeyUp Interrupt Message = 0x00000109
+- Address 0xFF000060 (Read/Write word): KEY_REG
+- Address 0xFF000062 (Read/Write byte): KEY_STATUS
+- Address 0xFF000063 (Write byte): KEY_CMD
 
 ### Jumper 1 = 1
 
-- Interrupt Message = 0x00000109
-- Address 0xFF000160 (Read/Write byte): KEY_REG
-- Address 0xFF000161 (Read/Write byte): KEY_STATUS
-- Address 0xFF000162 (Write byte): KEY_CMD
+- KeyDown Interrupt Message = 0x00001009
+- KeyUp Interrupt Message = 0x00001109
+- Address 0xFF000160 (Read/Write word): KEY_REG
+- Address 0xFF000162 (Read/Write byte): KEY_STATUS
+- Address 0xFF000163 (Write byte): KEY_CMD
 
 ### Jumper 1 = 2
 
-- Interrupt Message = 0x00000209
-- Address 0xFF000260 (Read/Write byte): KEY_REG
-- Address 0xFF000261 (Read/Write byte): KEY_STATUS
-- Address 0xFF000262 (Write byte): KEY_CMD
+- KeyDown Interrupt Message = 0x00002009
+- KeyUp Interrupt Message = 0x00002109
+- Address 0xFF000260 (Read/Write word): KEY_REG
+- Address 0xFF000262 (Read/Write byte): KEY_STATUS
+- Address 0xFF000263 (Write byte): KEY_CMD
 
 ### Jumper 1 = 3
 
-- Interrupt Message = 0x00000309
-- Address 0xFF000360 (Read/Write byte): KEY_REG
-- Address 0xFF000361 (Read/Write byte): KEY_STATUS
-- Address 0xFF000362 (Write byte): KEY_CMD
+- KeyDown Interrupt Message = 0x00003009
+- KeyUp Interrupt Message = 0x00003109
+- Address 0xFF000360 (Read/Write word): KEY_REG
+- Address 0xFF000362 (Read/Write byte): KEY_STATUS
+- Address 0xFF000363 (Read/Write byte): KEY_CMD
 
 OPERATION
 ---------
 
 Reading at KEY_REG, gets the last keyevent.
 Reading at KEY_STATUS, gets the status byte.
+Reading value from KEY_CMD depends of the command.
 
 Writing at KEY_REG, push a keyevent to the keyboard buffer
 Writing at KEY_STATUS, sets the status byte.
@@ -56,18 +62,22 @@ Writing at KEY_CMD, sends a command to the keyboard:
      VALUE |  NAME      | BEHAVIOUR
     -------+------------+----------------------------------------------------------
       0x00 | CLEAR      | Clear keyboard buffer
-      0x01 | D-INTERRUPT| Disables interrupts
-      0x02 | E-INTERRUPT| Enables interrupts
+      0x01 | COUNT      | Reading KEY_CMD returns the number of keyevents stored in
+           |            | the buffer when the command is send.
+      0x02 | D-INT-DOWN | Disables interrupt when a Key Down hapens
+      0x03 | E-INT-DOWN | Enables interrupts when a Key Down hapens
+      0x04 | D-INT-UP   | Disables interrupts when a Key Up hapens
+      0x05 | E-INT-UP   | Enables interrupts when a Key Up hapens
     -------+------------+----------------------------------------------------------
 
 When interrupts are enabled, the keyboard will trigger an interrupt when one or
 more keys have been pressed or released.
 
-Keyevent Format:
+KeyEvent Format:
 
-    8  7  6  5  4  3  2  1  0
-    -------------------------
-    A  k  k  k  k  k  k  k  k
+    15 14 13 12 11 10 9  8  7  6  5  4  3  2  1  0
+    ----------------------------------------------
+    |     not used    |  A  k  k  k  k  k  k  k  k
 
 Where :
 
@@ -113,11 +123,10 @@ The buffer can store at least 64 keyevents. Each time that a key is pressed
 or released, the appropriate key code event is pushed to the buffer.
 The buffer operates in FIFO mode, in addition if the buffer is filled not 
 new keyevents will be store, requiring to PUSH a keyevent at least or cleaning the buffer.
-Reading KEY_REG, extracts the oldest keyevent in the buffer(POP buffer).
+Reading KEY_REG LSB, extracts the oldest keyevent in the buffer (POP buffer).
 Writing KEY_REG, push a keyevent at the begin of the buffer (PUSH 
 buffer), acting like a LIFO buffer. Writing at KEY_REG can be used to
-simulate keyboard events by some programs or allow to intercept keyevents to
-the OS.
+simulate keyboard events by some programs or allow to the OS intercept keyevents.
 
 
     PUSH inserts here          

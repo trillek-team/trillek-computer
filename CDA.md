@@ -5,7 +5,7 @@ Version 0.3a (WIP)
 Color Display Adapter (CDA) device that allows to display text modes and graphics modes in color, using a 16 programmable color palette.
 
 - Allowed Text modes : 40x30
-- Allowed Graphics modes : 256x192 and 320x200
+- Allowed Graphics modes : 256x192 and 320x240
 
 Text modes uses a 8x8 pixel glyph cells, and the user can define a user Font.
 Graphics modes, uses a bit plane to set a pixel between foreground and

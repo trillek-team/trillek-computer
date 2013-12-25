@@ -1,6 +1,6 @@
 Generic Keyboard
 ================
-Version 0.3 (WIP) 
+Version 0.4 (WIP) 
 
 Generic Compatible Keyboard of RC3200 systems. Handles an internal buffer to
 store key events.
@@ -52,11 +52,11 @@ OPERATION
 ---------
 
 Reading at KEY_REG, gets the last keyevent.
-Reading at KEY_STATUS, gets the status byte.
+Reading at KEY_STATE, gets the state byte.
 Reading value from KEY_CMD depends of the command.
 
 Writing at KEY_REG, push a keyevent to the keyboard buffer
-Writing at KEY_STATUS, sets the status byte.
+Writing at KEY_STATE, sets the state byte.
 Writing at KEY_CMD, sends a command to the keyboard:
 
      VALUE |  NAME      | BEHAVIOUR
@@ -77,16 +77,21 @@ KeyEvent Format:
 
     15 14 13 12 11 10 9  8  7  6  5  4  3  2  1  0
     ----------------------------------------------
-    |     not used    |  A  k  k  k  k  k  k  k  k
+    | unused |  G  C  S  A  k  k  k  k  k  k  k  k
 
-Where :
+Where : 
 
+ - G (Alt Gr mod) If the bit is set to 1, this means that the Alt Gr Key is being pressed at same time
+ - C (Control mod) If the bit is set to 1, this means that the Control Key is being pressed at same time
+ - S (Shift mod) If the bit is set to 1, this means that the Shift Key is being pressed at same time
  - A (Action Bit) If the bit is at 1, this means that key is being pressed 
      (Key Down). If is 0, means that the key was released (Key Up).
- - kkkkkkkk Key code of the key pressed or released 
+ - kkkkkkkk Key code (scan code) of the key pressed or released 
 
 Key codes are:
 
+- 0x05: Delete
+- 0x06: Alt Graphics
 - 0x08: Backspace
 - 0x09: Tabulator
 - 0x0D: Return
@@ -97,14 +102,29 @@ Key codes are:
 - 0x13: Arrow down
 - 0x14: Arrow left
 - 0x15: Arrow right
-- 0x1B: Escape/Break
-- 0x20-0x7E: ASCII characters
-- 0x7F: Delete
+- 0x1B: Escape
+- 0x20: Spacebar
+- 0x27: Apostrophe (' ")
+- 0x2C: Comma (, < )
+- 0x2D: Minus (- _)
+- 0x2E: Period (. >)
+- 0x2F: Slash (/ ?)
+- 0x30-0x39: Decimal digits (0-9)
+- 0x3A: Semicolon (; :)
+- 0x3B: Equal (= +)
+- 0x41-0x5A: Latin characters (A to Z)
+- 0x5B: Left Bracket ([ {)
+- 0x5C: Backslash (\ |)
+- 0x5D: Right Bracket (] {)
+- 0x60: Grave Accent (` ~)
+- 0xFF: Unknow key
 - Other values: Reserved for advanced keyboards or localized keyboards
+
+This represent the keys of a US keyboard layout.
 
 If the return value is 0, then means that the buffer is empty.
 
-Status byte format:
+State byte format:
 
     8  7  6  5  4  3  2  1  0
     -------------------------

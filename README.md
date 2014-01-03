@@ -105,4 +105,4 @@ DOCUMENTS
 
 REFERENCE IMPLEMENTATION
 ------------------------
-See [TR3200-VM](https://github.com/Zardoz89/RR3200-VM). Also, can run in you [browser](http://cpu.zardoz.es).
+See [TR3200-VM](https://github.com/Zardoz89/TR3200-VM). Also, can run in you [browser](http://cpu.zardoz.es).

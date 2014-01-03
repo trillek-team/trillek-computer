@@ -1,4 +1,4 @@
-Calling convention for RC3200 CPU
+Calling convention for TR3200 CPU
 =================================
 Version 0.2 (WIP)
 
@@ -6,8 +6,9 @@ Version 0.2 (WIP)
   the results returned from a subrutine.
 - Subsequent arguments are passed on the stack. Function arguments of a 
   procedural language are pushed in reversed order that are declared.
-- %r4 to %r29 are used for local variables. Callee subrutine or function must 
-  preserve it,
+- %r4 to %r26 are used for local variables. Callee subrutine or function must 
+  preserve it.
+- %y, %ia and %flags special registers must be preserved.
 - %r30 (%bp) register must be preserved being pushed to the stack before the 
   extra arguments. %r30 takes the value of %r31 (%sp) after pushing the extra
   arguments.
@@ -86,7 +87,7 @@ For example, to read argument 5, 6 and 7:
     LOAD    %r7, %bp + 8             ; %r6 = Seventh argument
 
 #### Where I put local vars if i noit have enought registers
-If you exaust the registers %r4 to %r29 for local vars, the calle function can
+If you exaust the registers %r4 to %r2i6 for local vars, the calle function can
 use the stack to store local vars. Only need, in the end of prologue, to 
 substract to %sp a value to give space in the stack and restore the %sp value 
 in the epilogue.

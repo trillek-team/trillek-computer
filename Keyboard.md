@@ -2,7 +2,7 @@ Generic Keyboard
 ================
 Version 0.4 (WIP) 
 
-Generic Compatible Keyboard of RC3200 systems. Handles an internal buffer to
+Generic Compatible Keyboard device. Handles an internal buffer to
 store key events.
 
 - Device Class    : 0x03 (HID)

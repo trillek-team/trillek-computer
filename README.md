@@ -35,7 +35,7 @@ that is controllable by software. There is a special integrated device, the **Ha
 
 ### Interrupts
 
-As can you read in the RC3200 CPU specs, only can accept a single interrupt 
+As can you read in the TR3200 CPU specs, only can accept a single interrupt 
 petition. To handle simultaneous interrupts, we daisy chain the IACQ and INT signals between devices, so the most nearly device to the CPU (lowest slot number) have preference over the rest.
 
 
@@ -94,7 +94,7 @@ to generate square wave sound.
 DOCUMENTS
 ---------
 
-- [RC3200 CPU](./RC3200.md)
+- [TR3200 CPU](./TR3200.md)
 - [Hardware Enumeration](./Hardware_Enumeration.md)
 - [Programmable Interval Timer](./Timers.md) (aka Timer or Clock)
 - [Speaker](./Speaker.md)
@@ -105,4 +105,4 @@ DOCUMENTS
 
 REFERENCE IMPLEMENTATION
 ------------------------
-See [RC3200-VM](https://github.com/Zardoz89/RC3200-VM)
+See [TR3200-VM](https://github.com/Zardoz89/RR3200-VM). Also, can run in you [browser](http://cpu.zardoz.es).

@@ -1,9 +1,9 @@
-RC3200 SHEET
+TR3200 SHEET
 ============
 
-Cheat sheet that compares assembly of RC3200 v0.7 vs DCPU-16 v1.7 
+Cheat sheet that compares assembly of TR3200 v0.8 vs DCPU-16 v1.7 
 
-## DCPU-16 - RC3200 Registers equivalence:
+## DCPU-16 - TR3200 Registers equivalence:
     
 - A   -> %r0
 - B   -> %r1
@@ -13,17 +13,28 @@ Cheat sheet that compares assembly of RC3200 v0.7 vs DCPU-16 v1.7
 - Z   -> %r5
 - I   -> %r6
 - J   -> %r7
-- SP  -> %sp = %r15
+- SP  -> %sp = %r31
 - PC  -> %pc
 - EX  -> CF bit in %flags and %y for multiplications
 
-%r8 to %r13 and %r16 to %r31 could be uses as temporal variable without penalty
-%r14 = %bp is asociated to stack allocation and function arguments, but can be 
-used as a regualr register.
+%r8 to %r13 and %r16 to %r26 could be uses as temporal variable without penalty
+%r30 = %bp is asociated to stack allocation and function arguments, but can be 
+used as a regular register.
+
+## Intruction syntax
+
+The usual format : 
+
+		INTR Op1, Op2, Op3 
+
+Follow this logic:
+		
+- Op1 : Were to put the result
+- Op2 and Op3 : Input values
 
 ## Addresing modes and ALU operations comparation
 
-    DCPU-16                                                                  RC3200
+    DCPU-16                                                                  TR3200
     -------------------------------------------------------------------------------
     SET  [A], B                                                       LOAD %r0, %r1
     
@@ -58,22 +69,19 @@ used as a regualr register.
 
 
     ; B = B + A
-    ADD B, A                                                      ADD %r1, %r0, %r1
-                                               or ADD %r0, %r1 (pseudo instruction)
+    ADD B, A                                                      ADD %r1, %r1, %r0
+                                               or ADD %r1, %r0 (pseudo instruction)
     
     ; C = B + A
-    SET PUSH, B                                                   ADD %r1, %r0, %r2
-    ADD B, A
-    SET C, B
-    SET B, POP
-
+    SET C, B                                                   ADD %r2, %r1, %r0
+    ADD C, A
 
     ; *B = *A
-    SET [B], [A]                                                     LOAD %r0, %r10
+    SET [B], [A]                                                     LOAD %r10, %r0
                                                                     STORE %r1, %r10
 
     ; *(B++) = *(A++)
-    STI [I], [J]                                                     LOAD %r7, %r10
+    STI [I], [J]                                                     LOAD %r10, %r7
                                                                     STORE %r6, %r10
                                                                     ADD %r6, 1, %r6
                                                                     ADD %r7, 1, %r7

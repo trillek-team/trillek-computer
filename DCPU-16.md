@@ -1,12 +1,12 @@
 DCPU-16 Specification
 =====================
 
-Version 2.0 (WIP)
+Version 2.0a (WIP)
 
 SUMMARY
 =======
 
-* 16 bit words and bytes
+* 16 bit CPU
 * 32 bit address space
 * 8 generic purpose registers (A, B, C, X, Y, Z, I, J)
 * 4 segment selector registers (PS, DS, SS, IS)
@@ -19,16 +19,24 @@ In this document, anything within [brackets] is shorthand for "the value of the
 RAM at the location of the value inside the brackets". For example, A means the 
 value of A register, but [A] means the value of the RAM at the location that 
 points (DS << 16) | A. Also anything i nthe form [bar:foo] means that is the 
-value of the RAM at the location that points (barr << 16) | foo . So the previus example could be write as [DS:A]. Also in the notation we will use BYTES and WORDS for 
-16 bit values and DWORDs for 32 bit values.
+value of the RAM at the location that points (barr << 16) | foo . So the previus 
+example could be write as [DS:A]. Also in the notation we will use BYTES for 8 
+bit values, WORDS for 16 bit values and DWORDs for 32 bit values.
 
-Whenever the CPU needs to read a word, it reads [PS:PC], then increases PC by one.
-Shorthand for this is [PS:PC++]. In some cases, the CPU will modify a value before
-reading it, in this case the shorthand is [PS:++PC].
+Whenever the CPU needs to read an instruction, it reads [PS:PC], then increases 
+PC by two as every instrucction is 16 bit wide. Shorthand for this is [PS:PC+2].
+In some cases, the CPU will modify a value before [U:++V] or [U:--V]were U is a Segment 
+register and V is a register. 
+When we say that the DCPU-16 Push a value to the Stack, writes these value at 
+[SS:--SP]. When we say that TR3200 Pops a value from the stack, reads a value 
+from [SS:SP++]. Remember that we work with 16 bit values in Little Endian, so 
+to store a value in the Stack, we need to push each byte of a word value.
+
+Code must be aligned to 2 byte boundary.
 
 Registers :
  
-  - A, B, C, X, Y, Z, I, J - General Purpose Registers (GPR)
+  - A, B, C, X, Y, Z, I, J - General Purpose Registers (GPR) of 16 bit
   - PS - Program Segment register
   - PC - Program Counter. [PS:PC] points to the next instruction to be executed
   - SS - Stack Segment register
@@ -74,10 +82,13 @@ DESCRIPTION is a short text that describes the opcode or value.
      0 | 0x20-0x3f | literal value 0xffff-0x1e (-1..30) (literal) (only for a)
     ---+-----------+----------------------------------------------------------------
   
-- "next word" means "[PC++]". Increases the word length of the instruction by 1.
+- "next word" means "[PC+2]". Increases the word length of the instruction by 1.
+- Stack operations (PUSH/POP/PEEK) stores/reads a word in the Stack.
 - By using 0x18, 0x19, 0x1a as PEEK, POP/PUSH, and PICK there's a reverse stack
-  starting at memory location 0xffff. Example: "SET PUSH, 10", "SET X, POP"
+  starting at memory location SS:FFFF. Example: "SET PUSH, 10", "SET X, POP"
 - Attempting to write to a literal value fails silently
+- Any write to PC register gets cleared his lower bit, enforcing PC register 
+  value to be a multiple of 2.
 
     --- Basic opcodes (5 bits) ----------------------------------------------------
      C | VAL  | NAME     | DESCRIPTION
@@ -113,13 +124,14 @@ DESCRIPTION is a short text that describes the opcode or value.
      3+| 0x16 | IFL b, a | performs next instruction only if b<a 
      3+| 0x17 | IFU b, a | performs next instruction only if b<a (signed)
      - | 0x18 | -        |
-     - | 0x19 | -        |
+     2 | 0x19 | NOT b, a | sets b to !a
      3 | 0x1a | ADX b, a | sets b to b+a+EX, sets EX to 0x0001 if there is an over-
        |      |          | flow, 0x0 otherwise
      3 | 0x1b | SBX b, a | sets b to b-a+EX, sets EX to 0xFFFF if there is an under-
        |      |          | flow, 0x0001 if there's an overflow, 0x0 otherwise
-     - | 0x1c | -        | 
-     - | 0x1d | -        |
+     4 | 0x1c | LJMP b, a| sets PS to b and sets PC to a. 
+     5 | 0x1d | LJSR b, a| pushes the PS register to the stack, then push address of
+		   |      |          | the next instruction to the stack. Finally sets PS to b and PC to a.
      3 | 0x1e | STI b, a | sets b to a, then increases I and J by 1
      3 | 0x1f | STD b, a | sets b to a, then decreases I and J by 1
     ---+------+----------+----------------------------------------------------------
@@ -129,8 +141,9 @@ DESCRIPTION is a short text that describes the opcode or value.
   instruction at the cost of one extra cycle. This continues until a non-
   conditional instruction has been skipped. This lets you easily chain
   conditionals. Interrupts are not triggered while the DCPU-16 is skipping.
-    
 - Signed numbers are represented using two's complement.
+- Any write to PC register gets cleared his lower bit, enforcing PC register 
+  value to be a multiple of 2.
     
 Type 2 or 3 instruction always have their lower five bits unset, have one value and a
 five bit opcode. In binary, they have the format: aaaaaaooooo00000
@@ -141,18 +154,18 @@ The value (a) is in the same six bit format as defined earlier.
     ---+------+-------+-------------------------------------------------------------
      0 | 0x00 | n/a   | Type 3 instructions - see below
      4 | 0x01 | JSR a | pushes the address of the next instruction to the stack,
-       |      |       | then sets PC to a
+       |      |       | then sets PC to a. a most lowest bit is ignored
      - | 0x02 | -     |
      - | 0x03 | -     |
      - | 0x04 | -     |
      - | 0x05 | -     |
-     - | 0x06 | -     |
-     - | 0x07 | -     | 
+     2 | 0x06 | SIG a | extend the sign of the LSB byte
+     2 | 0x07 | XCH a | excahnge LSB and MSB bytes of a 
      6 | 0x08 | INT a | triggers a software interrupt with message a
      2 | 0x09 | IAG a | sets a to IA 
      2 | 0x0a | IAS a | sets IA to a
      5 | 0x0b | RFI a | disables interrupt queueing, pops A from the stack, then 
-       |      |       | pops PC from the stack
+       |      |       | pops PC from the stack and finally pops PS from the stack
      3 | 0x0c | IAQ a | if a is nonzero, interrupts will be added to the queue
        |      |       | instead of triggered. if a is zero, interrupts will be
        |      |       | triggered as normal again
@@ -176,6 +189,12 @@ The value (a) is in the same six bit format as defined earlier.
      - | 0x1e | -     |
      - | 0x1f | -     | 
     ---+------+-------+-------------------------------------------------------------
+
+
+- Any write to PC register gets cleared his lower bit, enforcing PC register 
+  value to be a multiple of 2.
+- Any write to IA register gets cleared his lower bit, enforcing IA register 
+  value to be a multiple of 2.
 
 Type 3 instructions alweays have their lower ten bits unset, have no operands and a is a 
 six bit opcode. In binary, they have the format: oooooo0000000000
@@ -260,7 +279,7 @@ If the queue grows longer than 256 interrupts, the DCPU-16 will not signal the
 hardware to accept the incoming new interrupts bia the IACQ signal. 
 
 When IA is set to something other than 0, interrupts triggered on the DCPU-16
-will turn on interrupt queueing, pus PS to the stack, followed by pushing PC to
+will turn on interrupt queueing, push PS to the stack, followed by pushing PC to
 the stack, followed by pushing A to the stack, then set the [PS:PC] to [IS:IA], 
 and A to the interrupt message.
  
@@ -278,7 +297,7 @@ HARDWARE
 ========
 
 The DCPU-16 handles hardware devices as memory mapped. The usual addresses uses by
-the devices begins at 0xFF000000, that is the last 16 megabyte of the address space. 
+the devices begins at FF00:0000, that is the last 16 MiB of the address space. 
 
 
 EXAMPLE MEMORY MAP
@@ -286,7 +305,7 @@ EXAMPLE MEMORY MAP
 
 
 The memory map is defined by the OS and computer architecture, but here we give
-a example memory map for a 128KiB RAM+ 64KiB ROM and a graphics device at 0xFF0B:0000 :
+a example memory map for a 128KiB RAM+ 64KiB ROM and a graphics device at 0xFF0A:0000 :
 
 
     [FFFF:FFFF] |---------|
@@ -319,7 +338,7 @@ a example memory map for a 128KiB RAM+ 64KiB ROM and a graphics device at 0xFF0B
     [0001:0400] |---------|
                 |Interrupt|
                 | Service |
-                |  Rutine |
+                | Rutines |
     [0001:0000] |---------|
                 |         |
                 |   BIOS  |

@@ -1,13 +1,17 @@
 HARDWARE DEVICE ENUMERATOR
 ==========================
-Version 0.2 (WIP) 
+Version 0.2a (WIP) 
 
 Device that allow to enumerate the hardware devices connected to the system.
 
 Resources Used
 --------------
 
-- Address 0xFF000000 to 0xFF000002 (**HWN** register). To write/read a 16 bit value in *Little Endian*. 
+- Address 0xFF000000 to 0xFF000001 (**HWN** register). To write/read a 16 bit value in *Little Endian*. 
+- Address 0xFF000004 to 0xFF000007 (**CLK** register). To read a 32 bit value in *Little Endian*. Returns always
+	the CPU clock speed in Hz
+- Address 0xFF000008 to 0xFF00000F (**BUILDID** register). To read a 32 bit value in *Little Endian*. Returns a
+	unique ID of the motherboard. 
 
 Commands
 --------

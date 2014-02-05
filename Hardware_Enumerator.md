@@ -1,55 +1,56 @@
-HARDWARE DEVICE ENUMERATOR
+HARDWARE ENUMERATOR
 ==========================
-Version 0.2b (WIP) 
+Version 0.3 (WIP) 
 
-Device that allow to enumerate the hardware devices connected to the system.
+Embed device in the motherboard that negotiates with expansion devices what address blocks they will use and allow to user software know what hardware is attached and what address blocks are using
 
 Resources Used
 --------------
 
-- Address 0xFF000000 to 0xFF000001 (**HWN** register). To write/read a 16 bit value in *Little Endian*. 
-- Address 0xFF000004 to 0xFF000007 (**CLK** register). To read a 32 bit value in *Little Endian*. Returns always
-	the CPU clock speed in Hz
-- Address 0xFF000008 to 0xFF00000B (**BUILDID** register). To read a 32 bit value in *Little Endian*. Returns a
+- Address 0x110000-0x110003 (**CMD** register). To write/read a 32 bit value in *Little Endian*. 
+- Address 0x110004-0x110007 (**BUILDID** register). To read a 32 bit value in *Little Endian*. Returns a
 	unique ID of the motherboard. 
 
 Commands
 --------
-Write a value at **HWN** register to:
+Write a value at **CMD** register to:
 
 
     | VALUE |    NAME     | BEHAVIOUR                                                |  
     |-------+-------------+----------------------------------------------------------|
-    |0x0000 | GET-NUMBER  | Reading HWN, returns the number of devices attached from |
+    |0x0000 | GET-NUMBER  | Reading CMD, returns the number of devices attached from |
     |       |             | 0 to 32.                                                 |
     |-------+-------------+----------------------------------------------------------|
-    |0x01xx | GET-CLASS   | Reading HWN, returns the Hardware class of the device xx |
+    |0x01xx | GET-CLASS   | Reading CMD, returns the Hardware class of the device xx |
     |       |             | attached. Will be 0 is xx correspond to a not attached   |
     |       |             | device.                                                  |
     |-------+-------------+----------------------------------------------------------|
-    |0x02xx | GET-BUILDER | Reading HWN, returns the Hardware Builder of the device  |
+    |0x02xx | GET-BUILDER | Reading CMD, returns the Hardware Builder of the device  |
     |       |             | xx attached. Will be 0 is xx correspond to a not         |
     |       |             | attached device.                                         |
     |-------+-------------+----------------------------------------------------------|
-    |0x03xx | GET-ID      | Reading HWN, returns the Hardware ID of the device xx    |
+    |0x03xx | GET-ID      | Reading CMD, returns the Hardware ID of the device xx    |
     |       |             | attached. Will be 0 is xx correspond to a not attached   |
     |       |             | device.                                                  |
     |-------+-------------+----------------------------------------------------------|
-    |0x04xx | GET-VERSION | Reading HWN, returns the Hardware Version of the device  |
+    |0x04xx | GET-VERSION | Reading CMD, returns the Hardware Version of the device  |
     |       |             | xx attached. Will be 0 is xx correspond to a not         |
     |       |             | attached device.                                         |
     |-------+-------------+----------------------------------------------------------|
-    |0x10xx | GET-JMP-1   | Reading HWN, returns the jumper 1 value of device xx     |
+    |0x05xx | GET-NBLQ    | Reading CMD, returns the number of address blocks used   |
+    |       |             | by the device. Values are from 0 to 4                   |
     |-------+-------------+----------------------------------------------------------|
-    |0x20xx | GET-JMP-2   | Reading HWN, returns the jumper 2 value of device xx     |
+    |0x1yxx | GET-BLQ     | Reading CMD, returns the begin of the address block y of |
+    |       |             | the device xx.                                           |
+    |-------+-------------+----------------------------------------------------------|
+    |0x2yxx | GET-BLQS    | Reading CMD, returns the size in bytes of the address    |
+    |       |             | block y of the device xx.                                |
     |-------+-------------+----------------------------------------------------------|
            
            
-The quadruple of {Class, Builder, ID, Version}, identify a **single specific hardware device**
- . A device with the same {Class, Builder, ID} but different Version, is expect to share some kind backwards compatibility. 
+The quadruple of {Class, Builder, ID, Version}, identify a **single specific hardware device**. A device with the same {Class, ID} but different Version, is expect to share some kind of compatibility. 
  
-The value Jumpers 1 and 2 allows, if the device implements it, to change the device configuration of resources used.
-Jumpers are set physicalily in the device board.
+Class is a 8 bit value, Builder, ID and Version are 16 bit values.
 
 Device Class values
 -------------------
@@ -59,61 +60,18 @@ Device Class values
 - 0x03 : HID (Human Interface Device)
 - 0x06 : Image/Video Input Devices
 - 0x07 : Printer (2D and 3D) Devices
-- 0x08 : Mass Storage Device (Floppy drives, Hard disks, Tape recorders)
+- 0x08 : Mass Storage Device (Floppy drives, Microdrives, Hard disks, Tape recorders)
 - 0x0E : Graphics Devices (Graphics card)
 - 0x0F : HoloGraphics Devices
 - 0x10 : Ship Sensors (DRADIS, Air, Hull integrity, etc...)
-- 0x11 : Power Management Systems (Generators)
-- 0x12 : Hydraulic/Pneumatic Actuators (Doors, air-locks, landing gears)
-- 0x13 : Electric Engines (Wheels)
-- 0x1A : Defensive Systems (Shields)
-- 0x1B : Offensive Systems (Weapons)
-- 0x1C : Sub-FTL Navigational and Engine Systems (Thrusters and Engines)
-- 0x1D : FTL Navigational Systems (Warp Engines)
+- 0x11 : Power Management Systems (control of Generators)
+- 0x12 : Hydraulic/Pneumatic Actuators (control of doors, air-locks, landing gears)
+- 0x13 : Electric Engines (control of wheels and steering)
+- 0x1A : Defensive Systems (control of shields)
+- 0x1B : Offensive Systems (control of weapons)
+- 0x1C : Sub-FTL Navigational and Engine Systems (control of thrusters and engines)
+- 0x1D : FTL Navigational Systems (control of warp engines)
 
-Example of Usage
-================
 
-### Generates arrays with each device information
 
-    
-    MOV %r0, 0
-    STORE.W %0xFF000000, %r0
-    LOAD.B %r1, 0xFF000002
-    STORE.W n_devices, %r1                  ; Number of devices in n_devices and in %r1
-    
-    MOV %r5, 0                              ; Index in the table
-    
-    loop:
-    LLS %r2, 1, %r5                         ; %r2 = %r5 x2 = ptr to the a word size element
-    OR %r2, 0x0100, %r0                     ; Get Class of dev %r2
-    STORE.W 0xFF000000, %r0
-    LOAD.W %r3, 0xFF000000                  ; Read class and put in %r3
-    STORE.W dev_class + %r2, %r3            ; Writes at %r2 class entry
-
-    OR %r2, 0x0200, %r0                     ; Get Builder of dev %r2
-    STORE.W 0xFF000000, %r0
-    LOAD.W %r3, 0xFF000000                  ; Read class and put in %r3
-    STORE.W dev_build + %r2, %r3            ; Writes at %r2 class entry
-    
-    OR %r2, 0x0300, %r0                     ; Get ID of dev %r2
-    STORE.W 0xFF000000, %r0
-    LOAD.W %r3, 0xFF000000                  ; Read class and put in %r3
-    STORE.W dev_id + %r2, %r3               ; Writes at %r2 class entry
-    
-    OR %r2, 0x0400, %r0                     ; Get Version of dev %r2
-    STORE.W 0xFF000000, %r0
-    LOAD.W %r3, 0xFF000000                  ; Read class and put in %r3
-    STORE.W dev_ver + %r2, %r3              ; Writes at %r2 class entry
-            
-    ADD %r5, 1 
-    IFL %r5, %r1                            ; for(%r5=0; %r2 < num_devices; %r2++)
-        JMP loop
-    ...
-
-    n_devices: .resb 1
-    dev_class: .resw 32
-    dev_build: .resw 32 
-    dev_id:    .resw 32
-    dev_ver:   .resw 32
 

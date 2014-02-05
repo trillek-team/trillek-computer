@@ -22,6 +22,7 @@ SUMMARY
 - CPU Clock speed could be 1Mhz , 500 Khz, 200 Khz and 100Khz (actually we work with 100Khz, but we expect to allow higher speeds)
 - Devices uses a fixed clock of 100Khz (thinking to change it to 50 KHz) for internal stuff.
 - Devices are [memory mapped](http://en.wikipedia.org/wiki/Memory-mapped_I/O).So dcpu's **HWI** is replaced by writing/reading to addresses where the device is listening. **HWN** and **HWQ** is replaced by a special device that lists how many and what devices are. This integrated device is the **Hardware Enumerator** (**HE**).
+- Devices could have a physical switch, called *Jumper*, that allow to change some operations values when the computer is power off. Jumper value is limited to a 4 values (0 to 3)
 - Addresses used by devices are over 0x110000 to avoid address clashes with the RAM/ROM.
 - The **Hardware Enumerator** is “intelligent” and assigns physical address blocks to the devices (except integrated devices that have always a fixed and concrete addresses). Some devices could have preferred address blocks, and that will get it if other devices is not using it yet. Other devices can don’t care much of what address block get.
 - Devices could do **DMA** operations at will, but ONLY one device could do that at same time, and can only transfer 4 bytes every Device Clock (like if the DMA operates in the falling clock flank and the CPU operated in the rising clock flank.)

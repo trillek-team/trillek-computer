@@ -1,6 +1,6 @@
 Color Display Adapter
 =====================
-Version 0.3a (WIP) 
+Version 0.4 (WIP) 
 
 Color Display Adapter (CDA) device that allows to display text modes and graphics modes in color, using a 16 programmable color palette.
 
@@ -17,38 +17,25 @@ rate of 21.8 KHz.
 - Device Class    : 0x0E (Graphics Device)
 - Device Build    : 0xXXXX
 - Device ID       : 0x0001 (CDA standard) 
-- Device Version  : 0x0000
-
-Jumper 1 accepts values from 0 to 3
+- Device Version  : 0x0001
 
 RESOURCES
 ---------
 
-A basic CDA card exposes 9600 Bytes of Video RAM. The address were is mapped depend of the Jumper 1 value. Also, a interrupt on V-Sync can be used, and the message value depend of the Jumper 1 value.
+A basic CDA card exposes 9600 Bytes of Video RAM, plus have a configuration *Jumper*, and can generate a interrupt for Vsync events.
 
-### Jumper 1 = 0
+- Interrupt Message = in function of *Jumper* value, will be :
+    - 0 -> 0x0000005A
+    - 1 -> 0x0000015A
+    - 2- > 0x0000025A
+    - 3 -> 0x0000035A
 
-- Interrupt Message = 0x0000005A
-- Address 0xFF0A0000 to 0xFF0A2580: Video RAM
-- Address 0xFF0ACC00 (Read/Write byte): SETUP
+### Preferred Address Block
+The CDA Display try to use this address blocks:
 
-### Jumper 1 = 1
+- Address 0x1A0000-0x1A2580: Video RAM
+- Address 0x11CC00 (Read/Write byte): SETUP registers
 
-- Interrupt Message = 0x0000105A
-- Address 0xFF0B0000 to 0xFF0B2580: Video RAM
-- Address 0xFF0BCC00 (Read/Write byte): SETUP
-
-### Jumper 1 = 2
-
-- Interrupt Message = 0x0000205A
-- Address 0xFF0C0000 to 0xFF0C2580: Video RAM
-- Address 0xFF0CCC00 (Read/Write byte): SETUP
-
-### Jumper 1 = 3
-
-- Interrupt Message = 0x0000305A
-- Address 0xFF0C0000 to 0xFF0C2580: Video RAM
-- Address 0xFF0CCC00 (Read/Write byte): SETUP
 
 OPERATION
 ---------

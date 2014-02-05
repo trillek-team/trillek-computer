@@ -1,13 +1,13 @@
-TR3200 SHEET
+TR3200 CHEATSHEET
 ============
 
-Cheat sheet that compares assembly of TR3200 v0.8 vs DCPU-16 v1.7 
+Cheat sheet that compares assembly of TR3200 vs DCPU-16E
 
 ## DCPU-16 - TR3200 Registers equivalence:
     
 - A   -> %r0
 - B   -> %r1
-- C   -> %r2
+- C   -> %r2 (or %bp in some situations)
 - X   -> %r3
 - Y   -> %r4
 - Z   -> %r5
@@ -17,24 +17,24 @@ Cheat sheet that compares assembly of TR3200 v0.8 vs DCPU-16 v1.7
 - PC  -> %pc
 - EX  -> CF bit in %flags and %y for multiplications
 
-%r8 to %r13 and %r16 to %r26 could be uses as temporal variable without penalty
-%r30 = %bp is asociated to stack allocation and function arguments, but can be 
+%r8 to %r10 could be uses as temporal variable without penalty
+%bp is associated to stack allocation and function arguments, but can be 
 used as a regular register.
 
-## Intruction syntax
+## Instruction syntax
 
 The usual format : 
 
-		INTR Op1, Op2, Op3 
+		INSTRUCTION Op1, Op2, Op3 
 
 Follow this logic:
 		
-- Op1 : Were to put the result
-- Op2 and Op3 : Input values
+- Op1 : Is were will to put the result
+- Op2 and Op3 : Are input parameters
 
-## Addresing modes and ALU operations comparation
+## Addressing modes and ALU operations comparison
 
-    DCPU-16                                                                  TR3200
+    DCPU-16E                                                                  TR3200
     -------------------------------------------------------------------------------
     SET  [A], B                                                       LOAD %r0, %r1
     
@@ -73,7 +73,7 @@ Follow this logic:
                                                or ADD %r1, %r0 (pseudo instruction)
     
     ; C = B + A
-    SET C, B                                                   ADD %r2, %r1, %r0
+    SET C, B                                                      ADD %r2, %r1, %r0
     ADD C, A
 
     ; *B = *A

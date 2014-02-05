@@ -1,28 +1,30 @@
-Calling convention for TR3200 CPU
-=================================
+Calling conventions for TR3200 CPU and DCPU-16E
+===============================================
 Version 0.2 (WIP)
 
-- %r0 to %r3 holds th argument values passed to a subrutine, and also holds 
-  the results returned from a subrutine.
+
+The key word "CALLER" is the function or code that is making the call, the key word "CALLEE" is the function being called
+
+## TR3200
+
+- %r0 to %r3 holds argument values passed to a subroutine. CALLER code MUST assume that these values will not be preserved.
+- %r0 will be used to the return value if there is any. If the return value is a 64 bit value, then %r1:%r0 will be the 64 bit return value.
 - Subsequent arguments are passed on the stack. Function arguments of a 
   procedural language are pushed in reversed order that are declared.
-- %r4 to %r26 are used for local variables. Callee subrutine or function must 
-  preserve it.
+- %r4 to %r10 are used for local variables. CALLEE subroutine or function MUST preserve it.
 - %y, %ia and %flags special registers must be preserved.
-- %r30 (%bp) register must be preserved being pushed to the stack before the 
-  extra arguments. %r30 takes the value of %r31 (%sp) after pushing the extra
-  arguments.
-- Calle function/subrutine can use %bp + n to read extra arguments, and %bp - n
-  for local variables.
+- %bp register MUST be preserved being pushed to the stack before the extra arguments by the CALLER. %bp takes the value of %sp after pushing the extra arguments.
+- CALLEE function/subroutine can use %bp + n to read extra arguments, and %bp - n
+  for local variable. Where **n = (number of parameter - 5) * 4**.
 
 Example:
 
-    int callee(int a, int b, int c, int d, int e) {
+    int CALLEE(int a, int b, int c, int d, int e) {
         int tmp = a + b + c + d + e;
         return tmp;
     {
      
-    int caller(void)
+    int CALLER(void)
     {
             register int ret = 0;
      
@@ -31,45 +33,45 @@ Example:
             return ret;
     }
 
-Produces this (notice that is not optimiced code for clarity) :
+Produces this (notice that is not optimized code for clarity) :
 
-    caller:
-            push    %r4             ; Prologue. Preserves %r4 in the stack
+    CALLER:
+            PUSH    %r4             ; Prologue. Preserves %r4 in the stack
 
-            push    %bp             ; Code that preserves %bp and pass the
-            set     %r0, 1          ; arguments
-            set     %r1, 2
-            set     %r2, 3
-            set     %r3, 4
-            push    5               ; Fifth argument to the stack
-            cpy     %bp, %sp        ; BP points to the last argument if is any
+            PUSH    %bp             ; Code that preserves %bp and pass the
+            MOV     %r0, 1          ; arguments
+            MOV     %r1, 2
+            MOV     %r2, 3
+            MOV     %r3, 4
+            PUSH    5               ; Fifth argument to the stack
+            MOV     %bp, %sp        ; BP points to the last argument if is any
                                     ; or to the old BP value
             
-            call    callee           
-            sub     %sp, 4, %sp     ; Code that recovers BP value
-            pop     %bp
+            CALL    CALLEE           
+            SUB     %sp, %sp, 4     ; Code that recovers BP value
+            POP     %bp
             
-            add     %r4, %r0, 5     ; ret += 5
+            ADD     %r4, %r0, 5     ; ret += 5
 
-            cpy     %r4, %r0        ; Epilogue. Sets %r0 to return value and
-            pop     %r4             ; restores used %r4
-            ret
+            MOV     %r4, %r0        ; Epilogue. Sets %r0 to return value and
+            POP     %r4             ; restores used %r4
+            RET
 
 
-    calle:
-            push    %r4             ; Prologue. Preserves %r4 in the stack
-            push    %r5             ; Prologue. Preserves %r5 in the stack
+    CALLEE:
+            PUSH    %r4             ; Prologue. Preserves %r4 in the stack
+            PUSH    %r5             ; Prologue. Preserves %r5 in the stack
 
-            add     %r0, %r1, %r4   ; tmp = a + b
-            add     %r4, %r2, %r4   ; tmp += c
-            add     %r4, %r3, %r4   ; tmp += d
+            ADD     %r0, %r1, %r4   ; tmp = a + b
+            ADD     %r4, %r2, %r4   ; tmp += c
+            ADD     %r4, %r3, %r4   ; tmp += d
 
-            load    %r5, %bp        ; Reads e and puts in a local var
-            add     %r4, %r5, %r4   ; tmp += e
+            LOAD    %r5, %bp        ; Reads e and puts in a local var
+            ADD     %r4, %r5, %r4   ; tmp += e
 
-            cpy     %r4 , %r0       ; Epilogue. Sets %r0 to the return value
-            pop     %r5             ; restores used %r5
-            pop     %r4             ; restores used %r4
+            MOV     %r4 , %r0       ; Epilogue. Sets %r0 to the return value
+            POP     %r5             ; restores used %r5
+            POP     %r4             ; restores used %r4
             ret
 
 ### FAQ
@@ -86,29 +88,41 @@ For example, to read argument 5, 6 and 7:
     LOAD    %r6, %bp + 4             ; %r6 = Sixth argument
     LOAD    %r7, %bp + 8             ; %r6 = Seventh argument
 
-#### Where I put local vars if i noit have enought registers
-If you exaust the registers %r4 to %r2i6 for local vars, the calle function can
+#### Where I put local vars if I not have enough registers
+If you exhaust the registers %r4 to %r10 for local vars, the CALLEE function can
 use the stack to store local vars. Only need, in the end of prologue, to 
-substract to %sp a value to give space in the stack and restore the %sp value 
+subtract to %sp a value to give space in the stack and restore the %sp value 
 in the epilogue.
 
-For example, a 32 bit interger var in the stack :
+For example, a 32 bit integer var in the stack :
 
     ; Prologue
-    ... Gets parametes from the stack
-    SUB     %sp, 4, %sp              ; We move the stack pointer down and we
-                                     ; create space to a 32 bit interger value
+    ... Gets parameters from the stack
+    SUB     %sp, %sp, 4              ; We move the stack pointer down and we
+                                     ; create space to a 32 bit integer value
                                      ; in the Stack
-    ... Preserve used registers %r5 to %r29
+    ... Preserve used registers %r5 to %r10
 
-    ... code of the funtion
+    ... code of the function
     STORE   %bp - 4 , %r5            ; Example of writing to the local var in stack
     LOAD    %r5, %bp - 4             ; Example of reading the local var in stack
     ... code of the function
 
     ; Epilogue
     ... Sets result values
-    ... Restores used register %r5 to %r29
-    ADD     %sp, 4, %sp              ; We restores the Stack pointer value
-                                     ; local vars i nthe stack aren forgot
+    ... Restores used register %r5 to %r10
+    ADD     %sp, %sp, 4              ; We restore the Stack pointer value
+                                     ; local vars in the stack are forgot
     RET
+
+## DCPU-16E
+
+- A and B registers holds argument values passed to a subroutine. CALLER code MUST assume that these values will not be preserved.
+- A will be used to the return value if there is any. If the return value is a 64 bit value, then %B:%A will be the 64 bit return value.
+- Subsequent arguments are passed on the stack. Function arguments of a 
+  procedural language are pushed in reversed order that are declared.
+- X, Y, Z, I, and J are used for local variables. CALLEE subroutine or function MUST preserve it.
+- EX and IA special registers must be preserved.
+- C register MUST be preserved being pushed to the stack before the extra arguments by the CALLER. C takes the value of SP after pushing the extra arguments. (C will be used as Base Pointer)
+- CALLEE function/subroutine can use C + n to read extra arguments, and %C - n
+  for local variable. Where **n = (number of parameter - 3) * 2**.

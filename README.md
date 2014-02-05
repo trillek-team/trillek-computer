@@ -106,7 +106,7 @@ DOCUMENTS
 ---------
 
 - [TR3200 CPU](./TR3200.md)
-- [DCPU-16E CPU](https://gist.github.com/Meisaka/8800367)
+- [DCPU-16E CPU](./DCPU-16E.txt)
 - [Hardware Enumeration](./Hardware_Enumeration.md)
 - [Programmable Interval Timer](./Timers.md) (aka Timer or Clock)
 - [Beeper](./Beeper.md)

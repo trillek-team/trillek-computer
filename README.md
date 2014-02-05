@@ -109,7 +109,7 @@ DOCUMENTS
 - [DCPU-16E CPU](https://gist.github.com/Meisaka/8800367)
 - [Hardware Enumeration](./Hardware_Enumeration.md)
 - [Programmable Interval Timer](./Timers.md) (aka Timer or Clock)
-- [Speaker](./Speaker.md)
+- [Beeper](./Beeper.md)
 - [Generic Keyboard](./Keyboard.md)
 - [Color Display Adapter](./CDA.md) (CDA)
 - [Computer Architecture Diagram](./computer.dia) (DIA file)

@@ -1,6 +1,6 @@
 Programmable Interval Timer (PIT)
 ================================
-Version 0.1a (WIP) 
+Version 0.1b (WIP) 
 
 The Programmable Interval Timer includes two 32 bit timers capable of generating
 a interrupt to the CPU. Allows precise timings and periodic interrupts.
@@ -11,11 +11,11 @@ RESOURCES
 
 - Interrupt Message = 0x00000001 if TMR0 does underflow
 - Interrupt Message = 0x00001001 if TMR1 does underflow
-- Address 0xFF000040 (Read dword): TMR0_VAL
-- Address 0xFF000044 (Write dword): TMR0_RELOAD
-- Address 0xFF000048 (Read word): TMR1_VAL
-- Address 0xFF00004C (Write word): TMR1_RELOAD
-- Address 0xFF000050 (Write/Read byte): TMR_CFG
+- Address 0x110040-0x110043 (Read dword) : TMR0_VAL
+- Address 0x110044-0x110047 (Write dword): TMR0_RELOAD
+- Address 0x110048-0x11004B (Read dword) : TMR1_VAL
+- Address 0x11004C-0x11004F (Write dword): TMR1_RELOAD
+- Address 0x110050 (Write/Read byte)     : TMR_CFG
 
 
 OPERATION
@@ -66,31 +66,29 @@ EXAMPLE OF USE
 
 ### System Clock
 This example illustrates how setup Timer 0 to generate interrupts every 50 ms (20
-Hz rate), and update a clock ram var to obtain seconds transcurred since the
-Timer 0 was setup.
+Hz rate), and update a clock ram var to obtain seconds passing since the Timer 0 was setup.
 
 
     ; Setup the Timer 0 as System Clock at a rate of 20 Hz (50 ms)
-    LOAD.B 0xFF000048, %r0                      ; Recover the previous Timer setup
-    OR %r0, 3, %r0                              ; Enables Timer 0 and Timer 0 interrupt
-    SAVE.B 0xFF000048, %r0
-    SET %r0, 5000
-    SAVE.W 0xFF000040, %r0                      ; Sets the reload value
-
-
-
-    ;At General ISR
+    OVERLOAD .EQU 5000
+    
+    LOAD.B 0x110050, %r0                        ; Recover the previous Timer setup
+    OR %r0, %r0, 3                              ; Enables Timer 0 and Timer 0 interrupt
+    SAVE.B 0x110050, %r0
+    SET %r0, OVERLOAD
+    SAVE.W 0x110044, %r0                        ; Sets the reload value (time measured from here)
     ...
-    BEQ %r0, 0                                  ; Timer 0 interrupt
+    
+    
+    ; At Timers ISR
+    ...
+    BEQ %r0, 0x00000001                         ; Timer 0 interrupt
         CALL system_clock
     ...
-    ...
     RFI
-
-    ; RAM vars
-    clk_seconds: .dd 0                          ; Seconds counter
-    clk_tickst:  .dd 0                          ; Ticks counter
-
+    ...
+    
+    
     ; Timer 0 ISR
     system_clock:
         PUSH %r1                                ; Preserve used registers
@@ -101,20 +99,24 @@ Timer 0 was setup.
         
         ADD %r0, 1, %r0                         ; Increment seconds counter
 
-        LOAD 0xFF000040, %r2                    ; Read ho0w many clock ticks happen
-        SUB 5000, %r2, %r2                      ; Ticks = overload - value
+        LOAD 0x110040, %r2                      ; Read how many clock ticks happen
+        SUB OVERLOAD, %r2, %r2                  ; Ticks = overload - value
         ADD %r1, %r2, %r1                       ; Increments ticks counter
-        BUL %r1, 5000                           
+        BUL %r1, OVERLOAD                       ; If Ticks not overload skip and store clock state
             JMP system_clock_save_state
-        SUB %r1, 5000, %r1                      ; Ticks > 5000, Increments seconds counter
-        ADD %r0, 1, %r0                         ; To compesate ISR latency. 
-        ; Note that this value should a bit bigger to compesate the ISR execution time
+        SUB %r1, %r1, OVERLOAD                  
+        ADD %r0, 1, %r0                         ; Ticks > 5000, Increments seconds counter
+        ; Note that this value should a bit bigger to compensate the ISR execution time
         
-        system_clock_save_state:
+    system_clock_save_state:
         STORE clk_seconds, %r0
-        STORE clk_ticks, %r0
+        STORE clk_ticks, %r1
 
         POP %r2                                 ; Recovers %r1 and %r2 values
         POP %r1
         RET
+        
+    ; RAM vars
+    clk_seconds: .dd 0                          ; Seconds counter
+    clk_ticks:   .dd 0                          ; Ticks counter (allow compensate ISR latency)
 

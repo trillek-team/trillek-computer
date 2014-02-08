@@ -1,9 +1,8 @@
-Generic Keyboard
+Generic Keyboard controller
 ================
-Version 0.4 (WIP) 
+Version 0.5 (WIP) 
 
-Generic Compatible Keyboard device. Handles an internal buffer to
-store key events.
+Generic Keyboard controller. Handles an internal buffer to store key events.
 
 - Device Class    : 0x03 (HID)
 - Device Build    : 0xXXXX
@@ -11,87 +10,195 @@ store key events.
 - Device Version  : 0xXXXX
 
 
-Jumper 1 acepts values from 0 to 3
-
 RESOURCES
 ---------
 
-### Jumper 1 = 0
+The keyboard controller uses few registers to see the status of the keyboard, the key buffer and send commands. Also, have a configuration *Jumper*.
 
-- KeyDown Interrupt Message = 0x00000009
-- KeyUp Interrupt Message = 0x00000109
-- Address 0xFF000060 (Read/Write word): KEY_REG
-- Address 0xFF000062 (Read/Write byte): KEY_STATUS
-- Address 0xFF000063 (Write byte): KEY_CMD
+- Event interrupt message = in function of *Jumper* value, will be :
+    - 1 -> 0x00000109
+    - 2- > 0x00000209
+    - 3 -> 0x00000309
 
-### Jumper 1 = 1
+### Preferred Address Block
+The keyboard controller try to use this address blocks:
 
-- KeyDown Interrupt Message = 0x00001009
-- KeyUp Interrupt Message = 0x00001109
-- Address 0xFF000160 (Read/Write word): KEY_REG
-- Address 0xFF000162 (Read/Write byte): KEY_STATUS
-- Address 0xFF000163 (Write byte): KEY_CMD
+- Address 0x110160 (Read/Write word): KEY_REG
+- Address 0x110162 (Read/Write byte): KEY_CMD
 
-### Jumper 1 = 2
+HOW WORKS
+---------
 
-- KeyDown Interrupt Message = 0x00002009
-- KeyUp Interrupt Message = 0x00002109
-- Address 0xFF000260 (Read/Write word): KEY_REG
-- Address 0xFF000262 (Read/Write byte): KEY_STATUS
-- Address 0xFF000263 (Write byte): KEY_CMD
+The Keyboard controller have a internal ring buffer that stores a "keyboard event" when a user types a key. Each entry of the buffer contains information of the key pressed and if was any function key pressed at same time. Also, there is two types of entries in the buffer: RAW events and KEY events.
 
-### Jumper 1 = 3
+**RAW** events uses **scancodes** that represents what physical physical key was pressed. This scancodes are usually refereed against a US English keyboard for reference. For example scancode 0x02F is the key that in a US keyboard is a semicolon symbol, so we call these key "semicolon".
 
-- KeyDown Interrupt Message = 0x00003009
-- KeyUp Interrupt Message = 0x00003109
-- Address 0xFF000360 (Read/Write word): KEY_REG
-- Address 0xFF000362 (Read/Write byte): KEY_STATUS
-- Address 0xFF000363 (Read/Write byte): KEY_CMD
+**KEY** events returns a [Latin-1](http://en.wikipedia.org/wiki/ISO/IEC_8859-1) (8bit ASCII) representation of the key pressed and apply on it effects like Shift, uppercasing, localization of the keyboard layout (for example : 'ñ' or 'ç'), etc...
+
+KEY events are more useful for basic typing commands or text, when RAW events are more useful if you need to do actions with keys in a particular position.
+
+Also, there is there modes of operation in the keyboard controller : RAW mode, KEY mode, and RAW+KEY mode. In RAW mode, each time that a user type a key in the keyboard, only push in the buffer a RAW events. In KEY mode, each time that a user type a key in the keyboard, only push in the buffer a KEY event. And finally, in RAW+KEY mode, each time that a user type in the keyboard, only push a RAW event followed by a KEY event.
 
 OPERATION
 ---------
 
-Reading at KEY_REG, gets the last keyevent.
-Reading at KEY_STATE, gets the state byte.
+Reading at KEY_REG, gets the last event.
 Reading value from KEY_CMD depends of the command.
 
-Writing at KEY_REG, push a keyevent to the keyboard buffer
-Writing at KEY_STATE, sets the state byte.
-Writing at KEY_CMD, sends a command to the keyboard:
+Writing at KEY_REG, push a event to the keyboard buffer
+Writing at KEY_CMD, sends a command to the keyboard.
+
+### Commands
+
+Accepted values to write in KEY_CMD are in this list :
 
      VALUE |  NAME      | BEHAVIOUR
     -------+------------+----------------------------------------------------------
       0x00 | CLEAR      | Clear keyboard buffer
-      0x01 | COUNT      | Reading KEY_CMD returns the number of keyevents stored in
+      0x01 | COUNT      | Reading KEY_CMD returns the number of events stored in
            |            | the buffer when the command is send.
-      0x02 | D-INT-DOWN | Disables interrupt when a Key Down hapens
-      0x03 | E-INT-DOWN | Enables interrupts when a Key Down hapens
-      0x04 | D-INT-UP   | Disables interrupts when a Key Up hapens
-      0x05 | E-INT-UP   | Enables interrupts when a Key Up hapens
+      0x02 | D-INT      | Disables interrupt when a Key event happens.
+      0x03 | E-INT      | Enables interrupts when a Key event happens.
+      0x04 | KEY-MODE   | Switch to KEY mode.
+      0x05 | RAW-MODE   | Switch to RAW mode.
+      0x06 | RK-MODE    | Switch to RAW+KEY mode.
     -------+------------+----------------------------------------------------------
 
-When interrupts are enabled, the keyboard will trigger an interrupt when one or
-more keys have been pressed or released.
+### Events
 
-KeyEvent Format:
+If interrupts are enabled, the keyboard will trigger an interrupt when a keyboard event happens.
+
+RAW Event Format (value read from KEY_REG):
 
     15 14 13 12 11 10 9  8  7  6  5  4  3  2  1  0
     ----------------------------------------------
-    | unused |  G  C  S  A  k  k  k  k  k  k  k  k
+    1  G  C  S  X  X  s  s  s  s  s  s  s  s  s  s
+    
+Where : 
+
+ - G (Alt Gr mod) If the bit is set to 1, this means that the Alt Gr Key is being pressed at same time
+ - C (Control mod) If the bit is set to 1, this means that the Control Key is being pressed at same time
+ - S (Shift mod) If the bit is set to 1, this means that the Shift Key is being pressed at same time
+ - X reserved for future use
+ - ssssssssss 10 bit scancode
+ 
+ 
+KEY Event Format (value read from KEY_REG):
+
+    15 14 13 12 11 10 9  8  7  6  5  4  3  2  1  0
+    ----------------------------------------------
+    0  G  C  S  X  X  0  0  k  k  k  k  k  k  k  k
 
 Where : 
 
  - G (Alt Gr mod) If the bit is set to 1, this means that the Alt Gr Key is being pressed at same time
  - C (Control mod) If the bit is set to 1, this means that the Control Key is being pressed at same time
  - S (Shift mod) If the bit is set to 1, this means that the Shift Key is being pressed at same time
- - A (Action Bit) If the bit is at 1, this means that key is being pressed 
-     (Key Down). If is 0, means that the key was released (Key Up).
- - kkkkkkkk Key code (scan code) of the key pressed or released 
+ - X reserved for future use
+ - kkkkkkkk Latin-1 representation of the key. 
+
+
+### Events buffer
+The buffer can store at least 64 events. Each time that a key is typed, the appropriate event is pushed to the buffer.
+The buffer operates in FIFO fashion. So when a user types a key, a new event is inserted in the buffer. Reading KEY_REG, extracts the most old event stored in the buffer (POP buffer). But writing to KEY_REG, inserts a new event in the buffer like if was the oldest entry, in other words, PUSH a event to the buffer. Pushing could be do only, if the buffer have enough size to store it. If there is not enight space, then pushing fails silent. When the buffer fills and the keyboard inserts a new event, the most oldest event is removed to allow to insert the new event.
+
+    PUSH inserts here          
+    ----------------->       
+                       |---|
+    -----------------> |   | Oldest event
+    POP extract this   |---|
+                       |   |
+                       |---|
+                       .   .
+                       .   .
+                       .   .
+                       |---|
+                       |   | Newest event
+                       |---|  
+                             <----------------------
+                               Keyboard inserts here
+
+
+### Scancodes list
+
+- KEY_UNKNOWN       0x3FF
+- KEY_NULL          0    -> Read value when the buffer is empty    
+- KEY_SPACE         32
+- KEY_APOSTROPHE    39   -> '
+- KEY_COMMA         44   -> ,
+- KEY_MINUS         45   -> -
+- KEY_PERIOD        46   -> .
+- KEY_SLASH         47   -> /
+- KEY_0   48
+- KEY_1   49
+- KEY_2   50
+- KEY_3   51
+- KEY_4   52
+- KEY_5   53
+- KEY_6   54
+- KEY_7   55
+- KEY_8   56
+- KEY_9   57
+- KEY_SEMICOLON     59   -> ;
+- KEY_EQUAL         61   -> =
+- KEY_A   65
+- KEY_B   66
+- KEY_C   67
+- KEY_D   68
+- KEY_E   69
+- KEY_F   70
+- KEY_G   71
+- KEY_H   72
+- KEY_I   73
+- KEY_J   74
+- KEY_K   75
+- KEY_L   76
+- KEY_M   77
+- KEY_N   78
+- KEY_O   79
+- KEY_P   80
+- KEY_Q   81
+- KEY_R   82
+- KEY_S   83
+- KEY_T   84
+- KEY_U   85
+- KEY_V   86
+- KEY_W   87
+- KEY_X   88
+- KEY_Y   89
+- KEY_Z   90
+- KEY_LEFT_BRACKET   91  /* [ */
+- KEY_BACKSLASH      92  /* \ */
+- KEY_RIGHT_BRACKET  93  /* ] */
+- KEY_GRAVE_ACCENT   96  /* ` */
+- KEY_WORLD_1        161 /* non-US #1 */
+- KEY_WORLD_2        162 /* non-US #2 */
+- KEY_ESCAPE         256
+- KEY_ENTER          257
+- KEY_TAB            258
+- KEY_BACKSPACE      259
+- KEY_INSERT         260
+- KEY_DELETE         261
+- KEY_RIGHT          262
+- KEY_LEFT           263
+- KEY_DOWN           264
+- KEY_UP             265
+- KEY_LEFT_SHIFT     340
+- KEY_LEFT_CONTROL   341
+- KEY_LEFT_ALT       342
+- KEY_RIGHT_SHIFT    344
+- KEY_RIGHT_CONTROL  345
+- KEY_RIGHT_ALT      346
+
+### Keys list
 
 Key codes are:
 
+- 0x00: No input (buffer is empty)
+- 0x01: Unknow key
+
 - 0x05: Delete
-- 0x06: Alt Graphics
+- 0x06: Alt key
 - 0x08: Backspace
 - 0x09: Tabulator
 - 0x0D: Return
@@ -104,122 +211,28 @@ Key codes are:
 - 0x15: Arrow right
 - 0x1B: Escape
 - 0x20: Spacebar
-- 0x27: Apostrophe (' ")
-- 0x2C: Comma (, < )
-- 0x2D: Minus (- _)
-- 0x2E: Period (. >)
-- 0x2F: Slash (/ ?)
-- 0x30-0x39: Decimal digits (0-9)
-- 0x3A: Semicolon (; :)
-- 0x3B: Equal (= +)
-- 0x41-0x5A: Latin characters (A to Z)
-- 0x5B: Left Bracket ([ {)
-- 0x5C: Backslash (\ |)
-- 0x5D: Right Bracket (] {)
-- 0x60: Grave Accent (` ~)
-- 0xFF: Unknow key
-- Other values: Reserved for advanced keyboards or localized keyboards
 
-This represent the keys of a US keyboard layout.
+- 0x21 to 0x7E: Latin-1 characters
+- 0xA0 to 0xFF: Latin-1 characters
 
-If the return value is 0, then means that the buffer is empty.
-
-State byte format:
-
-    8  7  6  5  4  3  2  1  0
-    -------------------------
-    |      not used      |  C
- 
-Where:
-
- - C (CapsLock) Show if CapsLocks mode is active or not
-
-### Status LEDs
-A keyboard must have at least this LED state: Caps Locks Enable.
-The Statues leds can bet set on/off writing to KEY_STATUS register.
-
-### Key code events buffer
-The buffer can store at least 64 keyevents. Each time that a key is pressed 
-or released, the appropriate key code event is pushed to the buffer.
-The buffer operates in FIFO mode, in addition if the buffer is filled not 
-new keyevents will be store, requiring to PUSH a keyevent at least or cleaning the buffer.
-Reading KEY_REG LSB, extracts the oldest keyevent in the buffer (POP buffer).
-Writing KEY_REG, push a keyevent at the begin of the buffer (PUSH 
-buffer), acting like a LIFO buffer. Writing at KEY_REG can be used to
-simulate keyboard events by some programs or allow to the OS intercept keyevents.
+- Other values: Reserved for advanced keyboards or non western localized keyboards
 
 
-    PUSH inserts here          
-    ----------------->       
-                       |---|
-    -----------------> |   | Oldest key code event
-    POP extract this   |---|
-                       |   |
-                       |---|
-                       .   .
-                       .   .
-                       .   .
-                       |---|
-                       |   | Last key code event
-                       |---|  
-                             <----------------------
-                               Keyboard inserts here
+Integrated Keyboard controller in the motherboard
+=================================================
 
-### Shift and Upper case letters and symbols
-The keyboard generates alone the appropriate symbol or upper case letter when 
-a key is pressed/released at same time that Shift key is being keep pressed. 
+The integrated keyboard controller in the motherboard is not listed in the hardware enumerator and not hate a *Jumper*. Uses this resources :
 
-### Caps Locks Mode 
-When Caps Locks key is pressed, the keyboard enters in Caps Locks mode. The 
-next time that the Caps Lock key is pressed, then the keyboard leaves the 
-mode. In Caps Locks mode, the Caps Locks Enable status LED is set to On, and 
-when leaves this mode, is set to Off. Also writing to KEY_STATUS can activate 
-or desactivate Caps Locks mode.
+- Event interrupt message = 0x00000009
+- Address 0x110060 (Read/Write word): KEY_REG
+- Address 0x110062 (Read/Write byte): KEY_CMD
 
 
-Example of Use
-==============
+Stuff to read
+=============
 
-A basic type program can use a ISR that reads at 0x60 (POP) to extract a
-keyevent stored in the keyboard buffer. If the Action Bit is On in each key
-code event, then writes in screen or stores in a string buffer if is an 
-appropriate character, if not ignores it.
-A more advanced ISR can store if Ctrl or Shift keys are being pressed, to 
-detect Ctrl+Key or Shift+Key special actions.
-  
-    ; ISR
-    ...
-    ...
-    BEQ %r0, 0x0009                     ; If is a Keyboard Interrupt, call to the
-        CALL keyb_isr                   ; routine to handle it
-    ...
-    ...
-    RFI
-
-    keyb_isr:
-    LOAD.B 0xFFF00060, %r0
-    BCLEAR %r0, 0b1000_0000             ; Is a Key Up event ?
-        BGE %r0, 0x20                   ; Is a writable character ?
-            BLE %r0, 0x7E               ; 0x20 >= C <= 0x7E
-                JMP copy_char
-    RET
-
-    copy_char:                          ; Code that writes on screen a character
-    LOAD cursor, %r1                    ; Gets the value of the cursor in r1
-    OR %r0, 0x0700                      ; White on black text
-    SAVE.W %r1, %r0                     ; Puts the character + attribute on video
-                                        ; ram
-    ADD %r1, 2, %r1                     ; Increments the cursor var and save it
-    SAVE cursor, %r1
-
-    RET                                 
-
-    cursor: .dd 0xFFFB0000              ; Cursor points to Video RAM address
-
-
-
-Stuff to read : 
  - http://retired.beyondlogic.org/keyboard/keybrd.htm
  - flint.cs.yale.edu/cs422/doc/art-of-asm/pdf/CH20.PDF
  - http://bos.asmhackers.net/docs/keyboard/docs/KeyboardFAQ.txt
+ - http://en.wikipedia.org/wiki/ISO/IEC_8859-1
 

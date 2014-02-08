@@ -11,7 +11,7 @@ Text modes uses a 8x8 pixel glyph cells, and the user can define a user Font.
 Graphics modes, uses a bit plane to set a pixel between foreground and
 background color. The screen is divided in attribute cells that defines a foreground and background color.
 
-The video signals uses a vertical refresh rate of 50Hz and a horizontal refresh
+The video signals uses a vertical refresh rate of 25Hz and a horizontal refresh
 rate of 21.8 KHz.
 
 - Device Class    : 0x0E (Graphics Device)
@@ -34,7 +34,7 @@ A basic CDA card exposes 9600 Bytes of Video RAM, plus have a configuration *Jum
 The CDA Display try to use this address blocks:
 
 - Address 0x1A0000-0x1A2580: Video RAM
-- Address 0x11CC00 (Read/Write byte): SETUP registers
+- Address 0x11C000 (Read/Write byte): SETUP registers
 
 
 OPERATION

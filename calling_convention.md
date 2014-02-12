@@ -6,11 +6,11 @@ Version 0.2 (WIP)
   the results returned from a subrutine.
 - Subsequent arguments are passed on the stack. Function arguments of a 
   procedural language are pushed in reversed order that are declared.
-- %r4 to %r26 are used for local variables. Callee subrutine or function must 
+- %r4 to %r10 are used for local variables. Callee subrutine or function must 
   preserve it.
 - %y, %ia and %flags special registers must be preserved.
-- %r30 (%bp) register must be preserved being pushed to the stack before the 
-  extra arguments. %r30 takes the value of %r31 (%sp) after pushing the extra
+- %r12 (%bp) register must be preserved being pushed to the stack before the 
+  extra arguments. %r30 takes the value of %r13 (%sp) after pushing the extra
   arguments.
 - Calle function/subrutine can use %bp + n to read extra arguments, and %bp - n
   for local variables.
@@ -87,7 +87,7 @@ For example, to read argument 5, 6 and 7:
     LOAD    %r7, %bp + 8             ; %r6 = Seventh argument
 
 #### Where I put local vars if i noit have enought registers
-If you exaust the registers %r4 to %r2i6 for local vars, the calle function can
+If you exaust the registers %r4 to %r10 for local vars, the calle function can
 use the stack to store local vars. Only need, in the end of prologue, to 
 substract to %sp a value to give space in the stack and restore the %sp value 
 in the epilogue.
@@ -99,7 +99,7 @@ For example, a 32 bit interger var in the stack :
     SUB     %sp, 4, %sp              ; We move the stack pointer down and we
                                      ; create space to a 32 bit interger value
                                      ; in the Stack
-    ... Preserve used registers %r5 to %r29
+    ... Preserve used registers %r5 to %r10
 
     ... code of the funtion
     STORE   %bp - 4 , %r5            ; Example of writing to the local var in stack
@@ -108,7 +108,7 @@ For example, a 32 bit interger var in the stack :
 
     ; Epilogue
     ... Sets result values
-    ... Restores used register %r5 to %r29
+    ... Restores used register %r5 to %r10
     ADD     %sp, 4, %sp              ; We restores the Stack pointer value
                                      ; local vars i nthe stack aren forgot
     RET

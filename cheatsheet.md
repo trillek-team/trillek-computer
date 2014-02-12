@@ -13,13 +13,13 @@ Cheat sheet that compares assembly of TR3200 v0.8 vs DCPU-16 v1.7
 - Z   -> %r5
 - I   -> %r6
 - J   -> %r7
-- SP  -> %sp = %r31
+- SP  -> %sp = %r13
 - PC  -> %pc
 - EX  -> CF bit in %flags and %y for multiplications
 
-%r8 to %r13 and %r16 to %r26 could be uses as temporal variable without penalty
-%r30 = %bp is asociated to stack allocation and function arguments, but can be 
-used as a regular register.
+%r8 to %r10 can be used for temporary variables without penalty.
+
+While %r12 = %bp is usually used for stack allocation and function arguments, it may also be used as an extra general-purpose register.
 
 ## Intruction syntax
 

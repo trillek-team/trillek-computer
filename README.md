@@ -95,12 +95,11 @@ To know how many devices are plugged to the computer, you only need to read the 
 
 #### Know Builder values
 
-- 0x00000000 -> Unknown builder (reserved value)
-- 0x1C6C8B36 -> Nya Elektriska
-- 0x1EB37E91 -> Mackapar Media
-- 0x21544948 -> Harold Innovation Technologies (Harold I.T.)
-- 0x0CA0FE84 -> Investronics
-- 0x75FB5FCC -> Admiral Systems
+- 0x0000 -> Unknown builder (reserved value)
+- 0x8B36 -> Nya Elektriska
+- 0x7E91 -> Mackapar Media
+- 0x4948 -> Harold Innovation Technologies (Harold I.T.)
+- 0xCAFE -> Investronics
 
 #### Device commands
 

@@ -1,11 +1,12 @@
 DCPU-16N Specification
 Copyrights 1985 Mojang, Meisaka of Trillek
-Version 0.6 based on DCPU-16 (1.7)
+Version 0.7 based on DCPU-16 (1.7)
 
 
 === SUMMARY ====================================================================
 
 * 16 bit CISC CPU design
+* Little endian
 * 8 bit memory words (1 octet per address)
 * 16 bit memory data bus transfers two octets per clock
 * 16 bit virtual addresses accessing 65536 octets of RAM
@@ -21,7 +22,6 @@ Version 0.6 based on DCPU-16 (1.7)
 * ALU high word - extra/excess (EX) - 16 bit
 * interrupt address (IA) - 16 bit
 * transparent interrupt queue with 16 bit messages
-* Little endian
 
 In this document, anything within [brackets] is shorthand for "the value of the
 RAM at the location of the value inside the brackets". For example, SP means
@@ -39,7 +39,7 @@ or multi-octet operations use little endian in all DCPU-16N programs,
 wherever possible.
 
 For stability and to prevent excess heat dissipation, it is recommended to
-clock the DCPU-16N. Not no more than 1000 kHz. For best stability in deep space
+clock the DCPU-16N at no more than 1000 kHz. For best stability in deep space
 or high radiation environments, a clock rate of 200kHz is recommended, as well
 as core memory or full ECC memory.
 
@@ -279,7 +279,7 @@ The value(v) is a bit flag used by some opcodes, and is ignored otherwise.
 
 * Internally the DCPU-16N keeps track whether it is skipping, queuing interrupts
   , masking byte writes (of which byte), and how many interrupts are queued.
-  All of these flags and values are transparent from the programming model, s
+  All of these flags and values are transparent from the programming model, so
   user of the DCPU-16N need not concern themselves with the implementation.
 
 

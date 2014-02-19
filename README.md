@@ -1,6 +1,6 @@
 Trillek Virtual Computer Specs
 =====================================
-Version 0.4b
+Version 0.4c
 
 **ADVICE** : In this documents there some technical stuff that could looks hard
 or complex to understand for not hardware guys.
@@ -82,9 +82,11 @@ To know how many devices are plugged to the computer, you only need to read the 
 - 0x01 : Audio devices (Sound Cards)
 - 0x02 : Communications devices
 - 0x03 : HID (Human Interface Device)
+- 0x04 : Expansion buses
 - 0x06 : Image/Video Input Devices
 - 0x07 : Printer (2D and 3D) Devices
 - 0x08 : Mass Storage Device (Floppy drives, Microdrives, Hard disks, Tape recorders)
+- 0x0A : Co-Processors
 - 0x0E : Graphics Devices (Graphics card)
 - 0x0F : HoloGraphics Devices
 - 0x10 : Ship Sensors (DRADIS, Air, Hull integrity, etc...)

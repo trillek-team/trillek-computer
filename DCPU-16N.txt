@@ -1,4 +1,4 @@
-DCPU-16E Specification
+DCPU-16N Specification
 Copyrights 1985 Mojang, Meisaka of Trillek
 Version 0.6 based on DCPU-16 (1.7)
 
@@ -21,6 +21,7 @@ Version 0.6 based on DCPU-16 (1.7)
 * ALU high word - extra/excess (EX) - 16 bit
 * interrupt address (IA) - 16 bit
 * transparent interrupt queue with 16 bit messages
+* Little endian
 
 In this document, anything within [brackets] is shorthand for "the value of the
 RAM at the location of the value inside the brackets". For example, SP means
@@ -34,11 +35,11 @@ in this case the shorthand is [++PC].
 When PC is an odd value, each instruction will take an extra cycle to read.
 
 For stability and to reduce bugs, it's strongly suggested all multi-word
-or multi-octet operations use little endian in all DCPU-16E programs,
+or multi-octet operations use little endian in all DCPU-16N programs,
 wherever possible.
 
 For stability and to prevent excess heat dissipation, it is recommended to
-clock the DCPU-16E at no more than 1000 kHz. For best stability in deep space
+clock the DCPU-16N. Not no more than 1000 kHz. For best stability in deep space
 or high radiation environments, a clock rate of 200kHz is recommended, as well
 as core memory or full ECC memory.
 
@@ -142,7 +143,7 @@ DESCRIPTION is a short text that describes the opcode or value.
   When they skip a conditional instruction, they will skip an additional
   instruction at the cost of one extra cycle. This continues until a non-
   conditional instruction has been skipped. This lets you easily chain
-  conditionals. Interrupts are not triggered while the DCPU-16E is skipping.
+  conditionals. Interrupts are not triggered while the DCPU-16N is skipping.
     
 * Signed numbers are represented using two's complement.
 
@@ -225,7 +226,7 @@ The value(v) is a bit flag used by some opcodes, and is ignored otherwise.
  4 | 0x00 | HLT   | if interrupts are enabled, generates an interrupt with
    |      |       | message 0, otherwise halts CPU operation.
  3 | 0x01 | SLP   | halts CPU operation, and puts the CPU in a low power state
-   |      |       | if interrupts are enabled, then the DCPU-16E will resume
+   |      |       | if interrupts are enabled, then the DCPU-16N will resume
    |      |       | operation when the next interrupt is triggered.
  - | 0x02 | -     |
  - | 0x03 | -     |
@@ -276,19 +277,19 @@ The value(v) is a bit flag used by some opcodes, and is ignored otherwise.
   handled as normal 16 bit. A BYT operation used on a SWP operation will
   duplicate bytes. Indirect writes (to EX for example) are not affected.
 
-* Internally the DCPU-16E keeps track whether it is skipping, queuing interrupts
+* Internally the DCPU-16N keeps track whether it is skipping, queuing interrupts
   , masking byte writes (of which byte), and how many interrupts are queued.
-  All of these flags and values are transparent from the programming model, so
-  user of the DCPU-16E need not concern themselves with the implementation.
+  All of these flags and values are transparent from the programming model, s
+  user of the DCPU-16N need not concern themselves with the implementation.
 
 
 === INTERRUPTS =================================================================    
 
-The DCPU-16E will perform at most one interrupt between each instruction. If
+The DCPU-16N will perform at most one interrupt between each instruction. If
 multiple interrupts are triggered at the same time, they are added to a queue.
-If the queue grows longer than 256 interrupts, the DCPU-16E will catch fire. 
+If the queue grows longer than 256 interrupts, the DCPU-16N will catch fire. 
 
-When IA is set to something other than 0, interrupts triggered on the DCPU-16E
+When IA is set to something other than 0, interrupts triggered on the DCPU-16N
 will turn on interrupt queueing, push PC to the stack, followed by pushing A to
 the stack, then set the PC to IA, and A to the interrupt message.
  
@@ -305,7 +306,7 @@ critical code.
 
 === HARDWARE ===================================================================    
 
-The DCPU-16E supports both memory or I/O bus mapped hardware devices. These
+The DCPU-16N supports both memory or I/O bus mapped hardware devices. These
 devices can be anything from additional storage, sensors, monitors or speakers.
 How to control the hardware is specified per hardware device.
 
@@ -315,17 +316,17 @@ devices. Either bus need not contain devices, or have hardware connected at all.
 Some hardware devices may have only an 8 bit data bus connection, in these cases
 reading or writing 16 bit values will take an additional cycle each read/write.
 
-The DPCU-16E does not support hot swapping hardware. The behavior of connecting
-or disconnecting hardware while the DCPU-16E computer is running is undefined
+The DPCU-16N does not support hot swapping hardware. The behavior of connecting
+or disconnecting hardware while the DCPU-16N computer is running is undefined
 and not recommended for a number of reasons.
 
 
 === EXTENDED MEMORY ============================================================
 
-The DCPU-16E features a simple integrated memory control device called the 
-Extended Memory Unit (EMU), that allows the DCPU-16E to access a 24 bit address
+The DCPU-16N features a simple integrated memory control device called the 
+Extended Memory Unit (EMU), that allows the DCPU-16N to access a 24 bit address
 space. The EMU maps memory from the 16 bit virtual address space to the 24 bit
-physical address space. The virtual memory space of the DCPU-16E is split
+physical address space. The virtual memory space of the DCPU-16N is split
 into 16 0x1000 byte blocks. The EMU maps each block to one of 4096 pages in
 the 24 bit physical address space, where each page is also 0x1000 bytes.
 
@@ -335,9 +336,9 @@ be mapped to multiple blocks at once, meaning both blocks will refer to the
 same memory or hardware at that physical address.
 
 The initial layout of the pages at boot time is defined by the computer system
-that the DCPU-16E is used in. If left unspecified, blocks are set sequentially
+that the DCPU-16N is used in. If left unspecified, blocks are set sequentially
 starting at page 0. Computer systems should define at minimum, a setting for
 block 0, or layout of page 0, to point a ROM/EPROM or other non-volitile
-storage to ensure the DCPU-16E will boot to user machine code.
+storage to ensure the DCPU-16N will boot to user machine code.
 
 

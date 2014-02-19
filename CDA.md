@@ -28,12 +28,12 @@ COMMANDS
 
     |  Value  |   Name   | Description
     +---------+----------+-----------------------------------------------------
-    | 0x0000  | SET_ADDR | Sets base address to map to A:B value. If the 
+    | 0x0000  | SET_ADDR | Sets base address to map to B:A value. If the 
     |         |          | address is valid, and the device can map these
     |         |          | address, will set C register to 0x0000. If not, will
-    |         |          | set A register to 0xFFFF. Setting A:B to 0, disables
+    |         |          | set A register to 0xFFFF. Setting B:A to 0, disables
     |         |          | the address map, and disables the graphics output.
-    | 0x0001  | GET_ADDR | Return base address maped. Sets A:B register to the 
+    | 0x0001  | GET_ADDR | Return base address maped. Sets B:A register to the 
     |         |          | base address being used by the device. When the 
     |         |          | computer boots, this base address is 0.
     | 0x0002  | GET_ASIZE| Returns the address block size. Sets A register to 

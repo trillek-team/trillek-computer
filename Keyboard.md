@@ -19,8 +19,8 @@ COMMANDS
 
     |  Value  |   Name   | Description
     +---------+----------+-----------------------------------------------------
-    | 0x0000  | SET_ADDR | Sets base address to map to A:B value. Does nothing
-    | 0x0001  | GET_ADDR | Return base address maped. Sets A:B register to 0.
+    | 0x0000  | SET_ADDR | Sets base address to map to B:A value. Does nothing
+    | 0x0001  | GET_ADDR | Return base address maped. Sets B:A register to 0.
     | 0x0002  | GET_ASIZE| Returns the address block size. Sets A register to 0.
     | 0x0003  | SET_INT  | Sets interrupt message to A register value. If A is 
     |         |          | 0x0000, then disables KeyEvent interrupt. This is

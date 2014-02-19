@@ -1,6 +1,6 @@
 Trillek Virtual Computer Specs
 =====================================
-Version 0.4 
+Version 0.4a
 
 **ADVICE** : In this documents there some technical stuff that could looks hard
 or complex to understand for not hardware guys.
@@ -15,6 +15,7 @@ SUMMARY
 
 - 32 bit data bus, but allow transfers of 16 and 8 bit.
 - 24 bit address space (0x000000-0xFFFFFF).
+- Little endian architecture.
 - 32KiB ROM chip at address 0x100000-0x107FFF
 - Initial 128KiB RAM at address 0x000000- 0x01FFFF
 - RAM expandable with modules of 128KiB to a total of 1 MiB of RAM (0x000000-0x0FFFFF)
@@ -110,10 +111,10 @@ All devices must respect this commands :
     | 0x0000  | SET_ADDR | Sets base address to map to A:B value. If the 
     |         |          | address is valid, and the device can map these 
     |         |          | address, will set C register to 0x0000. If not, will
-    |         |          | set A register to 0xFFFF. Setting A:B to 0, disables
+    |         |          | set A register to 0xFFFF. Setting B:A to 0, disables
     |         |          | the address map, and depending of the device, could
     |         |          | disable it.
-    | 0x0001  | GET_ADDR | Return base address maped. Sets A:B register to the 
+    | 0x0001  | GET_ADDR | Return base address maped. Sets B:A register to the 
     |         |          | base address being used by the device. When the 
     |         |          | computer boots, this base address is 0.
     | 0x0002  | GET_ASIZE| Returns the address block size. Sets A register to 

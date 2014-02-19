@@ -5,8 +5,9 @@ Version 0.5 (WIP)
 Generic Keyboard controller. Handles an internal buffer to store key events.
 
 - Device Class    : 0x03 (HID)
-- Device Builder  : 0xXXXX
-- Device ID       : 0x0001 (Generic Keyboard)
+- Device Builder  : 0x00000000
+- Device ID       : 0x0001 (Generic Keyboard standard)
+- Device Rev      : 0x00   
 
 
 RESOURCES

@@ -10,9 +10,9 @@ Text Generator Adapter (TGA) device that allows to display text with color and a
 The refresh rate should be around 25 hz.
 
 - Device Class    : 0x0E (Graphics Device)
-- Device Builder  : 0x8B36 (Nya Elektriska)
-- Device ID       : 0x0001 (TGA standard) 
-
+- Device Builder  : 0x1C6C8B36 (Nya Elektriska)
+- Device ID       : 0x01 (TGA standard) 
+- Device Rev      : 0x00  
 
 RESOURCES
 ---------

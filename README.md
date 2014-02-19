@@ -1,6 +1,6 @@
 Trillek Virtual Computer Specs
 =====================================
-Version 0.4a
+Version 0.4b
 
 **ADVICE** : In this documents there some technical stuff that could looks hard
 or complex to understand for not hardware guys.
@@ -9,6 +9,8 @@ and can't do the computer. If your only interest is programing the computer,
 you should check the instruction set of a CPU and the specs of the devices to
 understand how program the computer and use the devices at assembly or C programing
 level.
+
+**NOTATION** : Byte is a 8 bit value. Word is a 16 bit value and DWord is a 32 bit value.
 
 SUMMARY
 ------
@@ -26,8 +28,9 @@ SUMMARY
 - Addresses used by devices are over 0x110000 to avoid address clashes with the RAM/ROM.
 - Address 0x11FF00 contains a read only dword register that returns a unique ID of the motherboard. 
 - Addresses 0x110000 to 0x112000 are reserved to Devices Enumeration and Communication.
-- At address 0x11**XX**00, were **XX** is the device slot number (to a total of 32 -> 0x20), there is mapped an address block that consists : Device Type, Device Builder ID, Device ID, CMD, A, B, C, D, E registers. 
+- At address 0x11**XX**00, were **XX** is the device slot number (to a total of 32 -> 0x20), there is mapped an address block that consists : Device Type, Device Builder ID, Device ID, CMD, A, B, C, D, E hardware registers. 
 - Devices could do **DMA** operations at will, but ONLY one device could do that at same time, and can only transfer 4 bytes every Device Clock (like if the DMA operates in the falling clock flank and the CPU operated in the rising clock flank.)
+- Usually the devices exposes his own ram and&or uses commands. The only exception is the most basic graphcis device that uses computer RAM as buffer.
 - The computer can be expanded to a total 32 devices, not counting integrated devices on motherboard. This can be archived by plugin the device boards in the expansion bus. Some devices will require a external module attached to the computer, like floppy drives, graphics cards, joysticks, weapons, etc...
 - Integrated devices on motherboard:
     - Programmable Interval Timer (**PIT**) aka *Clock* device.
@@ -64,14 +67,15 @@ Devices maps 0x11**XX**00 address block, were XX is the slot were is plugged. In
 
 - Present flag (Read byte): At offset 0,there is a byte that always read 0xFF if a device is plugged in these slot
 - Device Type register (Read byte): At offset 1, there is a byte that gives information about the device type (see Device Type list section)
-- Device Builder ID register (Read word) : At offset 2, there is word that gives the Builder ID of the device (see know Device Builder list section)
-- Device ID register (Read word) : At offset 4, there is a word that fives the Device ID. The tuple {Builder ID, Device ID} defines a unique device. This information can be used to allow the software know what device is plugged and how should use it.
-- CMD register (Write word) : At offset 6, there is a word that writing to it, sends a command to the device. The command list is dependent of the device, and is showed in the device specs. There is a few universal commands listed in Device commands section.
-- A, B, C, D, E registers (Read/Write word every one) : Begin at offset 8, there is five word registers that are used to send values with the commands and receive status/error or other stuff from the devices.
+- Device Builder ID register (Read dword) : At offset 2, there is dword that gives the Builder ID of the device (see know Device Builder list section)
+- Device ID register (Read byte) : At offset 6, there is a byte that gives the Device ID. The tuple {Builder ID, Device ID} defines a unique device. This information can be used to allow the software know what device is plugged and how should use it.
+- Device Revision register (Read byte) : At offset 7, there is a byte that gives the Device Revision. It's expected that higher revision are backwards compatible , adding new features or fixing bugs in previous revisions.
+- CMD register (Write word) : At offset 8, there is a d that writing to it, sends a command to the device. The command list is dependent of the device, and is showed in the device specs. There is a few universal commands listed in Device commands section.
+- A, B, C, D, E registers (Read/Write word every one) : Begin at offset 10, there is five word registers that are used to send values with the commands and receive status/error or other stuff from the devices.
 
-To know how many devices are plugged to the computer, you only need to read the first byte of the 32 address and count one more for every byte being 0xFF.
+To know how many devices are plugged to the computer, you only need to read the first byte of the 32 addresses and count one more for every byte being 0xFF.
 
-**NOTE FOR USERS**: This is nearly the same stuff that does the original Notch's DCPU-16, but being memory mapped instead of being special magic instructions.
+**NOTE FOR USERS**: This is nearly the same stuff that does the original Notch's DCPU-16, but being memory mapped instead of being special magic instructions. Each device have his own set registers. The device at slot 0 have this registers at 0x110000, and A register is at 0x11000A; device 8 have his registers at 0x110800, and BuildID register is at 0x110802; etc...
 
 #### Device Class values
 
@@ -95,11 +99,11 @@ To know how many devices are plugged to the computer, you only need to read the 
 
 #### Know Builder values
 
-- 0x0000 -> Unknown builder (reserved value)
-- 0x8B36 -> Nya Elektriska
-- 0x7E91 -> Mackapar Media
-- 0x4948 -> Harold Innovation Technologies (Harold I.T.)
-- 0xCAFE -> Investronics
+- 0x00000000 -> Unknown builder (reserved value)
+- 0x1C6C8B36 -> Nya Elektriska
+- 0x1EB37E91 -> Mackapar Media
+- 0x21544948 -> Harold Innovation Technologies (Harold I.T.)
+- 0x494E5645 -> Investronics
 
 #### Device commands
 
@@ -170,6 +174,7 @@ DOCUMENTS
 - [Programmable Interval Timer](./Timers.md) (aka Timer or Clock)
 - [Beeper](./Beeper.md)
 - [Generic Keyboard](./Keyboard.md)
+- [Text Generator Adapter](./TGA.md) (TGA)
 - [Color Display Adapter](./CDA.md) (CDA)
 - [Computer Architecture Diagram](./computer.dia) (DIA file)
 - [Calling Conventions](./calling_convention.md)

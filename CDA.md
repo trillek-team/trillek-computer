@@ -11,54 +11,54 @@ Text modes uses a 8x8 pixel glyph cells, and the user can define a user Font.
 Graphics modes, uses a bit plane to set a pixel between foreground and
 background color. The screen is divided in attribute cells that defines a foreground and background color.
 
-The video signals uses a vertical refresh rate of 25Hz and a horizontal refresh
-rate of 21.8 KHz.
+The refresh rate should be around 25 hz.
 
 - Device Class    : 0x0E (Graphics Device)
-- Device Build    : 0xXXXX
+- Device Builder  : 0xXXXX
 - Device ID       : 0x0001 (CDA standard) 
-- Device Version  : 0x0001
+
 
 RESOURCES
 ---------
 
-A basic CDA card exposes 9600 Bytes of Video RAM, plus have a configuration *Jumper*, and can generate a interrupt for Vsync events.
+A basic CDA card exposes 9600 Bytes of Video RAM, and can generate a interrupt for Vsync events.
 
-- Interrupt Message = in function of *Jumper* value, will be :
-    - 0 -> 0x0000005A
-    - 1 -> 0x0000015A
-    - 2- > 0x0000025A
-    - 3 -> 0x0000035A
+COMMANDS
+--------
 
-### Preferred Address Block
-The CDA Display try to use this address blocks:
+    |  Value  |   Name   | Description
+    +---------+----------+-----------------------------------------------------
+    | 0x0000  | SET_ADDR | Sets base address to map to A:B value. If the 
+    |         |          | address is valid, and the device can map these
+    |         |          | address, will set C register to 0x0000. If not, will
+    |         |          | set A register to 0xFFFF. Setting A:B to 0, disables
+    |         |          | the address map, and disables the graphics output.
+    | 0x0001  | GET_ADDR | Return base address maped. Sets A:B register to the 
+    |         |          | base address being used by the device. When the 
+    |         |          | computer boots, this base address is 0.
+    | 0x0002  | GET_ASIZE| Returns the address block size. Sets A register to 
+    |         |          | the address block size being used by the device. In 
+    |         |          | this case is 9600
+    | 0x0003  | SET_INT  | Sets interrupt message to A register value. If A is 
+    |         |          | 0x0000, then disables VSync interrupt. This is set
+    |         |          | to 0 when the computer boots.
+    | 0x0004  | GET_INT  | Gets interrupt message. Sets A register to the value
+    |         |          | of the interrupt message.
+    | 0x0005  | SET_MODE | Sets the video mode. A register value selects one of
+    |         |          | the valid video modes. B register bit 0 could enable
+    |         |          | custom RAM color palette and bit 1 could enable
+    |         |          | custom RAM font in text modes.
+    | 0x0006  | GET_MODE | Gets the actual video mode. Sets A and B registers
+    |         |          | to the actual video mode and configuration bits.
+    +---------+----------+-----------------------------------------------------
 
-- Address 0x1A0000-0x1A2580: Video RAM
-- Address 0x11C000 (Read/Write byte): SETUP registers
 
+### Valid Video modes
 
-OPERATION
----------
-
-Writing at SETUP register, sets the video mode and if is enabled V-Sync
-Interrupt. SETUP register format :
-
-- BIT 0-2 : Sets video mode
-- BIT 3 : If is 0, sets the CDA card to Text Mode, if not, then sets CDA card to
-  Graphics mode.
-- BIT 4 : Unused
-- BIT 5 : If the CDA is in text mode, enables the use of the RAM user font.
-- BIT 6 : Enables the use of the RAM user color palette.
-- BIT 7 : Enables V-Sync refresh interrupt. Does a interrupt every time that the
-  screen is refreshed at a rate of 25Hz.
-
-### Video modes
-Bits 3 to 0 of SETUP register :
-
-- 0 000 : Text  Mode 0  40x30 Text mode without border
-- 1 000 : Video Mode 0  256x192 Gaphics mode, 8x8 Attribute cell, with border
-- 1 001 : Video Mode 1  256x192 Gaphics mode, 4x4 Attribute cell, with border
-- 1 010 : Video Mode 2 320x240 Graphics mode, B&W, without border.
+- 0x0000 : Text  Mode 0 40x30 Text mode without border
+- 0x1000 : Video Mode 0 256x192 Gaphics mode, 8x8 Attribute cell, with border
+- 0x1001 : Video Mode 1 256x192 Gaphics mode, 4x4 Attribute cell, with border
+- 0x1010 : Video Mode 2 320x240 Graphics mode, B&W, without border.
 - Rest are reserved for future compatible video adapters.
 
 ### Text mode

@@ -7,7 +7,7 @@ The Beeper device (or "Buzzer") consist in a basic multi-vibrator oscillator tha
 RESOURCES
 ---------
 
-- Address 0x110028 (Write word): BEEP_FRQ
+- Address 0x113028 (Write word): BEEP_FRQ
 
 
 OPERATION

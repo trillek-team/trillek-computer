@@ -5,26 +5,43 @@ Version 0.5 (WIP)
 Generic Keyboard controller. Handles an internal buffer to store key events.
 
 - Device Class    : 0x03 (HID)
-- Device Build    : 0xXXXX
+- Device Builder  : 0xXXXX
 - Device ID       : 0x0001 (Generic Keyboard)
-- Device Version  : 0xXXXX
 
 
 RESOURCES
 ---------
 
-The keyboard controller uses few registers to see the status of the keyboard, the key buffer and send commands. Also, have a configuration *Jumper*.
+The keyboard controller uses few commands to see the status of the keyboard, the key buffer and manipulate the key buffer.
 
-- Event interrupt message = in function of *Jumper* value, will be :
-    - 1 -> 0x00000109
-    - 2- > 0x00000209
-    - 3 -> 0x00000309
+COMMANDS
+--------
 
-### Preferred Address Block
-The keyboard controller try to use this address blocks:
-
-- Address 0x110160 (Read/Write word): KEY_REG
-- Address 0x110162 (Read/Write byte): KEY_CMD
+    |  Value  |   Name   | Description
+    +---------+----------+-----------------------------------------------------
+    | 0x0000  | SET_ADDR | Sets base address to map to A:B value. Does nothing
+    | 0x0001  | GET_ADDR | Return base address maped. Sets A:B register to 0.
+    | 0x0002  | GET_ASIZE| Returns the address block size. Sets A register to 0.
+    | 0x0003  | SET_INT  | Sets interrupt message to A register value. If A is 
+    |         |          | 0x0000, then disables KeyEvent interrupt. This is
+    |         |          | set to 0 when the computer boots.
+    | 0x0004  | GET_INT  | Gets interrupt message. Sets A register to the value
+    |         |          | of the interrupt message.
+    | 0x0005  | SET_MODE | Sets the operation mode of the keyboard controller.
+    |         |          | Changes the operation mode in function of A register.
+    |         |          | Changing the operation mode clears the key buffer.
+    | 0x0006  | GET_MODE | Sets the operation mode of the keyboard controller.
+    |         |          | Sets A register to the operation mode.
+    | 0x0007  | PULL_KEY | Pull the key buffer. Sets A register to the
+    |         |          | keycode/scancode (depends of the operation mode),
+    |         |          | and B register contains the status bits of the key
+    |         |          | event.
+    | 0x0008  | PUSH_KEY | Push the key buffer. A register value is the
+    |         |          | keycode/scancode (depends of the operation mode), 
+    |         |          | and B register value contains the status bits of the
+    |         |          | key event.
+    | 0x0009  | CLR_BUFF | Clears the key buffer.
+    +---------+----------+-----------------------------------------------------
 
 HOW WORKS
 ---------
@@ -39,68 +56,51 @@ KEY events are more useful for basic typing commands or text, when RAW events ar
 
 Also, there is there modes of operation in the keyboard controller : RAW mode, KEY mode, and RAW+KEY mode. In RAW mode, each time that a user type a key in the keyboard, only push in the buffer a RAW events. In KEY mode, each time that a user type a key in the keyboard, only push in the buffer a KEY event. And finally, in RAW+KEY mode, each time that a user type in the keyboard, only push a RAW event followed by a KEY event.
 
-OPERATION
----------
+Sending SET_MODE command with A equal to 0, sets the KEY mode. With A equal to 1, sets the RAW mode. With A equal to 2, sets the RAW+KEY mode. At boot, the controller boots in KEY mode.
 
-Reading at KEY_REG, gets the last event.
-Reading value from KEY_CMD depends of the command.
+Reading E register returns always the number of key events stored in the key buffer.
+Reading D register returns always the status bits in real time. 
 
-Writing at KEY_REG, push a event to the keyboard buffer
-Writing at KEY_CMD, sends a command to the keyboard.
+### Status Bits
 
-### Commands
+Status bits (D register and B register value in PULL/PUSH_KEY) have this format :
 
-Accepted values to write in KEY_CMD are in this list :
+    7  6  5  4  3  2  1  0
+    ----------------------
+    G  C  S  0  0  0  S  S
+    
+SS bits are 0 if the keyboard is operating in KEY mode or if is the D register. If not, will contain the two MSB bits of the scancode value.
 
-     VALUE |  NAME      | BEHAVIOUR
-    -------+------------+----------------------------------------------------------
-      0x00 | CLEAR      | Clear keyboard buffer
-      0x01 | COUNT      | Reading KEY_CMD returns the number of events stored in
-           |            | the buffer when the command is send.
-      0x02 | D-INT      | Disables interrupt when a Key event happens.
-      0x03 | E-INT      | Enables interrupts when a Key event happens.
-      0x04 | KEY-MODE   | Switch to KEY mode.
-      0x05 | RAW-MODE   | Switch to RAW mode.
-      0x06 | RK-MODE    | Switch to RAW+KEY mode.
-    -------+------------+----------------------------------------------------------
 
 ### Events
 
 If interrupts are enabled, the keyboard will trigger an interrupt when a keyboard event happens.
 
-RAW Event Format (value read from KEY_REG):
+RAW Event Format (value read in A with PULL_KEY):
 
-    15 14 13 12 11 10 9  8  7  6  5  4  3  2  1  0
-    ----------------------------------------------
-    1  G  C  S  X  X  s  s  s  s  s  s  s  s  s  s
+    7  6  5  4  3  2  1  0
+    ----------------------
+    s  s  s  s  s  s  s  s
     
 Where : 
 
- - G (Alt Gr mod) If the bit is set to 1, this means that the Alt Gr Key is being pressed at same time
- - C (Control mod) If the bit is set to 1, this means that the Control Key is being pressed at same time
- - S (Shift mod) If the bit is set to 1, this means that the Shift Key is being pressed at same time
- - X reserved for future use
- - ssssssssss 10 bit scancode
+ - SSssssssss 10 bit scancode. SS are the lowest two bits of B register
  
  
-KEY Event Format (value read from KEY_REG):
+KEY Event Format (value read in A with PULL_KEY):
 
-    15 14 13 12 11 10 9  8  7  6  5  4  3  2  1  0
-    ----------------------------------------------
-    0  G  C  S  X  X  0  0  k  k  k  k  k  k  k  k
+    7  6  5  4  3  2  1  0
+    ----------------------
+    k  k  k  k  k  k  k  k
 
 Where : 
 
- - G (Alt Gr mod) If the bit is set to 1, this means that the Alt Gr Key is being pressed at same time
- - C (Control mod) If the bit is set to 1, this means that the Control Key is being pressed at same time
- - S (Shift mod) If the bit is set to 1, this means that the Shift Key is being pressed at same time
- - X reserved for future use
  - kkkkkkkk Latin-1 representation of the key. 
 
 
 ### Events buffer
 The buffer can store at least 64 events. Each time that a key is typed, the appropriate event is pushed to the buffer.
-The buffer operates in FIFO fashion. So when a user types a key, a new event is inserted in the buffer. Reading KEY_REG, extracts the most old event stored in the buffer (POP buffer). But writing to KEY_REG, inserts a new event in the buffer like if was the oldest entry, in other words, PUSH a event to the buffer. Pushing could be do only, if the buffer have enough size to store it. If there is not enight space, then pushing fails silent. When the buffer fills and the keyboard inserts a new event, the most oldest event is removed to allow to insert the new event.
+The buffer operates in FIFO fashion. So when a user types a key, a new event is inserted in the buffer. Reading KEY_REG, extracts the most old event stored in the buffer (POP buffer). But writing to KEY_REG, inserts a new event in the buffer like if was the oldest entry, in other words, PUSH a event to the buffer. Pushing could be do only, if the buffer have enough size to store it. If there is not enough space, pushing fails silent. When the buffer fills and the keyboard inserts a new event, the most oldest event is removed to allow to insert a new event.
 
     PUSH inserts here          
     ----------------->       
@@ -216,16 +216,6 @@ Key codes are:
 - 0xA0 to 0xFF: Latin-1 characters
 
 - Other values: Reserved for advanced keyboards or non western localized keyboards
-
-
-Integrated Keyboard controller in the motherboard
-=================================================
-
-The integrated keyboard controller in the motherboard is not listed in the hardware enumerator and not hate a *Jumper*. Uses this resources :
-
-- Event interrupt message = 0x00000009
-- Address 0x110060 (Read/Write word): KEY_REG
-- Address 0x110062 (Read/Write byte): KEY_CMD
 
 
 Stuff to read

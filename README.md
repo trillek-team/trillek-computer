@@ -215,6 +215,7 @@ DOCUMENTS
 - [Generic Keyboard](./Keyboard.md)
 - [Text Generator Adapter](./TGA.md) (TGA)
 - [Color Display Adapter](./CDA.md) (CDA)
+- [5.25" Floppy Drive](./floppy_drive.md) (M5FDD)
 - [Computer Architecture Diagram](./computer.dia) (DIA file)
 - [Calling Conventions](./calling_convention.md)
 

@@ -23,7 +23,7 @@ Track seeking time is about 2.4 ms per track.
 COMMANDS
 --------
    
-Reading D Register returns always the current status code.
+Reading D Register returns always the current status code.  
 Reading E Register returns always the current error code.
 
  - 0x0000 : **SET_INT** :  

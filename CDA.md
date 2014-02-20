@@ -1,8 +1,8 @@
 Color Display Adapter
 =====================
-Version 0.4 (WIP) 
+Version 0.5 (WIP) 
 
-Color Display Adapter (CDA) device that allows to display text modes and graphics modes in color, using a 16 programmable color palette.
+Color Display Adapter (CDA) device that allows to display text modes and graphics modes in color, using a 16 programmable color palette. It's compatible with TGA device.
 
 - Allowed Text modes : 40x30
 - Allowed Graphics modes : 256x192 and 320x240
@@ -14,8 +14,9 @@ background color. The screen is divided in attribute cells that defines a foregr
 The refresh rate should be around 25 hz.
 
 - Device Class    : 0x0E (Graphics Device)
-- Device Builder  : 0xXXXX
-- Device ID       : 0x0001 (CDA standard) 
+- Device Builder  : 0x494E5645 (Investronics)
+- Device ID       : 0x02 (CDA standard)
+- Device Rev      : 0x00
 
 
 RESOURCES

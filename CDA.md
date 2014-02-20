@@ -2,56 +2,57 @@ Color Display Adapter
 =====================
 Version 0.5 (WIP) 
 
-Color Display Adapter (CDA) device that allows to display text modes and graphics modes in color, using a 16 programmable color palette. It's compatible with TGA device.
+The Color Display Adapter (CDA) device allows to display text and graphics in 
+color, using a 16 programmable color palette. It's compatible with TGA device.
 
-- Allowed Text modes : 40x30
-- Allowed Graphics modes : 256x192 and 320x240
-
-Text modes uses a 8x8 pixel glyph cells, and the user can define a user Font.
-Graphics modes, uses a bit plane to set a pixel between foreground and
-background color. The screen is divided in attribute cells that defines a foreground and background color.
+ - Allowed Text modes : 40x30 8x8 pixel font cell
+ - Allowed Graphics modes : 256x192 and 320x240
 
 The refresh rate should be around 25 hz.
 
-- Device Class    : 0x0E (Graphics Device)
-- Device Builder  : 0x494E5645 (Investronics)
-- Device ID       : 0x02 (CDA standard)
-- Device Rev      : 0x00
+ - Device Class    : 0x0E (Graphics Device)
+ - Device Builder  : 0x494E5645 (Investronics)
+ - Device ID       : 0x02 (CDA standard)
+ - Device Rev      : 0x00
 
 
 RESOURCES
 ---------
 
-A basic CDA card exposes 9600 Bytes of Video RAM, and can generate a interrupt for Vsync events.
+A basic CDA card exposes 9600 Bytes of Video RAM for graphics modes, and can 
+generate a interrupt for Vsync events.
+Like the TGA, can use computer RAM for a Text buffer and defined user font.
 
 COMMANDS
 --------
 
-    |  Value  |   Name   | Description
-    +---------+----------+-----------------------------------------------------
-    | 0x0000  | SET_ADDR | Sets base address to map to B:A value. If the 
-    |         |          | address is valid, and the device can map these
-    |         |          | address, will set C register to 0x0000. If not, will
-    |         |          | set A register to 0xFFFF. Setting B:A to 0, disables
-    |         |          | the address map, and disables the graphics output.
-    | 0x0001  | GET_ADDR | Return base address maped. Sets B:A register to the 
-    |         |          | base address being used by the device. When the 
-    |         |          | computer boots, this base address is 0.
-    | 0x0002  | GET_ASIZE| Returns the address block size. Sets A register to 
-    |         |          | the address block size being used by the device. In 
-    |         |          | this case is 9600
-    | 0x0003  | SET_INT  | Sets interrupt message to A register value. If A is 
-    |         |          | 0x0000, then disables VSync interrupt. This is set
-    |         |          | to 0 when the computer boots.
-    | 0x0004  | GET_INT  | Gets interrupt message. Sets A register to the value
-    |         |          | of the interrupt message.
-    | 0x0005  | SET_MODE | Sets the video mode. A register value selects one of
-    |         |          | the valid video modes. B register bit 0 could enable
-    |         |          | custom RAM color palette and bit 1 could enable
-    |         |          | custom RAM font in text modes.
-    | 0x0006  | GET_MODE | Gets the actual video mode. Sets A and B registers
-    |         |          | to the actual video mode and configuration bits.
-    +---------+----------+-----------------------------------------------------
+ - 0x0000 : **MAP_BUFFER** :  
+   Sets text buffer address to B:A value. If is a valid RAM address, will set 
+   C register to 0x0000. If not, will set C register to 0xFFFF and will ignore 
+   the value. Setting B:A to 0, disables **text** output, if the card is in 
+   text mode.
+ - 0x0001 : **MAP_FONT** :  
+   Sets user font address to B:A value. If is a valid RAM address, will set C
+   register to 0x0000. If not, will set C register to 0xFFFF. Setting B:A to 0,
+   disables the user font, and restores the default font.
+ - 0x0002 : **SET_INT** :  
+   Sets interrupt message to A register value. If A is 0x0000, disables VSync 
+   interrupt. At boot/reset time the VSync is disabled.
+ - 0x0003 : **SET_MODE** :  
+   Sets the video mode. A register value selects one of the valid video modes. 
+ - 0x0004 : **SET_VRAM** :  
+   Sets Video RAM base address to B:A value. If is a not used address, will set
+   C register to 0x0000. If not, will set C register to 0xFFFF and will ignore 
+   the value. Setting B:A to 0, disables **graphics** output, if the card is in
+   grpahics mode.
+ - 0x0005 : **SET_PALETTE** :  
+   Sets Palette RAM base address to B:A value. If is a not used address, will 
+   set C register to 0x0000. If not, will set C register to 0xFFFF and will 
+   ignore the value. Setting B:A to 0, disables custom palette and restores 
+   default palette.
+ - 0x0006: **SET_BORDER_COLOR** :
+   Sets the border color to LSB byte of A register value. Border will only 
+   displayed in video modes that support it.
 
 
 ### Valid Video modes
@@ -63,12 +64,18 @@ COMMANDS
 - Rest are reserved for future compatible video adapters.
 
 ### Text mode
+#### Text buffer
 
-In text modes, the Video RAM represents a glyph and the color attributes using a word to store both. In each word, is defined the  glyph index to use and the background/foreground color attributes.
+The Text buffer represents a glyph and the color attributes using a word to 
+store both. In each word, is defined the glyph index to use and the 
+background/foreground color attributes.
 The first word in the Text Area is the character at row 0, column 0. The next
 word is the character at row 0, column 1, etc.
 
-Formula : address = video ram address + (column % MAX_COLUMNS)*2 + (MAX_COLUMNS*2 * row)
+Formula :  
+    character address = 
+    text buffer address + (column % MAX_COLUMNS)*2 + (MAX_COLUMNS*2 * row)
+
 Were MAX_COLUMNS = 40 or other value depending of what text mode is.
 
 The format of each word is (Little Endian format):
@@ -84,23 +91,25 @@ The format of each word is (Little Endian format):
 
 #### User defined font
 
-Enabling bit 6 in SETUP register when is in a text mode, allows to use a user
-defined font mapped in the last 2KiB of the Video RAM. The user font, consists in 256
-glyphs of 8x8 pixels. A glyph is defined by contiguous 8 bytes, being each byte,
-a row of 8 pixels of the glyph, and the LSB bit defines the first pixel of the 
-row. For example, to define the glyph of the
-character 'F' :
+Sending command MAP_FONT with B:A pointing to a RAM address, enables the user 
+defined font in RAM. It uses the 2KiB of RAM to define a custom 8x8 font.
+A glyph of the font, is defined by contiguous 8 bytes, being each byte, a row 
+of 8 pixels of the glyph, and the MSB bit defines the first pixel of the row. 
+For example, to define the glyph of the character 'F' :
 
-    11111110 -> 0xFE
-    00000010 -> 0x02
-    00000010 -> 0x02
-    00011110 -> 0x1E
-    00000010 -> 0x02
-    00000010 -> 0x02
-    00000010 -> 0x02
-    00000010 -> 0x02
+    BYTE |76543210 <- BIT
+    -----+--------
+      0  |01111111 = 0x7F
+      1  |01000000 = 0x40
+      2  |01000000 = 0x40
+      3  |01111000 = 0x78
+      4  |01000000 = 0x40
+      5  |01000000 = 0x40
+      6  |01000000 = 0x40
+      7  |01000000 = 0x40
 
-Formula : glyph address = (video ram address + video ram size - 2048) + glyph index * 8
+Formula :  
+    glyph address = user font address + glyph index * 8
 
 ### Graphics Mode
 
@@ -122,23 +131,39 @@ screen, and increases as we displace to the right or down.
        or                               or
     (0,239)                         (319,239)
 
-In Graphics Mode, the CDA uses a 1 bit biplane to define if a pixel is active or
-not. An active pixel uses the foreground color, and inactive pixel uses the background color. 
-Using Little Endian scheme, the LSB bit of a byte defines the first pixel
-of a row of 8 pixels, and the MSB bit defines the last pixel of the same row.
-The first byte in the Frame Buffer defines the first row of 8 pixels in the
-screen, pixels from (0,0) to (7,0).
 
 #### Mode 0 and 1
+In this video modes, the CDA divides the Video RAM in two sections, the 
+**Frame buffer** and the **Attribute buffer**.
 
-In the **Video Mode 8 and 9** the first line of the screen, (0,0) to (255,0), is defined
-by the first 32 bytes of the Frame Buffer, the next line is defined by the next 32 bytes, etc.... Each line uses 32 bytes, so the full screen uses
-256x192/8 = 6144 bytes
+In the Frame buffer, CDA uses a 1 bit biplane to define if a pixel is active or
+not. An active pixel uses the foreground color, and inactive pixel uses the 
+background color. Using Little Endian scheme, the LSB bit of a byte defines the
+first pixel of a row of 8 pixels, and the MSB bit defines the last pixel of the
+same row. The first byte in the Frame Buffer defines the first row of 8 pixels 
+in the screen, pixels from (0,0) to (7,0).
 
-Formula : pixel address (X,Y) = video ram address + ((X % 256)/8) + (256 * Y / 8)
-          pixel bit (X) = X%8
+The first line of the screen, (0,0) to (255,0), is defined by the first 32 
+bytes of the Frame Buffer, the next line is defined by the next 32 bytes, etc...
+Each line uses 32 bytes, so the frame buffer have a size of 256x192/8 = 6144 bytes
 
-The foreground and background colors are defined for 8x8 cells in mode 0, 4x4 cells in mode 1 just before the bitplane. Each byte of this area defines the foreground and background colors of each cell on the screen. Uses the same color format that the Text Mode attributes. The first Byte defines the cell (0,0), the next byte, defines the cell (1,0), etc.
+Formula :  
+    pixel address (X,Y) =  
+    video ram address + ((X % 256)/8) + (256 * Y / 8)
+
+    pixel bit (X) = X%8
+
+In the Attribute buffer, the foreground and background colors are defined for 
+8x8 pixels cells in mode 0, and 4x4 pixels in mode 1. The first Byte defines 
+the cell (0,0), the next byte, defines the cell (1,0), etc. The Attribute buffer is 
+just before the Frame buffer. The format is :
+    
+     7  6  5  4  3  2  1  0
+    -----------------------
+     b  b  b  b  f  f  f  f
+
+ - ffff Chooses the foreground color from the palette
+ - bbbb Chooses the background color from the palette
 
 With 8x8 cells :
 
@@ -168,13 +193,15 @@ With 4x4 cells :
        | | | | | | | | | | | | | | | | | 
     (0,47) ------------------------ (63,47)
 
-Formula for Mode 0 :
+Formula for Mode 0 :  
+    pixel attribute address (X,Y) = 
+    video ram address + 6144 + ((X % 256)/8) + (256 * Y / 8)/8
 
-pixel attribute address (X,Y) = video ram address + 6144 + ((X % 256)/8) + (256 * Y / 8)/8
+Formula for Mode 1 :  
+    pixel attribute address (X,Y) = 
+    video ram address + 6144 + ((X % 256)/4) + (256 * Y / 4)/4
 
-Formula for Mode 1 :
-
-pixel attribute address (X,Y) = video ram address + 6144 + ((X % 256)/4) + (256 * Y / 4)/4
+Also, 
 
 In addition, mode 0 and mode 1 have a border around the active screen. This border fills the screen to a 320x240 rectangle, giving borders of 32x24 pixels. The color of the border are defined by the four LSB bits of the byte just
 before of the attribute ram.
@@ -189,69 +216,73 @@ border color address = video ram address + 9216
 
 #### Mode 2
 
-In the **Video Mode 2** the first line of the screen, (0,0) to (319,0), is defined
-by the first 40 bytes of the Frame Buffer, the next line is defined by the next 40 bytes, etc... Each line uses 40 bytes, so the full screen uses 
-320x240/8 = 9600 bytes
+In this video mode, the CDA works ina Black&White mode, and uses the Video RAM
+as 1 bit biplane to define if a pixel is active or not. An active pixel uses 
+White color, and inactive pixel uses the Black color of the actual palette.
 
-Formula : pixel address (X,Y) = video ram address + ((X % 320)/8) + (320 * Y / 8)
-          pixel bit (X) = X%8
+The first line of the screen, (0,0) to (319,0), is defined by the first 40 
+bytes of the Video RAM, the next line is defined by the next 40 bytes, etc... 
+Each line uses 40 bytes, so the full screen uses 320x240/8 = 9600 bytes
+
+Formula :  
+    pixel address (X,Y) =  
+    video ram address + ((X % 320)/8) + (320 * Y / 8)
+    
+    pixel bit (X) = X%8
 
 
 ### Color palette
 
-If the bit 6 of SETUP is enable, then the CDA allow to define a color palette. The palette is defined before Frame
-Buffer / Text buffer ends, and uses 48 bytes.
-The palette is an array were each element is defined by 3 bytes, were the first byte is the RED component, the second
-byte is the GREEN component and the third byte is the BLUE component. In other words, this is a 24 bit value that
-represents a color in RGB8 format.
+If SET_PALETTE was called with a valid, not assigned, address, the CDA will 
+expose a 64 byte RAM were is defined the actual palette being used. When this 
+command is called first time, or before doing a SET_PALETTE to 0, the default 
+palette will be stored in this RAM.
+The palette is an array were each element is defined by 3 bytes + a padding 
+byte, were the first byte is the RED component, the second byte is the GREEN 
+component and the third byte is the BLUE component, and the last byte is the 
+padding byte. In other words, this is a 24 bit value that represents a color 
+in RGB8 format.
 
-If the bit 6 is not enabled, then the default palette is used. The default color palette is :
+The color palette in RGB8 format (Arne 16 color palette) : 
 
-- 0  <span style="background-color:#000000;">&nbsp;&nbsp;</span> 0x000000 Black
-- 1  <span style="background-color:#0000CD;">&nbsp;&nbsp;</span> 0xCD0000 Dark Blue
-- 2  <span style="background-color:#00CD00;">&nbsp;&nbsp;</span> 0x00CD00 Dark Green
-- 3  <span style="background-color:#00CDCD;">&nbsp;&nbsp;</span> 0xCDCD00 Dark Cyan
-- 4  <span style="background-color:#CD0000;">&nbsp;&nbsp;</span> 0x0000CD Dark Red
-- 5  <span style="background-color:#CD00CD;">&nbsp;&nbsp;</span> 0xCD00CD Dark Magenta
-- 6  <span style="background-color:#AA5500;">&nbsp;&nbsp;</span> 0x0055AA Brown
-- 7  <span style="background-color:#CDCDCD;">&nbsp;&nbsp;</span> 0xCDCDCD Light Gray
-- 8  <span style="background-color:#555555;">&nbsp;&nbsp;</span> 0x555555 Dark Gray 
-- 9  <span style="background-color:#0000FF;">&nbsp;&nbsp;</span> 0xFF0000 Blue
-- 10 <span style="background-color:#00FF00;">&nbsp;&nbsp;</span> 0x00FF00 Green
-- 11 <span style="background-color:#00FFFF;">&nbsp;&nbsp;</span> 0xFFFF00 Cyan
-- 12 <span style="background-color:#FF0000;">&nbsp;&nbsp;</span> 0x0000FF Red
-- 13 <span style="background-color:#FF00FF;">&nbsp;&nbsp;</span> 0xFF00FF Magenta
-- 14 <span style="background-color:#FFFF00;">&nbsp;&nbsp;</span> 0x00FFFF Yellow
-- 15 <span style="background-color:#FFFFFF;">&nbsp;&nbsp;</span> 0xFFFFFF White
+ - 0   0x000000 Black
+ - 1   0xB2DCEF Light Blue
+ - 2   0x31A2F2 Mid Blue
+ - 3   0x0000FF Blue
+ - 4   0x1B2632 Dark Blue
+ - 5   0xA3CE27 Light Green
+ - 6   0x44891A Green
+ - 7   0x2F484E Swamp Green
+ - 8   0xF7E26B Yellow 
+ - 9   0xEB8931 Copper
+ - 10  0xA46422 Brown
+ - 11  0x493C2B Dark Brown
+ - 12  0xE06F8B Pink
+ - 13  0xBE2633 Red
+ - 14  0x9D9D9D Gray
+ - 15  0xFFFFFF White
 
-## Memory Maps
+![Palette](./palette.png "Palette")
 
-### Text Mode 0 : 40x30
-
-    |-----------------------------------------------------------------------------|
-    |                                  |          |                               |
-    |            Text buffer           | Palette  |          User Font            |
-    |                                  |          |                               |
-    |----------------------------------|----------|-------------------------------|
-    Base Address                   +0x960       +0x990                      +0x1190
+## Video Memory Maps
 
 ### Video Mode 0 : 256x192 with 8x8 attribute cells
 
-    |-----------------------------------------------------------------------------|
-    |                               |      Attribute      |   Border   |          |
-    |        Frame buffer           |                     |            | Palette  |
-    |                               |         RAM         |   Color    |          |
-    |-------------------------------|---------------------|------------|----------|
-    Base Address                +0x1800               +0x1B00      +0x1B01  +0x1B31
+    |------------------------------------------------------
+    |                               |      Attribute      |
+    |        Frame buffer           |                     |
+    |                               |         RAM         |
+    |-------------------------------|---------------------|
+    Base Address                +0x1800               +0x1B00
 
 ### Video Mode 1 : 256x192 with 4x4 attribute cells
 
-    |-----------------------------------------------------------------------------|
-    |                               |      Attribute      |   Border   |          |
-    |        Frame buffer           |                     |            | Palette  |
-    |                               |         RAM         |   Color    |          |
-    |-------------------------------|---------------------|------------|----------|
-    Base Address                +0x1800               +0x2400      +0x2401  +0x2431
+    |------------------------------------------------------------------|
+    |                               |      Attribute                   |
+    |        Frame buffer           |                                  |
+    |                               |         RAM                      |
+    |-------------------------------|----------------------------------|
+    Base Address                +0x1800                            +0x2400
 
 ### Video Mode 2 : 320x240 B&W 
 

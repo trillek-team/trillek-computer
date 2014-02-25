@@ -237,11 +237,11 @@ If SET_PALETTE was called with a valid, not assigned, address, the CDA will
 expose a 64 byte RAM were is defined the actual palette being used. When this 
 command is called first time, or before doing a SET_PALETTE to 0, the default 
 palette will be stored in this RAM.
-The palette is an array were each element is defined by 3 bytes + a padding 
-byte, were the first byte is the RED component, the second byte is the GREEN 
-component and the third byte is the BLUE component, and the last byte is the 
-padding byte. In other words, this is a 24 bit value that represents a color 
-in RGB8 format.
+The palette is an array were each element is defined by a padding byte + 3 bytes 
+, were the first byte is the padding byte, the second byte is the BLUE component
+, the third byte is the GREEN component and the fourth byte is the RED component.
+In other words, this is a shifted 24 bit value that represents a color in RGB8 
+format. This is : 0xRRGGBB00
 
 The color palette in RGB8 format (Arne 16 color palette) : 
 

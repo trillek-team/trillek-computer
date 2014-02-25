@@ -219,7 +219,9 @@ DOCUMENTS
 - [Computer Architecture Diagram](./computer.dia) (DIA file)
 - [Calling Conventions](./calling_convention.md)
 
-REFERENCE IMPLEMENTATION
-------------------------
-See [Virtual Computer](https://github.com/trillek-team/trillek-tr3200-vm). Also, can 
-run in you [browser](http://cpu.zardoz.es).
+## ADVICE
+
+The actula reference implementation, in Trillek MS2.5, is not yet updated to 
+the latests specs.
+
+

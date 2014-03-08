@@ -40,14 +40,16 @@ SUMMARY
  - Addresses 0x110000 to 0x112000 are reserved to Devices Enumeration and 
    Communication.
  - At address 0x11**XX**00, were **XX** is the device slot number (to a total 
-   of 32 -> 0x20), there is mapped an address block that consists : 
-   Device Type, Device Builder ID, Device ID, CMD, A, B, C, D, E hardware registers. 
+   of 32 -> 0x20), there is mapped the **Enumeration And Control registers** of 
+   device **XX**, that consists : 
+   Device Type, Device SubType, Device ID, Device Vendor ID, CMD, A, B, C, 
+   D, E hardware registers. 
  - Devices could do **DMA** operations at will, but ONLY one device could do 
    that at same time, and can only transfer 4 bytes every Device Clock (like 
    if the DMA operates in the falling clock flank and the CPU operated in the
    rising clock flank.)
  - Usually the devices exposes his own ram and&or uses commands. The only 
-   exception is the most basic graphcis device that uses computer RAM as buffer.
+   exception is the most basic graphics device that uses computer RAM as buffer.
  - The computer can be expanded to a total 32 devices, not counting integrated 
    devices on motherboard. This can be archived by plugin the device boards in 
    the expansion bus. Some devices will require a external module attached to 
@@ -93,19 +95,19 @@ the CPU, and just ignore the Interrupt petitions for the rest of the loop.
 ### Hardware Enumeration
 
 Devices maps 0x11**XX**00 address block, were XX is the slot were is plugged. 
-In these address block, there is a few registers :
+In these address block that we call **Enumeration And Control registers**, there
+ is a few registers :
 
  - Present flag (Read byte): At offset 0,there is a byte that always read 0xFF 
-   if a device is plugged in these slot
+   if a device is plugged in these slot.
  - Device Type register (Read byte): At offset 1, there is a byte that gives 
-  information about the device type (see Device Type list section)
- - Device Builder ID register (Read dword) : At offset 2, there is dword that 
-   gives the Builder ID of the device (see know Device Builder list section)
- - Device ID register (Read byte) : At offset 6, there is a byte that gives the
+   information about the device type (see Device Type list section).
+ - Device SubType register (Read byte): At offset 2, there is a byte that gives 
+   information about the device subtype (see Device Type list section).
+ - Device ID register (Read byte) : At offset 3, there is a byte that gives the
    Device ID. 
- - Device Revision register (Read byte) : At offset 7, there is a byte that 
-   gives the Device Revision. It's expected that higher revision are backwards 
-   compatible , adding new features or fixing bugs in previous revisions.
+ - Device Vendor ID register (Read dword) : At offset 4, there is dword that 
+   gives the Vendor/Builder ID of the device (see know Device Vendor list section). 
  - CMD register (Write word) : At offset 8, there is a d that writing to it, 
    sends a command to the device. The command list is dependent of the device,
    and is showed in the device specs.
@@ -113,32 +115,42 @@ In these address block, there is a few registers :
    there is five word registers that are used to send values with the commands 
    and receive status/error or other stuff from the devices.
 
-![Device Configuration And Control Header](./DevConfigHeader.png "DevHeader")
+![Device Enumeration And Control Header](./DevConfigHeader.png "DevHeader")
  
 To know how many devices are plugged to the computer, you only need to read the 
 first byte of the 32 addresses and count one more for every byte being 0xFF.
-The tuple {Device Type, Device ID} defines a unique device. This information 
+The tuple {Device Vendor ID, Device ID} defines a unique device. This information 
 can be used to allow the software know what device is plugged and how should 
 use it.
+Devices that have the same {Device Type ID, Device SubType ID} are expect that 
+share some minimal compatibility. To archive this, should share a minimal list 
+of commands with the same expected behavior.
 
 **NOTE FOR USERS**: This is nearly the same stuff that does the original 
 Notch's DCPU-16, but being memory mapped instead of being special magic 
 instructions. Each device have his own set registers. The device at slot 0 have
-this registers at 0x110000, and A register is at 0x11000A; device 8 have his 
-registers at 0x110800, and BuildID register is at 0x110802; etc...
+this registers at 0x110000, and his A register is at 0x11000A; device 8 have this 
+registers at 0x110800, and his BuildID register is at 0x110804; etc...
 
-#### Device Class values
+#### Device Types and SubTypes values
 
+Here is a list of Device Types. Each entry could contain a sublist of actually know subtypes.
+
+ - 0x00 : Unclassified device
  - 0x01 : Audio devices (Sound Cards)
- - 0x02 : Communications devices
- - 0x03 : HID (Human Interface Device)
- - 0x04 : Expansion buses
- - 0x06 : Image/Video Input Devices
- - 0x07 : Printer (2D and 3D) Devices
- - 0x08 : Mass Storage Device (Floppy drives, Microdrives, Hard disks, Tape 
+ - 0x02 : Communications device
+ - 0x03 : HID (Human Interface Device)  
+     - 0x01 : Western/Latin Keyboard
+ - 0x04 : Expansion bus device
+ - 0x06 : Image/Video Input device
+ - 0x07 : Printer (2D and 3D) device
+ - 0x08 : Mass Storage device (Floppy drives, Microdrives, Hard disks, Tape 
    recorders)
+     - 0x01 : Floppy drive
+ - 0x09 : Network device
  - 0x0A : Co-Processors
  - 0x0E : Graphics Devices (Graphics card)
+     - 0x01 : TGA compatible
  - 0x0F : HoloGraphics Devices
  - 0x10 : Ship Sensors (DRADIS, Air, Hull integrity, etc...)
  - 0x11 : Power Management Systems (control of Generators)
@@ -150,11 +162,12 @@ registers at 0x110800, and BuildID register is at 0x110802; etc...
  - 0x1C : Sub-FTL Navigational and Engine Systems (control of thrusters and 
    engines)
  - 0x1D : FTL Navigational Systems (control of warp engines)
- - 0xFF : Multifunction devices.
+ - 0xFF : Unassigned class
 
-#### Know Builder values
+#### Know Vendor values
 
 - 0x00000000 -> Unknown builder (reserved value)
+- 0x048BAD15 -> RocoCorp.
 - 0x1C6C8B36 -> Nya Elektriska
 - 0x1EB37E91 -> Mackapar Media
 - 0x21544948 -> Harold Innovation Technologies (Harold I.T.)

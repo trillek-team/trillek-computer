@@ -1,13 +1,13 @@
-Generic Keyboard controller
+Generic Western/Latin Keyboard controller
 ================
-Version 0.5 (WIP) 
+Version 0.5a (WIP) 
 
 Generic Keyboard controller. Handles an internal buffer to store key events.
 
- - Device Class    : 0x03 (HID)
+ - Device Type     : 0x03 (HID)
+ - Device SubType  : 0x01 (Western/Latin Keyboard)
  - Device Builder  : 0x00000000
- - Device ID       : 0x0001 (Generic Keyboard standard)
- - Device Rev      : 0x00   
+ - Device ID       : 0x01 (Generic Keyboard standard)
 
 
 RESOURCES

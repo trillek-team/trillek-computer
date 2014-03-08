@@ -1,25 +1,25 @@
-Text Generator Adapter
-=====================
-Version 0.1a (WIP) 
+Nya Elektriska Text Generator Adapter
+=====================================
+Version 0.1b (WIP) 
 
-The Text Generator Adapter (TGA) device allows to display text with color and 
-an optional RAM defined font.
+The Text Generator Adapter (TGA) device  usesa programable character generator 
+that allows to display text with color and could use user defined font.
 
  - Allowed Text modes : 40x30 8x8 pixel font cell
 
 The refresh rate should be around 25 hz.
 
- - Device Class    : 0x0E (Graphics Device)
+ - Device Type     : 0x0E (Graphics Device)
+ - Device SubType  : 0x01 
  - Device Builder  : 0x1C6C8B36 (Nya Elektriska)
- - Device ID       : 0x01 (TGA standard) 
- - Device Rev      : 0x00  
+ - Device ID       : 0x01 (Nya Elektriska TGA)
 
 RESOURCES
 ---------
 
 A basic TGA card uses 2400 Bytes of computer RAM for the Text buffer and 
 optionally can use 2KiB of ram for a user defined font. Also, could generate a 
-interrupt for Vsync events.
+interrupt for VSync events.
 
 COMMANDS
 --------

@@ -1,13 +1,13 @@
-5.25" Floppy Drive
-==================
-Version 0.1a
+Mackapar 5.25" Floppy Drive
+===========================
+Version 0.1b
 
 Name: Mackapar 5.25" Floppy Drive (M5FDD) 
 
- - Device Class    : 0x08 (Mass Storage Device)
+ - Device Types    : 0x08 (Mass Storage Device)
+ - Device SubType  : 0x01 (Floppy Drive)
  - Device Builder  : 0x1EB37E91 (Mackapar Media)
- - Device ID       : 0x01 (5.25" Floppy drive) 
- - Device Rev      : 0x00  
+ - Device ID       : 0x01
 
 The Mackapar 5.25" Floppy Drive is compatible with all standard 5.25" 1200 KiB 
 and 360KiB floppy disks. The floppies uses sectors of 512 bytes.

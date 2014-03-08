@@ -1,6 +1,6 @@
-Color Display Adapter
-=====================
-Version 0.5 (WIP) 
+Investronics Color Display Adapter
+==================================
+Version 0.5a (WIP) 
 
 The Color Display Adapter (CDA) device allows to display text and graphics in 
 color, using a 16 programmable color palette. It's compatible with TGA device.
@@ -11,9 +11,9 @@ color, using a 16 programmable color palette. It's compatible with TGA device.
 The refresh rate should be around 25 hz.
 
  - Device Class    : 0x0E (Graphics Device)
+ - Device SubType  : 0x01 (TGA compatible)
  - Device Builder  : 0x494E5645 (Investronics)
- - Device ID       : 0x02 (CDA standard)
- - Device Rev      : 0x00
+ - Device ID       : 0x01 
 
 
 RESOURCES

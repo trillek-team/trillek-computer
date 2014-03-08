@@ -112,6 +112,8 @@ In these address block, there is a few registers :
  - A, B, C, D, E registers (Read/Write word every one) : Begin at offset 10, 
    there is five word registers that are used to send values with the commands 
    and receive status/error or other stuff from the devices.
+
+![Device Configuration And Control Header](./DevConfigHeader.png "DevHeader")
  
 To know how many devices are plugged to the computer, you only need to read the 
 first byte of the 32 addresses and count one more for every byte being 0xFF.

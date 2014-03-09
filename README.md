@@ -94,7 +94,7 @@ the CPU, and just ignore the Interrupt petitions for the rest of the loop.
 
 ### Hardware Enumeration
 
-Devices maps 0x11**XX**00 address block, were XX is the slot were is plugged. 
+Devices maps 0x11XX00 address block, were XX is the slot were is plugged. 
 In these address block that we call **Enumeration And Control registers**, there
  is a few registers :
 

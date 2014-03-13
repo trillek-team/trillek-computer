@@ -86,22 +86,22 @@ Formula :
 
 ### Color palette
 
-The color palette in RGB8 format (Arne 16 color palette) : 
+The color palette in Little-endian RGB8 format (Arne 16 color palette) : 
 
  - 0   0x000000 Black
- - 1   0xB2DCEF Light Blue
- - 2   0x31A2F2 Mid Blue
- - 3   0x0000FF Blue
- - 4   0x1B2632 Dark Blue
- - 5   0xA3CE27 Light Green
- - 6   0x44891A Green
- - 7   0x2F484E Swamp Green
- - 8   0xF7E26B Yellow 
- - 9   0xEB8931 Copper
- - 10  0xA46422 Brown
- - 11  0x493C2B Dark Brown
- - 12  0xE06F8B Pink
- - 13  0xBE2633 Red
+ - 1   0xEFDCB2 Light Blue
+ - 2   0xF2A231 Mid Blue
+ - 3   0xFF0000 Blue
+ - 4   0x32261B Dark Blue
+ - 5   0x27CEA3 Light Green
+ - 6   0x1A8944 Green
+ - 7   0x4E482F Swamp Green
+ - 8   0x6BE2F7 Yellow 
+ - 9   0x3189EB Copper
+ - 10  0x2264A4 Brown
+ - 11  0x2B3C49 Dark Brown
+ - 12  0x8B6FE0 Pink
+ - 13  0x3326BE Red
  - 14  0x9D9D9D Gray
  - 15  0xFFFFFF White
 

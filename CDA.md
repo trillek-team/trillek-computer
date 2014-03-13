@@ -237,30 +237,30 @@ If SET_PALETTE was called with a valid, not assigned, address, the CDA will
 expose a 64 byte RAM were is defined the actual palette being used. When this 
 command is called first time, or before doing a SET_PALETTE to 0, the default 
 palette will be stored in this RAM.
-The palette is an array were each element is defined by a padding byte + 3 bytes 
-, were the first byte is the padding byte, the second byte is the BLUE component
-, the third byte is the GREEN component and the fourth byte is the RED component.
-In other words, this is a shifted 24 bit value that represents a color in RGB8 
-format. This is : 0xRRGGBB00
+The palette is an array were each element is defined by a 3 color bytes + a 
+padding byte, were the first byte the RED component, the second byte is the 
+GREEN component, the third byte is the BLUE component and the fourth byte is 
+the padding byte. In other words, is stores in little endian RGBX8 format. 
+In hexadecimal is : 0x00BBGGRR
 
-The color palette in RGB8 format (Arne 16 color palette) : 
+The color palette in Little-endian RGB8 format (Arne 16 color palette) : 
 
- - 0   0x000000 Black
- - 1   0xB2DCEF Light Blue
- - 2   0x31A2F2 Mid Blue
- - 3   0x0000FF Blue
- - 4   0x1B2632 Dark Blue
- - 5   0xA3CE27 Light Green
- - 6   0x44891A Green
- - 7   0x2F484E Swamp Green
- - 8   0xF7E26B Yellow 
- - 9   0xEB8931 Copper
- - 10  0xA46422 Brown
- - 11  0x493C2B Dark Brown
- - 12  0xE06F8B Pink
- - 13  0xBE2633 Red
- - 14  0x9D9D9D Gray
- - 15  0xFFFFFF White
+ - 0   0x00000000 Black
+ - 1   0x00EFDCB2 Light Blue
+ - 2   0x00F2A231 Mid Blue
+ - 3   0x00FF0000 Blue
+ - 4   0x0032261B Dark Blue
+ - 5   0x0027CEA3 Light Green
+ - 6   0x001A8944 Green
+ - 7   0x004E482F Swamp Green
+ - 8   0x006BE2F7 Yellow 
+ - 9   0x003189EB Copper
+ - 10  0x002264A4 Brown
+ - 11  0x002B3C49 Dark Brown
+ - 12  0x008B6FE0 Pink
+ - 13  0x003326BE Red
+ - 14  0x009D9D9D Gray
+ - 15  0x00FFFFFF White
 
 ![Palette](./palette.png "Palette")
 

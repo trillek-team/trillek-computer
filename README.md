@@ -1,6 +1,6 @@
 Trillek Virtual Computer Specs
 =====================================
-Version 0.4e
+Version 0.4f
 
 **ADVICE** : In this documents there some technical stuff that could looks hard
 or complex to understand for not hardware guys.
@@ -62,8 +62,9 @@ SUMMARY
        rand_r)
      - Beeper or *buzzer* device (**Beeper**). Simply generates a squared wave 
        sound at desired frequency.
-     - 256 byte of NVRAM (Not Volatile RAM). Usefull to store basic configration 
-       used in boot time
+     - 256 bytes of NVRAM (Not Volatile RAM). Usefull to store basic configration 
+       used in boot time.
+     - 256 bytes reserved for CPU board HW registers from 0x11FF00 to 0x11FFFF
 
 
 HOW WORKS
@@ -200,7 +201,8 @@ sync with game time.
 
 ### RNG (Random Number Generator)
 Is a basic device that writing to it, sets the RNG seed, and reading from it, 
-gets a 32 bit random number.
+gets a 32 bit random number. Simply reading a dword from 0x11E040 gets a 32 bit 
+random number. Writing to the same address, setups the ramdom seed.
 
 ### Beeper
 Simple basic Beeper with similar functionality to the IBM PC speaker or 
@@ -209,6 +211,11 @@ crude PCM sound, but it makes a lot more simple to use and understand.
 
 **NOTE FOR VM IMPLEMENTATION**: Try to use a Band-Limited Sound Synthesis lib 
 to generate square wave sound, but a crude Fourier synthesis could do the trick.
+
+### NVRAM
+The computer motherboard includes a small 256 bytes NVRAM powered by a litium battery.
+This small not volatile RAM are mapped in 0x11F000 to 0x11F0FF, and can be used 
+for boot configuration stuff.
 
 ### Devices with DMA (Direct Memory Access)
 DMA operations by the hardware devices are allowed, but only one DMA operation 
@@ -220,6 +227,7 @@ don't interfere and not need contention hardware.
 **NOTE FOR VM IMPLEMENTATION**: By practical reasons, this will translated in a
 flag in the Virtual Computer to indicate if a device will being doing DMA, as 
 can't be two devices doing a DMA at same time. 
+
 
 DOCUMENTS
 ---------
@@ -234,6 +242,7 @@ DOCUMENTS
 - [5.25" Floppy Drive](./floppy_drive.md) (M5FDD)
 - [Computer Architecture Diagram](./computer.dia) (DIA file)
 - [Calling Conventions](./calling_convention.md)
+- RTC
 
 ## ADVICE
 

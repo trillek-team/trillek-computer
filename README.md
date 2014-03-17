@@ -1,6 +1,6 @@
 Trillek Virtual Computer Specs
 =====================================
-Version 0.4d
+Version 0.4e
 
 **ADVICE** : In this documents there some technical stuff that could looks hard
 or complex to understand for not hardware guys.
@@ -27,7 +27,8 @@ SUMMARY
    mother board. Only one CPU can be connected to the computer at same time 
    (not multi-processor setups)
  - CPU Clock speed could be 1Mhz , 500 Khz, 200 Khz and 100Khz (actually we 
-   work with 100Khz, but we expect to allow higher speeds)
+   work with 100Khz, but we expect to allow higher speeds). CPU clock speed in KHz 
+   can be read at address 0x11E050 (I/O port 0xE050 on DCPU-16N)
  - Devices uses a fixed clock of 100Khz (thinking to change it to 50 KHz) if 
    they need to do periodic or sync stuff.
  - Devices are [memory mapped](http://en.wikipedia.org/wiki/Memory-mapped_I/O).
@@ -35,11 +36,9 @@ SUMMARY
    device is listening. **HWN** and **HWQ** is replaced by reading addresses.
  - Addresses used by devices are over 0x110000 to avoid address clashes with 
    the RAM/ROM.
- - Address 0x11FF00 contains a read only dword register that returns a unique 
-   ID of the motherboard. 
  - Addresses 0x110000 to 0x112000 are reserved to Devices Enumeration and 
    Communication.
- - At address 0x11**XX**00, were **XX** is the device slot number (to a total 
+ - At address 0x11XX00, were **XX** is the device slot number (to a total 
    of 32 -> 0x20), there is mapped the **Enumeration And Control registers** of 
    device **XX**, that consists : 
    Device Type, Device SubType, Device ID, Device Vendor ID, CMD, A, B, C, 
@@ -63,6 +62,8 @@ SUMMARY
        rand_r)
      - Beeper or *buzzer* device (**Beeper**). Simply generates a squared wave 
        sound at desired frequency.
+     - 256 byte of NVRAM (Not Volatile RAM). Usefull to store basic configration 
+       used in boot time
 
 
 HOW WORKS
@@ -236,7 +237,7 @@ DOCUMENTS
 
 ## ADVICE
 
-The actula reference implementation, in Trillek MS2.5, is not yet updated to 
+The actual reference implementation, in Trillek MS2.5, is not yet updated to 
 the latests specs.
 
 

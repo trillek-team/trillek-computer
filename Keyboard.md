@@ -1,6 +1,6 @@
 Generic Western/Latin Keyboard controller
 ================
-Version 0.6 (WIP)
+Version 0.6a (WIP)
 
 Generic Keyboard controller. Handles an internal buffer to store key events.
 
@@ -52,11 +52,8 @@ call these key "semicolon". Scancodes are 16 bit values.
 keyboard layout (for example : 'ñ' or 'ç'), etc... Key-codes are usually more 
 useful when we are processing text input. Key-codes are 8 bit values.
 
-In addition to the commands, reading E and D hardware registers gives this information :  
-
-**Reading E register** returns always the number of key events stored in the key
-buffer.  
-**Reading D register** returns always the status bits in real time.
+In addition to the commands, reading **E hardware register** returns always 
+the number of key events stored in the key buffer.  
 
 ### Status Bits
 

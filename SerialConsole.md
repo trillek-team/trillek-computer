@@ -4,6 +4,11 @@ Version 0.1 (WIP)
 
 This device is only for debuging the Virtual Computer. NOT WILL BE IN GAME.
 
+ - Device Type     : 0x02 (Communications device)
+ - Device SubType  : 0xFF (Serial Console)
+ - Device Builder  : 0x00000000
+ - Device ID       : 0x01
+
 COMMANDS
 --------
 

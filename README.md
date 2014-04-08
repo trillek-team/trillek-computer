@@ -197,12 +197,12 @@ measured times should be the half.
 
 Is a basic device that gives the actual game time and date. Not have alarm, so 
 is necessary doing a polling every 12 or 24 hours to keep a software clock in 
-sync with game time.
+sync with game time. Gives time information in dd-mm-yyyy hh:mm:ss format (see specs)
 
 ### RNG (Random Number Generator)
 Is a basic device that writing to it, sets the RNG seed, and reading from it, 
 gets a 32 bit random number. Simply reading a dword from 0x11E040 gets a 32 bit 
-random number. Writing to the same address, setups the ramdom seed.
+random number. Writing to the same address, setups the random seed. (see specs)
 
 ### Beeper
 Simple basic Beeper with similar functionality to the IBM PC speaker or 
@@ -232,20 +232,34 @@ can't be two devices doing a DMA at same time.
 DOCUMENTS
 ---------
 
+### CPUs
+
 - [TR3200 CPU](./TR3200.md)
 - [DCPU-16N CPU](./DCPU-16N.txt)
+
+### Embed Devices
+
 - [Programmable Interval Timer](./Timers.md) (aka Timer or Clock)
+- [RTC](./RTC.md)
+- [RNG](./RNG.md)
 - [Beeper](./Beeper.md)
+
+### Devices
+
 - [Generic Keyboard](./Keyboard.md)
 - [Text Generator Adapter](./TGA.md) (TGA)
 - [Color Display Adapter](./CDA.md) (CDA)
 - [5.25" Floppy Drive](./floppy_drive.md) (M5FDD)
-- [Computer Architecture Diagram](./computer.dia) (DIA file)
-- [Calling Conventions](./calling_convention.md)
-- RTC
 - [Debug Serial Console](./SerialConsole.md.md)
 
-## ADVICE
+### MISC
+
+- [Computer Architecture Diagram](./computer.dia) (DIA file)
+- [Memory Model](./memory_map.dia) (DIA file)
+- [Calling Conventions](./calling_convention.md)
+
+ADVICE
+------
 
 Trillek MS2.5, is not using the latests specs. Please use the latest version 
 from trillek-vcomputer-module.

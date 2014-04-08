@@ -1,6 +1,6 @@
 Trillek Virtual Computer Specs
 =====================================
-Version 0.4f
+Version 0.4g
 
 **ADVICE** : In this documents there some technical stuff that could looks hard
 or complex to understand for not hardware guys.
@@ -243,10 +243,11 @@ DOCUMENTS
 - [Computer Architecture Diagram](./computer.dia) (DIA file)
 - [Calling Conventions](./calling_convention.md)
 - RTC
+- [Debug Serial Console](./SerialConsole.md.md)
 
 ## ADVICE
 
-The actual reference implementation, in Trillek MS2.5, is not yet updated to 
-the latests specs.
+Trillek MS2.5, is not using the latests specs. Please use the latest version 
+from trillek-vcomputer-module.
 
 

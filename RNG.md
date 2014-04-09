@@ -13,8 +13,8 @@ RESOURCES
 ---------
 Memory Address:
 
-´´´
+```
   0x11E040: (Write DWord) Set the PRNG seed.
   0x11E040: (Read DWord)  Get a 32 bit pseudo random number.
-´´´
+```
 

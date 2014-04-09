@@ -1,6 +1,6 @@
 Trillek Virtual Computer Specs
 =====================================
-Version 0.4g
+Version 0.4h
 
 **ADVICE** : In this documents there some technical stuff that could looks hard
 or complex to understand for not hardware guys.
@@ -69,7 +69,7 @@ SUMMARY
 
 HOW WORKS
 ---------
-![Computer Architecture Diagram](./computer.png "Diagram")
+![Computer Architecture Diagram](./img/computer.png "Diagram")
 
 As can you see, the computer uses a 24 bit Address Bus and 32 bit Data bus. RAM
 and ROM are directly attached to these buses, as any device in the computer
@@ -117,7 +117,7 @@ In these address block that we call **Enumeration And Control registers**, there
    there is five word registers that are used to send values with the commands 
    and receive status/error or other stuff from the devices.
 
-![Device Enumeration And Control Header](./DevConfigHeader.png "DevHeader")
+![Device Enumeration And Control Header](./img/DevConfigHeader.png "DevHeader")
  
 To know how many devices are plugged to the computer, you only need to read the 
 first byte of the 32 addresses and count one more for every byte being 0xFF.
@@ -141,6 +141,7 @@ Here is a list of Device Types. Each entry could contain a sublist of actually k
  - 0x00 : Unclassified device
  - 0x01 : Audio devices (Sound Cards)
  - 0x02 : Communications device
+     - 0xFF : Serial Console
  - 0x03 : HID (Human Interface Device)  
      - 0x01 : Western/Latin Keyboard
  - 0x04 : Expansion bus device
@@ -174,6 +175,7 @@ Here is a list of Device Types. Each entry could contain a sublist of actually k
 - 0x1EB37E91 -> Mackapar Media
 - 0x21544948 -> Harold Innovation Technologies (Harold I.T.)
 - 0x494E5645 -> Investronics
+- 0xA87C900E -> KaiComm
 
 ### PIT (PROGRAMMABLE INTERVAL TIMER)
 
@@ -234,29 +236,29 @@ DOCUMENTS
 
 ### CPUs
 
-- [TR3200 CPU](./TR3200.md)
-- [DCPU-16N CPU](./DCPU-16N.txt)
+- [TR3200 CPU](./cpu/TR3200.md)
+- [DCPU-16N CPU](./cpu/DCPU-16N.txt)
 
 ### Embed Devices
 
-- [Programmable Interval Timer](./Timers.md) (aka Timer or Clock)
-- [RTC](./RTC.md)
-- [RNG](./RNG.md)
-- [Beeper](./Beeper.md)
+- [Programmable Interval Timer](./embed/Timers.md) (aka Timer or Clock)
+- [RTC](./embed/RTC.md)
+- [RNG](./embed/RNG.md)
+- [Beeper](./embed/Beeper.md)
 
 ### Devices
 
-- [Generic Keyboard](./Keyboard.md)
-- [Text Generator Adapter](./TGA.md) (TGA)
-- [Color Display Adapter](./CDA.md) (CDA)
-- [5.25" Floppy Drive](./floppy_drive.md) (M5FDD)
-- [Debug Serial Console](./SerialConsole.md.md)
+- [Generic Keyboard](./devices/Keyboard.md)
+- [Text Generator Adapter](./devices/TGA.md) (TGA)
+- [Color Display Adapter](./devices/CDA.md) (CDA)
+- [5.25" Floppy Drive](./devices/floppy_drive.md) (M5FDD)
+- [Debug Serial Console](./devices/SerialConsole.md.md)
 
 ### MISC
 
-- [Computer Architecture Diagram](./computer.dia) (DIA file)
-- [Memory Model](./memory_map.dia) (DIA file)
-- [Calling Conventions](./calling_convention.md)
+- [Computer Architecture Diagram](./img/computer.png)
+- [Memory Model](./img/memory_map.png)
+- [Calling Conventions](./cpu/calling_convention.md)
 
 ADVICE
 ------

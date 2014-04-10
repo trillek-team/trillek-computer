@@ -5829,13 +5829,16 @@ body {
   font-size: 30px;
   line-height: 55px;
 }
+.wrapper #main_text h2 {
+  font-size: 20px;
+}
 .wrapper #main_text h2,
 .wrapper #main_text h3,
 .wrapper #main_text h4,
 .wrapper #main_text h5,
 .wrapper #main_text h6,
 .wrapper #main_text h7 {
-  line-height: 1;
+  line-height: 18px;
 }
 .wrapper #main_text h1,
 .wrapper #main_text h2,

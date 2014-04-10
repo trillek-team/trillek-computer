@@ -1,6 +1,7 @@
 @font-face {
-  font-family: BPDots;
-  src: url(../webfont/BPdots.otf);
+  font-family: DotFont;
+  src: url(../webfont/FXMatrix105MonoPicaRegular.woff);
+  // From http://const-iterator.de/fxmatrix/
 }
 body,
 html {
@@ -12,7 +13,11 @@ html {
   font-size: 12px;
 }
 #main_text {
+  font-family: DotFont,monospace;
+  font-size: 12px;
   line-height: 18px;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
   width: 780px;
   border: 2px solid black;
   background: #e5e1d9;
@@ -27,4 +32,22 @@ html {
 }
 #main_text img {
   max-width: 780px;
+}
+#main_text h1,
+#main_text h2,
+#main_text h3,
+#main_text h4,
+#main_text h5,
+#main_text h6,
+#main_text h7,
+#main_text h8 {
+  font-size: 12px;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+#main_text p,
+#main_text div,
+#main_text ul {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
 }

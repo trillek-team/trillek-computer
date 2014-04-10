@@ -7,8 +7,8 @@
 @paper-bg-color-2 : #adb07e;
 
 @font-face {
-  font-family: BPDots;
-  src: url(../webfont/BPdots.otf);
+  font-family: DotFont;
+  src: url(../webfont/FXMatrix105MonoPicaRegular.woff);
 }
 
 body, html {
@@ -21,8 +21,12 @@ body, html {
 }
 
 #main_text {
-  //font-family : BPDots,monospace;
+  font-family : DotFont,monospace;
+  font-size : 12px;
   line-height : 18px;
+
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
 
   width : 780px;
 
@@ -42,6 +46,17 @@ body, html {
 
   img {
     max-width: 780px;
+  }
+
+  h1, h2, h3, h4, h5, h6, h7 ,h8 {
+    font-size : 12px;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+  }
+
+  p, div, ul {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
   }
 
 }

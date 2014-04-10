@@ -1,3 +1,5 @@
+---
+---
 Nya Elektriska Text Display Adapter
 =====================================
 Version 0.1b (WIP) 
@@ -105,6 +107,6 @@ The color palette in Little-endian RGB8 format (Arne 16 color palette) :
  - 14  0x9D9D9D Gray
  - 15  0xFFFFFF White
 
-![Palette](./palette.png "Palette")
+![Palette](img/palette.png "Palette")
 
 

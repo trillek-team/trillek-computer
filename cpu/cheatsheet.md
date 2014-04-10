@@ -1,7 +1,9 @@
+---
+---
 TR3200 CHEATSHEET
 ============
 
-Cheat sheet that compares assembly of TR3200 vs DCPU-16E
+Cheat sheet that compares assembly of TR3200 vs DCPU-16N
 
 ## DCPU-16 - TR3200 Registers equivalence:
     

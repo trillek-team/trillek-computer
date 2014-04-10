@@ -11,5 +11,5 @@ kramdown:
   input: GFM
 
 # Exclude metadata and development time dependencies (like Grunt plugins)
-exclude: [.travis.yml, package.json, grunt.js, Gruntfile.js, node_modules]
+exclude: [.travis.yml, package.json, lib]
 

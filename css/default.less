@@ -1,63 +1,53 @@
-//---
-//---
+@import "bootstrap.less";
+
+// Variables
+
 @bg-color: #FFF;
 @ink: #000;
 
 @paper-bg-color-1 : #e5e1d9;
 @paper-bg-color-2 : #adb07e;
 
+// Fonts
+
 @font-face {
   font-family: DotFont;
   src: url(../webfont/FXMatrix105MonoPicaRegular.woff);
 }
 
-body, html {
-	margin : 0;
-	padding : 0;
-	color : @ink;
-	background : @bg-color;
-  font-family : monospace;
-  font-size : 12px;
+// Mixin to generate the paper background
+.paper-bg() {
+  background: @paper-bg-color-1; // Old browsers
+  background-image: -webkit-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);  // Safari 5.1-6, Chrome 10+
+  background-image: -moz-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);
+  background-image: -o-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);
+  background-image: -ms-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);
+  background-image: linear-gradient(to bottom, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+  background-repeat: repeat;
+  background-size: 1em @line-height-computed*2;
+}
+
+// Hard stuff
+html, body {
+  font-family : @font-family-monospace;
 }
 
 #main_text {
-  font-family : DotFont,monospace;
-  font-size : 12px;
-  line-height : 18px;
+  font-family : DotFont,@font-family-monospace;
 
-  -webkit-margin-before: 0;
-  -webkit-margin-after: 0;
-
-  width : 780px;
+  width : 960px;
 
   border : 2px solid black;
 
-  background: @paper-bg-color-1; // Old browsers
-
-  background-image: -moz-linear-gradient(top, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
-  background-image: -webkit-linear-gradient(top, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
-  background-image: -o-linear-gradient(top, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
-  background-image: -ms-linear-gradient(top, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
-  background-image: linear-gradient(to bottom, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
-
-  background-repeat: repeat;
-  border-image-repeat: repeat;
-  background-size: 1em 36px;
+  .paper-bg();
 
   img {
-    max-width: 780px;
+    max-width: 960px;
+    .center-block();
   }
 
-  h1, h2, h3, h4, h5, h6, h7 ,h8 {
-    font-size : 12px;
-    -webkit-margin-before: 0;
-    -webkit-margin-after: 0;
+  h1, h2, h3, h4, h5, h6, h7, p, div, ul {
+    margin: 0;
   }
-
-  p, div, ul {
-    -webkit-margin-before: 0;
-    -webkit-margin-after: 0;
-  }
-
 }
 

@@ -1,3 +1,7 @@
+---
+layout : default
+title : DCPU-16N CPU
+---
 DCPU-16N Specification
 Copyrights 1985 Mojang, Meisaka of Trillek
 Version 0.7 based on DCPU-16 (1.7)

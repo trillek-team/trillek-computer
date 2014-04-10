@@ -2,7 +2,7 @@
 ---
 @font-face {
   font-family: BPDots;
-  src: url({{ site.baseurl}}webfont/BPdots.otf);
+  src: url({{ site.baseurl}}/webfont/BPdots.otf);
 }
 
 body, html {

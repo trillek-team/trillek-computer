@@ -1,6 +1,8 @@
 encoding: utf-8
 safe: true
 
+baseurl: /trillek-computer
+
 # Sets to use GitHub Markdown variant
 markdown:      kramdown
 markdown_ext:  md

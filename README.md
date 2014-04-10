@@ -1,4 +1,6 @@
 ---
+layout : default
+title : Trillek Virtual Computer Specifications
 ---
 Trillek Virtual Computer Specs
 =====================================

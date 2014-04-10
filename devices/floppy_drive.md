@@ -1,4 +1,6 @@
 ---
+layout : default
+title : Floppy Drive
 ---
 Mackapar 5.25" Floppy Drive
 ===========================

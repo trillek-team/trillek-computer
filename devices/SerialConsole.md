@@ -1,4 +1,6 @@
 ---
+layout : default
+title : Debug Serial Console
 ---
 Debug Serial Console
 =====================================

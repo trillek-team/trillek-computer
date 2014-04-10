@@ -1,6 +1,8 @@
 ---
+layout : default
+title : Programmable Interval Timers
 ---
-Programmable Interval Timer (PIT)
+Programmable Interval Timers (PIT)
 ================================
 Version 0.1d (WIP) 
 

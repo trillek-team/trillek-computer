@@ -5,8 +5,16 @@
   src: url({{ site.baseurl}}webfont/BPdots.otf);
 }
 
+body, html {
+	margin:0;
+	padding:0;
+	color:#000;
+	background:#fff;
+  font-family: monospace;
+}
+
 #main_text {
-  font-family: BPDots,"monospace";
+  font-family: BPDots,monospace;
   line-height: 18px;
 
   width: 780px;

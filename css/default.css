@@ -1,0 +1,20 @@
+---
+---
+@font-face {
+  font-family: BPDots;
+  src: url({{ site.baseurl}}webfont/BPdots.otf);
+}
+
+#main_text {
+  font-family: BPDots,"monospace";
+  line-height: 18px;
+
+  width: 780px;
+
+  border: 1px solid black;
+  background : #e5e1d9;
+}
+
+img {
+  max-width: 780px;
+}

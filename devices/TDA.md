@@ -1,4 +1,6 @@
 ---
+layout : default
+title : Text Display Adapter
 ---
 Nya Elektriska Text Display Adapter
 =====================================

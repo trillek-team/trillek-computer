@@ -1,4 +1,6 @@
 ---
+layout : default
+title : Color Display Adapter (CDA)
 ---
 Investronics Color Display Adapter
 ==================================

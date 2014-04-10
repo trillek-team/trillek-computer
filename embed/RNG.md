@@ -1,4 +1,6 @@
 ---
+layout : default
+title : Random Number Generator
 ---
 Random Number Generator
 =======================

@@ -1,4 +1,6 @@
 ---
+layout : default
+title : Generic Keyboard
 ---
 Generic Western/Latin Keyboard controller
 ================

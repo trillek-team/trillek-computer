@@ -733,7 +733,7 @@ pre code {
 }
 @media (min-width: 768px) {
   .container {
-    width: 750px;
+    width: 814.8px;
   }
 }
 @media (min-width: 992px) {
@@ -5606,7 +5606,11 @@ button.close {
 .panel-body:before,
 .panel-body:after,
 .modal-footer:before,
-.modal-footer:after {
+.modal-footer:after,
+.wrapper:before,
+.wrapper:after,
+.wrapper nav ul:before,
+.wrapper nav ul:after {
   content: " ";
   display: table;
 }
@@ -5623,7 +5627,9 @@ button.close {
 .navbar-collapse:after,
 .pager:after,
 .panel-body:after,
-.modal-footer:after {
+.modal-footer:after,
+.wrapper:after,
+.wrapper nav ul:after {
   clear: both;
 }
 .center-block {
@@ -5780,10 +5786,19 @@ html,
 body {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
-#main_text {
+.wrapper {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.wrapper #main_text {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
   font-family: DotFont, Menlo, Monaco, Consolas, "Courier New", monospace;
-  width: 960px;
-  border: 2px solid black;
+  width: 750px !important;
+  border: #e5e1d9 solid;
+  border-width: 4.5px 48px 4.5px 48px;
   background: #e5e1d9;
   background-image: -webkit-linear-gradient(top, #e5e1d9 0, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
   background-image: -moz-linear-gradient(top, #e5e1d9 0, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
@@ -5793,21 +5808,127 @@ body {
   background-repeat: repeat;
   background-size: 1em 36px;
 }
-#main_text img {
-  max-width: 960px;
+@media (min-width: 768px) {
+  .wrapper #main_text {
+    float: left;
+    width: 83.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .wrapper #main_text {
+    right: 16.66666667%;
+  }
+}
+.wrapper #main_text img {
+  max-width: 600px;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
-#main_text h1,
-#main_text h2,
-#main_text h3,
-#main_text h4,
-#main_text h5,
-#main_text h6,
-#main_text h7,
-#main_text p,
-#main_text div,
-#main_text ul {
+.wrapper #main_text h1 {
+  font-size: 30px;
+  line-height: 55px;
+}
+.wrapper #main_text h2,
+.wrapper #main_text h3,
+.wrapper #main_text h4,
+.wrapper #main_text h5,
+.wrapper #main_text h6,
+.wrapper #main_text h7 {
+  line-height: 1;
+}
+.wrapper #main_text h1,
+.wrapper #main_text h2,
+.wrapper #main_text h3,
+.wrapper #main_text h4,
+.wrapper #main_text h5,
+.wrapper #main_text h6,
+.wrapper #main_text h7,
+.wrapper #main_text p,
+.wrapper #main_text div,
+.wrapper #main_text ul {
   margin: 0;
+}
+.wrapper nav {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .wrapper nav {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+@media (min-width: 768px) {
+  .wrapper nav {
+    left: 83.33333333%;
+  }
+}
+.wrapper nav ul {
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.wrapper nav ul > li {
+  position: relative;
+  display: block;
+}
+.wrapper nav ul > li > a {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+}
+.wrapper nav ul > li > a:hover,
+.wrapper nav ul > li > a:focus {
+  text-decoration: none;
+  background-color: #eeeeee;
+}
+.wrapper nav ul > li.disabled > a {
+  color: #999999;
+}
+.wrapper nav ul > li.disabled > a:hover,
+.wrapper nav ul > li.disabled > a:focus {
+  color: #999999;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.wrapper nav ul .open > a,
+.wrapper nav ul .open > a:hover,
+.wrapper nav ul .open > a:focus {
+  background-color: #eeeeee;
+  border-color: #428bca;
+}
+.wrapper nav ul .nav-divider {
+  height: 1px;
+  margin: 8px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+.wrapper nav ul > li > a > img {
+  max-width: none;
+}
+.wrapper nav ul > li {
+  float: left;
+}
+.wrapper nav ul > li > a {
+  border-radius: 4px;
+}
+.wrapper nav ul > li + li {
+  margin-left: 2px;
+}
+.wrapper nav ul > li.active > a,
+.wrapper nav ul > li.active > a:hover,
+.wrapper nav ul > li.active > a:focus {
+  color: #ffffff;
+  background-color: #428bca;
+}
+.wrapper nav ul > li {
+  float: none;
+}
+.wrapper nav ul > li + li {
+  margin-top: 2px;
+  margin-left: 0;
 }

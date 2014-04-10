@@ -251,8 +251,7 @@ DOCUMENTS
 ### Devices
 
 - [Generic Keyboard](devices/Keyboard.html)
-- [Text Generator Adapter](devices/TGA.html) (TGA)
-- [Color Display Adapter](devices/CDA.html) (CDA)
+- [Text Display Adapter](devices/TDA.html) (TDA)
 - [5.25" Floppy Drive](devices/floppy_drive.html) (M5FDD)
 - [Debug Serial Console](devices/SerialConsole.html)
 

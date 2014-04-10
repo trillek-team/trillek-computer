@@ -1,5 +1,12 @@
+encoding: utf-8
+
+# Sets to use GitHub Markdown variant
 markdown:      kramdown
 markdown_ext:  md
 
 kramdown:
   input: GFM
+
+# Exclude metadata and development time dependencies (like Grunt plugins)
+exclude: [README.markdown, package.json, grunt.js, Gruntfile.js, node_modules]
+

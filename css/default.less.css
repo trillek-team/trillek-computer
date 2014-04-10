@@ -1,48 +1,30 @@
-//---
-//---
-@bg-color: #FFF;
-@ink: #000;
-
-@paper-bg-color-1 : #e5e1d9;
-@paper-bg-color-2 : #adb07e;
-
 @font-face {
   font-family: BPDots;
   src: url(../webfont/BPdots.otf);
 }
-
-body, html {
-	margin : 0;
-	padding : 0;
-	color : @ink;
-	background : @bg-color;
-  font-family : monospace;
-  font-size : 12px;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  color: #000000;
+  background: #ffffff;
+  font-family: monospace;
+  font-size: 12px;
 }
-
 #main_text {
-  //font-family : BPDots,monospace;
-  line-height : 18px;
-
-  width : 780px;
-
-  border : 2px solid black;
-
-  background: @paper-bg-color-1; // Old browsers
-
+  line-height: 18px;
+  width: 780px;
+  border: 2px solid black;
+  background: #e5e1d9;
   background-image: -moz-linear-gradient(top, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
   background-image: -webkit-linear-gradient(top, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
   background-image: -o-linear-gradient(top, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
   background-image: -ms-linear-gradient(top, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
   background-image: linear-gradient(to bottom, #e5e1d9 0px, #e5e1d9 18px, #adb07e 18px, #adb07e 36px);
-
   background-repeat: repeat;
   border-image-repeat: repeat;
   background-size: 1em 36px;
-
-  img {
-    max-width: 780px;
-  }
-
 }
-
+#main_text img {
+  max-width: 780px;
+}

@@ -1,4 +1,5 @@
 encoding: utf-8
+safe: true
 
 # Sets to use GitHub Markdown variant
 markdown:      kramdown
@@ -8,5 +9,5 @@ kramdown:
   input: GFM
 
 # Exclude metadata and development time dependencies (like Grunt plugins)
-exclude: [README.markdown, package.json, grunt.js, Gruntfile.js, node_modules]
+exclude: [.travis.yml, package.json, grunt.js, Gruntfile.js, node_modules]
 

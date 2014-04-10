@@ -1,0 +1,5 @@
+markdown:      kramdown
+markdown_ext:  md
+
+kramdown:
+  input: GFM

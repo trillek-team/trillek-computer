@@ -6,13 +6,23 @@
 @ink: #000;
 
 @paper-bg-color-1 : #e5e1d9;
-@paper-bg-color-2 : #adb07e;
+@paper-bg-color-2 : lighten(#adb07e, 10%);
 
 // Fonts
 
 @font-face {
   font-family: DotFont;
   src: url(../webfont/FXMatrix105MonoPicaRegular.woff);
+}
+
+@font-face {
+  font-family: DotFont_Bold;
+  src: url(../webfont/FXMatrix105MonoPicaBold.woff);
+}
+
+@font-face {
+  font-family: DotFont_Elite;
+  src: url(../webfont/FXMatrix105MonoEliteRegular.woff);
 }
 
 // Mixin to generate the paper background
@@ -23,6 +33,7 @@
   background-image: -o-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);
   background-image: -ms-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);
   background-image: linear-gradient(to bottom, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+
   background-repeat: repeat;
   background-size: 1em @line-height-computed*2;
 }
@@ -56,21 +67,47 @@ html, body {
       .center-block();
     }
 
+    pre {
+      font-family : DotFont,@font-family-monospace;
+      font-size: @font-size-base;
+      line-height: 18px;
+
+      background-color: transparent;
+      border: 0;
+
+      margin: 0 0 @line-height-computed 0;
+      padding: 0;
+
+      code {
+        font-family : DotFont,@font-family-monospace;
+      }
+    }
+
     h1 {
       font-size: 30px;
       line-height: 55px;
+
+      font-family : DotFont_Elite,@font-family-monospace;
     }
 
     h2 {
+      font-family : DotFont_Elite,@font-family-monospace;
       font-size: 20px;
+      line-height: 18px;
     }
 
-    h2, h3, h4, h5, h6, h7 {
+    h3 {
+      font-family : DotFont_Bold,@font-family-monospace;
+    }
+
+    h3, h4, h5, h6, h7 {
+      font-family : DotFont_Bold,@font-family-monospace;
+      font-size: @font-size-base;
       line-height: 18px;
     }
 
     h1, h2, h3, h4, h5, h6, h7, p, div, ul {
-      margin: 0;
+      margin: 0 0 @line-height-computed 0;
     }
   }
 

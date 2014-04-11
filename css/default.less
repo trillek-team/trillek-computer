@@ -85,7 +85,7 @@ html, body {
     #main_text {
       @char-width: @font-size-base*(8/12);  //8px;
       font-family : DotFont,@font-family-monospace;
-      font-size: @font-size-base;
+      font-size: @font-size-base !important;
 
       display: table-cell;
       padding-left: @char-width;
@@ -117,8 +117,8 @@ html, body {
 
       pre {
         font-family : DotFont,@font-family-monospace;
-        font-size: @font-size-base;
-        line-height: 18px;
+        font-size: @font-size-base !important;
+        line-height: @line-height-computed;
 
         background-color: transparent;
         border: 0;
@@ -145,7 +145,7 @@ html, body {
 
       // Headers
       h1 {
-        font-size: @font-size-base *3;
+        font-size: @font-size-base *3 !important;
         line-height: @line-height-computed *2;
 
         font-family : DotFont_Compr,@font-family-monospace;
@@ -153,14 +153,14 @@ html, body {
 
       h2 {
         font-family : DotFont_Elite,@font-family-monospace;
-        font-size: @font-size-base *1.5;
+        font-size: @font-size-base *1.5 !important;
         line-height: (@line-height-computed *2) - 12px;
         margin: 0 0 (@line-height-computed + 12px) 0;
       }
 
       h3, h4, h5, h6, h7 {
         font-family : DotFont_Bold,@font-family-monospace;
-        font-size: @font-size-base;
+        font-size: @font-size-base !important;
         line-height: @line-height-computed ;
       }
 

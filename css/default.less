@@ -34,8 +34,8 @@
   background-image: -ms-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);
   background-image: linear-gradient(to bottom, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
 
-  background-repeat: repeat;
-  background-size: 1em @line-height-computed*2;
+  background-repeat: repeat-y;
+  background-size: 100% @line-height-computed*2;
 }
 
 // Hard stuff
@@ -46,78 +46,127 @@ html, body {
 .wrapper {
   .make-row();
 
-  #main_text {
+  #paper_sheet {
     .make-sm-column(10);
-    .make-sm-column-pull(2);
-    font-family : DotFont,@font-family-monospace;
 
-    width : (654px + 2*48px) !important;
+    .holes {
+      background: @paper-bg-color-1; // Old browsers
+      display: table-cell;
+      width: 46px !important;
+      background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiID8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTVwdCIgaGVpZ2h0PSIzNnB0IiB2aWV3Qm94PSIwIDAgNS4yOTE2NiAxMi43Ij4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgY2lyY2xlIHsgZmlsbDp3aGl0ZTsgc3Ryb2tlOiNkYWQ3Yzg7IHN0cm9rZS13aWR0aDowLjE4OyB9CiAgPC9zdHlsZT4KICA8Y2lyY2xlIGN4PSIyLjUiIGN5PSI2LjAzNSIgcj0iMiIvPgo8L3N2Zz4K);
 
-    border : @paper-bg-color-1 solid;
-    border-width : 0.25*@line-height-computed 48px 0.25*@line-height-computed 48px;
-    // TODO put image with holes
-    //border-image-source : url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiI…AgPC9zdHlsZT4KICA8Y2lyY2xlIGN4PSIyLjUiIGN5PSI2LjAzNSIgcj0iMiIvPgo8L3N2Zz4K);
-    //border-image-width: 48px;
-    //border-image-repeat: repeat;
-
-    .paper-bg();
-
-    img {
-      max-width: 600px;
-      .center-block();
-    }
-
-    pre {
-      font-family : DotFont,@font-family-monospace;
-      font-size: @font-size-base;
-      line-height: 18px;
-
-      background-color: transparent;
-      border: 0;
-
-      margin: 0 0 @line-height-computed 0;
+      background-repeat: repeat-y;
+      margin: 0;
       padding: 0;
 
-      code {
-        font-family : DotFont,@font-family-monospace;
+      &.left {
+        background-position: 3.75mm 0mm;
+        border-right: 1px dashed #CCC;
+      }
+
+      &.right {
+        background-position: 3.25mm 0mm;
+        border-left: 1px dashed #CCC;
       }
     }
 
-    h1 {
-      font-size: 30px;
-      line-height: 55px;
-
-      font-family : DotFont_Elite,@font-family-monospace;
-    }
-
-    h2 {
-      font-family : DotFont_Elite,@font-family-monospace;
-      font-size: 20px;
-      line-height: 18px;
-    }
-
-    h3 {
-      font-family : DotFont_Bold,@font-family-monospace;
-    }
-
-    h3, h4, h5, h6, h7 {
-      font-family : DotFont_Bold,@font-family-monospace;
+    #main_text {
+      @char-width: @font-size-base*(8/12);  //8px;
+      font-family : DotFont,@font-family-monospace;
       font-size: @font-size-base;
-      line-height: 18px;
-    }
 
-    h1, h2, h3, h4, h5, h6, h7, p, div, ul {
-      margin: 0 0 @line-height-computed 0;
+      display: table-cell;
+      padding-left: @char-width;
+      padding-right: @char-width;
+      width : (100*@char-width + 2*@char-width) !important;
+
+      .paper-bg();
+
+      .column_header {
+        color:  @paper-bg-color-2;
+      }
+
+      img {
+        max-width: 800px;
+        .center-block();
+      }
+
+      div {
+        margin: 0;
+      }
+
+      pre {
+        font-family : DotFont,@font-family-monospace;
+        font-size: @font-size-base;
+        line-height: 18px;
+
+        background-color: transparent;
+        border: 0;
+
+        margin: 0 0 @line-height-computed 0;
+        padding: 0;
+
+        code {
+          font-family : DotFont,@font-family-monospace;
+        }
+      }
+
+      h1 {
+        font-size: 30px;
+        line-height: @font-size-base *3;
+
+        font-family : DotFont_Elite,@font-family-monospace;
+      }
+
+      h2 {
+        font-family : DotFont_Elite,@font-family-monospace;
+        font-size: 20px;
+        line-height: @font-size-base *2;
+        line-height: @line-height-computed ;
+      }
+
+      h3 {
+        font-family : DotFont_Bold,@font-family-monospace;
+      }
+
+      h3, h4, h5, h6, h7 {
+        font-family : DotFont_Bold,@font-family-monospace;
+        font-size: @font-size-base;
+        line-height: @line-height-computed ;
+      }
+
+      h1, h2, h3, h4, h5, h6, h7, p, ul {
+        margin: 0 0 @line-height-computed 0;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0px;
+
+        li:before {
+          content: "*";
+          margin: 0 @char-width;
+        }
+
+        li {
+          text-indent: -3*@char-width;
+          margin-left: 3*@char-width;
+          ul {
+            margin: 0 2*@char-width;
+          }
+        }
+      }
     }
   }
 
   nav {
     .make-sm-column(2);
-    .make-sm-column-push(10);
+    
     ul {
-      .nav();
-      .nav-pills();
-      .nav-stacked();
+      .list-group();
+      li {
+        .list-group-item();
+      }
     }
   }
 }

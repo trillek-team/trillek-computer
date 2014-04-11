@@ -9,6 +9,7 @@ markdown_ext:  md
 
 kramdown:
   input: GFM
+  hard_wrap: false
 
 # Exclude metadata and development time dependencies (like Grunt plugins)
 exclude: [.travis.yml, package.json, lib]

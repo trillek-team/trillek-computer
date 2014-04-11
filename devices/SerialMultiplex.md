@@ -30,5 +30,8 @@ For commands 0x0000 - 0x0001:
 STATUS CODES
 --------
 0x0000 STATE_DISCONNECT Port is currently not connected to any device.
+
 0x0001 STATE_UNIDIRECT Port is currently only connected locally, no remote device
+
 0x0002 STATE_READY Port is currently connected locally and remotely. Communication is possible.
+

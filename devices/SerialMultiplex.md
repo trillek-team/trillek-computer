@@ -21,7 +21,7 @@ For commands 0x0000 - 0x0001:
    Reads register B for the word to send, Reads register A for the DataPort to send the word on.
  - 0x0002 : **READ_PORTC** :
    Sets register A to the number of ports available.
- - 0x0003 : **GET_PORT_INFO*** :
+ - 0x0003 : **GET_PORT_INFO** :
    Reads register A for the PortID, Sets register A current port status.
  - 0x0004 : **SET_RXINT** :  
    Sets interrupt RX message to A register value. If A is 0x0000, disables RX 

@@ -70,11 +70,10 @@ SUMMARY
        used in boot time.
      - 256 bytes reserved for CPU board HW registers from 0x11FF00 to 0x11FFFF
 
-***
 
 HOW WORKS
 ---------
-[![Computer Architecture Diagram](img/dia/computer.png "Diagram")](img/dia/computer_tn.png)
+[![Computer Architecture Diagram](img/dia/computer_tn.png "Diagram")](img/dia/computer.png)
 
 As can you see, the computer uses a 24 bit Address Bus and 32 bit Data bus. RAM
 and ROM are directly attached to these buses, as any device in the computer
@@ -122,7 +121,7 @@ In these address block that we call **Enumeration And Control registers**, there
    there is five word registers that are used to send values with the commands 
    and receive status/error or other stuff from the devices.
 
-[![Device Enumeration And Control Header](img/DevConfigHeader.png "DevHeader")](img/dia/DevConfigHeader.png)
+[![Device Enumeration And Control Header](img/dia/DevConfigHeader.png "DevHeader")](img/dia/DevConfigHeader.png)
  
 To know how many devices are plugged to the computer, you only need to read the 
 first byte of the 32 addresses and count one more for every byte being 0xFF.

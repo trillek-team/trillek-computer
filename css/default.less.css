@@ -5784,8 +5784,16 @@ button.close {
   src: url(../webfont/FXMatrix105MonoPicaBold.woff);
 }
 @font-face {
+  font-family: DotFont_Italic;
+  src: url(../webfont/FXMatrix105MonoPicaItalic.woff);
+}
+@font-face {
   font-family: DotFont_Elite;
   src: url(../webfont/FXMatrix105MonoEliteRegular.woff);
+}
+@font-face {
+  font-family: DotFont_Compr;
+  src: url(../webfont/FXMatrix105MonoComprRegular.woff);
 }
 html,
 body {
@@ -5811,6 +5819,7 @@ body {
   background: #e5e1d9;
   display: table-cell;
   width: 46px !important;
+  max-width: 46px !important;
   background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiID8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTVwdCIgaGVpZ2h0PSIzNnB0IiB2aWV3Qm94PSIwIDAgNS4yOTE2NiAxMi43Ij4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgY2lyY2xlIHsgZmlsbDp3aGl0ZTsgc3Ryb2tlOiNkYWQ3Yzg7IHN0cm9rZS13aWR0aDowLjE4OyB9CiAgPC9zdHlsZT4KICA8Y2lyY2xlIGN4PSIyLjUiIGN5PSI2LjAzNSIgcj0iMiIvPgo8L3N2Zz4K);
   background-repeat: repeat-y;
   margin: 0;
@@ -5831,6 +5840,7 @@ body {
   padding-left: 9.33333333px;
   padding-right: 9.33333333px;
   width: 952px !important;
+  max-width: 952px !important;
   background: #e5e1d9;
   background-image: -webkit-linear-gradient(top, #e5e1d9 0, #e5e1d9 21px, #c1c39e 21px, #c1c39e 42px);
   background-image: -moz-linear-gradient(top, #e5e1d9 0, #e5e1d9 21px, #c1c39e 21px, #c1c39e 42px);
@@ -5842,6 +5852,19 @@ body {
 }
 .wrapper #paper_sheet #main_text .column_header {
   color: #c1c39e;
+}
+.wrapper #paper_sheet #main_text h1,
+.wrapper #paper_sheet #main_text h2,
+.wrapper #paper_sheet #main_text h3,
+.wrapper #paper_sheet #main_text h4,
+.wrapper #paper_sheet #main_text h5,
+.wrapper #paper_sheet #main_text h6,
+.wrapper #paper_sheet #main_text h7,
+.wrapper #paper_sheet #main_text p,
+.wrapper #paper_sheet #main_text ul {
+  margin: 0 0 21px 0;
+  font-weight: normal;
+  font-style: normal;
 }
 .wrapper #paper_sheet #main_text img {
   max-width: 800px;
@@ -5864,19 +5887,26 @@ body {
 .wrapper #paper_sheet #main_text pre code {
   font-family: DotFont, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+.wrapper #paper_sheet #main_text strong {
+  font-weight: normal;
+  font-family: DotFont_Bold, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.wrapper #paper_sheet #main_text em,
+.wrapper #paper_sheet #main_text dfn {
+  font-weight: normal;
+  font-style: normal;
+  font-family: DotFont_Italic, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
 .wrapper #paper_sheet #main_text h1 {
-  font-size: 30px;
+  font-size: 42px;
   line-height: 42px;
-  font-family: DotFont_Elite, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: DotFont_Compr, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 .wrapper #paper_sheet #main_text h2 {
   font-family: DotFont_Elite, Menlo, Monaco, Consolas, "Courier New", monospace;
-  font-size: 20px;
-  line-height: 28px;
-  line-height: 21px;
-}
-.wrapper #paper_sheet #main_text h3 {
-  font-family: DotFont_Bold, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 21px;
+  line-height: 30px;
+  margin: 0 0 33px 0;
 }
 .wrapper #paper_sheet #main_text h3,
 .wrapper #paper_sheet #main_text h4,
@@ -5886,17 +5916,6 @@ body {
   font-family: DotFont_Bold, Menlo, Monaco, Consolas, "Courier New", monospace;
   font-size: 14px;
   line-height: 21px;
-}
-.wrapper #paper_sheet #main_text h1,
-.wrapper #paper_sheet #main_text h2,
-.wrapper #paper_sheet #main_text h3,
-.wrapper #paper_sheet #main_text h4,
-.wrapper #paper_sheet #main_text h5,
-.wrapper #paper_sheet #main_text h6,
-.wrapper #paper_sheet #main_text h7,
-.wrapper #paper_sheet #main_text p,
-.wrapper #paper_sheet #main_text ul {
-  margin: 0 0 21px 0;
 }
 .wrapper #paper_sheet #main_text ul {
   list-style: none;

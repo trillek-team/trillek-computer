@@ -21,8 +21,18 @@
 }
 
 @font-face {
+  font-family: DotFont_Italic;
+  src: url(../webfont/FXMatrix105MonoPicaItalic.woff);
+}
+
+@font-face {
   font-family: DotFont_Elite;
   src: url(../webfont/FXMatrix105MonoEliteRegular.woff);
+}
+
+@font-face {
+  font-family: DotFont_Compr;
+  src: url(../webfont/FXMatrix105MonoComprRegular.woff);
 }
 
 // Mixin to generate the paper background
@@ -53,6 +63,8 @@ html, body {
       background: @paper-bg-color-1; // Old browsers
       display: table-cell;
       width: 46px !important;
+      max-width: 46px !important;
+
       background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiID8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTVwdCIgaGVpZ2h0PSIzNnB0IiB2aWV3Qm94PSIwIDAgNS4yOTE2NiAxMi43Ij4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgY2lyY2xlIHsgZmlsbDp3aGl0ZTsgc3Ryb2tlOiNkYWQ3Yzg7IHN0cm9rZS13aWR0aDowLjE4OyB9CiAgPC9zdHlsZT4KICA8Y2lyY2xlIGN4PSIyLjUiIGN5PSI2LjAzNSIgcj0iMiIvPgo8L3N2Zz4K);
 
       background-repeat: repeat-y;
@@ -79,11 +91,19 @@ html, body {
       padding-left: @char-width;
       padding-right: @char-width;
       width : (100*@char-width + 2*@char-width) !important;
+      max-width : (100*@char-width + 2*@char-width) !important;
 
       .paper-bg();
 
       .column_header {
         color:  @paper-bg-color-2;
+      }
+
+      // Between block, we append a margin aligned with the stripes
+      h1, h2, h3, h4, h5, h6, h7, p, ul {
+        margin: 0 0 @line-height-computed 0;
+        font-weight: normal;
+        font-style: normal;
       }
 
       img {
@@ -111,22 +131,31 @@ html, body {
         }
       }
 
-      h1 {
-        font-size: 30px;
-        line-height: @font-size-base *3;
+      // We use special font for bold and cursive
+      strong {
+        font-weight: normal;
+        font-family : DotFont_Bold,@font-family-monospace;
+      }
 
-        font-family : DotFont_Elite,@font-family-monospace;
+      em, dfn {
+        font-weight: normal;
+        font-style: normal;
+        font-family : DotFont_Italic,@font-family-monospace;
+      }
+
+      // Headers
+      h1 {
+        font-size: @font-size-base *3;
+        line-height: @line-height-computed *2;
+
+        font-family : DotFont_Compr,@font-family-monospace;
       }
 
       h2 {
         font-family : DotFont_Elite,@font-family-monospace;
-        font-size: 20px;
-        line-height: @font-size-base *2;
-        line-height: @line-height-computed ;
-      }
-
-      h3 {
-        font-family : DotFont_Bold,@font-family-monospace;
+        font-size: @font-size-base *1.5;
+        line-height: (@line-height-computed *2) - 12px;
+        margin: 0 0 (@line-height-computed + 12px) 0;
       }
 
       h3, h4, h5, h6, h7 {
@@ -135,10 +164,7 @@ html, body {
         line-height: @line-height-computed ;
       }
 
-      h1, h2, h3, h4, h5, h6, h7, p, ul {
-        margin: 0 0 @line-height-computed 0;
-      }
-
+      // List uses '*' as symbol and are aligned with the rest of the text
       ul {
         list-style: none;
         padding: 0px;
@@ -159,9 +185,10 @@ html, body {
     }
   }
 
+  // Nav menu
   nav {
     .make-sm-column(2);
-    
+
     ul {
       .list-group();
       li {

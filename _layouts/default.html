@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="robots" content="index, follow">
-    <title>{% if page.title %} {{ page.title }} | {% endif %} {{ site.name }}</title>
-    <meta name="description" content="{{site.description}}"/>
-    <meta name="author" content="{{site.author}}"/>
+    <title>{% if page.title %} {{ page.title }} | {% endif %} {{ github.project_title }}</title>
+    <meta name="description" content="{{github.project_tagline}}"/>
+    <meta name="author" content="{{github.owner_name}}"/>
 
     <base href="{{ site.baseurl }}/">
     <link rel="stylesheet" type="text/css" href="css/default.less.css" media="screen" />
@@ -16,34 +16,7 @@
     <div class="wrapper">
 
       <nav>
-        <ul>
-          <li><a href="README.html">Main</a></li>
-        </ul>
-        <h2>CPU</h2>
-        <ul>
-          <li><a href="cpu/TR3200.html">TR3200</a></li>
-          <li><a href="cpu/DCPU-16N.html">DCPU-16N</a></li>
-        </ul>
-        <h2>DEVICES</h2>
-        <ul>
-          <li><a href="devices/Keyboard.html">Generic Keyboard</a></li>
-          <li><a href="devices/TDA.html">Text Display Adapter</a></li>
-          <li><a href="devices/floppy_drive.html">5.25" Floppy Drive</a></li>
-          <li><a href="devices/SerialConsole.html">Debug Serial Consoler</a></li>
-        </ul>
-        <h2>EMBED</h2>
-        <ul>
-          <li><a href="embed/Timers.html">P.I.T. (Timers)</a></li>
-          <li><a href="embed/RTC.html">RTC</a></li>
-          <li><a href="embed/RNG.html">RNG</a></li>
-          <li><a href="embed/Beeper.html">Beeper</a></li>
-        </ul>
-        <h2>MISC</h2>
-        <ul>
-          <li><a href="cpu/calling_convention.html">Calling Conventions</a></li>
-          <li><a href="LICENSE.html">License</a></li>
-          <li><a href="About.html">About</a></li>
-        </ul>
+{% include nav_bar.html %}
       </nav>
 
       <div id="paper_sheet">
@@ -61,7 +34,7 @@
     </div>
 
     <footer>
-bla..
+{% include footer.html %}
     </footer>
 
     <script src="js/bootstrap.min.js"></script>

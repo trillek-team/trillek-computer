@@ -2,6 +2,7 @@
 layout : default
 title : DCPU-16N CPU
 ---
+```
 DCPU-16N Specification
 Copyrights 1985 Mojang, Meisaka of Trillek
 Version 0.7 based on DCPU-16 (1.7)
@@ -66,7 +67,6 @@ perform the opcode, VALUE is the numerical value, NAME is the mnemonic, and
 DESCRIPTION is a short text that describes the opcode or value.
 
 
-```
 --- Values: (5/6 bits) ---------------------------------------------------------
  C | VALUE     | DESCRIPTION
 ---+-----------+----------------------------------------------------------------
@@ -83,7 +83,6 @@ DESCRIPTION is a short text that describes the opcode or value.
  1 |      0x1f | next word (literal)
  0 | 0x20-0x3f | literal value 0xffff-0x1e (-1..30) (literal) (only for a)
  --+-----------+----------------------------------------------------------------
-```
   
 * "next word" means "[PC++]". Increases the word length of the
   instruction by 1 (two bytes).
@@ -98,7 +97,6 @@ DESCRIPTION is a short text that describes the opcode or value.
   the value, and then write to that location the result (as --SP implies).
   
 
-```
 --- Basic opcodes (5 bits) ----------------------------------------------------
  C | VAL  | NAME     | DESCRIPTION
 ---+------+----------+---------------------------------------------------------
@@ -143,7 +141,6 @@ DESCRIPTION is a short text that describes the opcode or value.
  2 | 0x1e | STI b, a | sets b to a, then increases I and J by 1
  2 | 0x1f | STD b, a | sets b to a, then decreases I and J by 1
 ---+------+----------+----------------------------------------------------------
-```
 
 * The conditional opcodes take one cycle longer to perform if the test fails.
   When they skip a conditional instruction, they will skip an additional
@@ -168,7 +165,6 @@ five bit opcode. In binary, they have the format: aaaaaaooooo00000
 The value (a) is in the same six bit format as defined earlier.
 
 
-```
 --- Special opcodes: (5 bits) --------------------------------------------------
  C | VAL  | NAME  | DESCRIPTION
 ---+------+-------+-------------------------------------------------------------
@@ -218,7 +214,6 @@ The value (a) is in the same six bit format as defined earlier.
  - | 0x1e | -     |
  - | 0x1f | -     |
 ---+------+-------+-------------------------------------------------------------
-```
 
 
 
@@ -227,7 +222,6 @@ five bit opcode. In binary, they have the format: vooooo0000000000
 The value(v) is a bit flag used by some opcodes, and is ignored otherwise.
 
 
-```
 --- Implied opcodes: (5 bits) --------------------------------------------------
  C | VAL  | NAME  | DESCRIPTION
 ---+------+-------+-------------------------------------------------------------
@@ -269,7 +263,6 @@ The value(v) is a bit flag used by some opcodes, and is ignored otherwise.
  - | 0x1e | -     |
  - | 0x1f | -     |
 ---+------+-------+-------------------------------------------------------------
-```
 
 * The BYT opcode prevents writing a byte of the next instruction, conditional
   instructions are ignored, applying to the next non-conditional instruction, 
@@ -349,5 +342,5 @@ that the DCPU-16N is used in. If left unspecified, blocks are set sequentially
 starting at page 0. Computer systems should define at minimum, a setting for
 block 0, or layout of page 0, to point a ROM/EPROM or other non-volitile
 storage to ensure the DCPU-16N will boot to user machine code.
-
+```
 

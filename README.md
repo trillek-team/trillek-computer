@@ -1,8 +1,9 @@
 ---
 layout : default
-title : Trillek Virtual Computer Specifications
+title : Virtual Computer 
+category : Main
 ---
-Trillek Virtual Computer Specs
+Trillek Virtual Computer Specifications
 =====================================
 Version 0.4h
 

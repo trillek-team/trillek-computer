@@ -1,7 +1,7 @@
 ---
 layout : default
 title : Programmable Interval Timers
-category : Embed
+cat : Embed
 ---
 Programmable Interval Timers (PIT)
 ================================

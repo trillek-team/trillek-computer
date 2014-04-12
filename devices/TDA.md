@@ -1,7 +1,7 @@
 ---
 layout : default
 title : Text Display Adapter
-category : Devices
+cat : Devices
 ---
 Nya Elektriska Text Display Adapter
 =====================================

@@ -1,7 +1,7 @@
 ---
 layout : default
 title : Debug Serial Console
-category : Devices
+cat : Devices
 ---
 Debug Serial Console
 =====================================

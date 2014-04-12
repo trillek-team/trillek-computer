@@ -1,7 +1,7 @@
 ---
 layout : default
 title : Generic Keyboard
-category : Devices
+cat : Devices
 ---
 Generic Western/Latin Keyboard controller
 ================

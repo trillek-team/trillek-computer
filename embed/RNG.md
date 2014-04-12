@@ -1,7 +1,7 @@
 ---
 layout : default
 title : Random Number Generator
-category : Embed
+cat : Embed
 ---
 Random Number Generator
 =======================

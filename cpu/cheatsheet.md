@@ -1,6 +1,7 @@
 ---
 layout : default
 title : TR3200 CPU cheatsheet
+category : Misc
 ---
 TR3200 CHEATSHEET
 ============

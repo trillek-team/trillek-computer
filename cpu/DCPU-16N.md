@@ -1,6 +1,7 @@
 ---
 layout : default
 title : DCPU-16N CPU
+category : CPU
 ---
 ```
 DCPU-16N Specification

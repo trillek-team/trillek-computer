@@ -1,6 +1,7 @@
 ---
 layout : default
 title : Beeper
+category : Embed
 ---
 Beeper
 ================================

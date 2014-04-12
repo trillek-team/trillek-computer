@@ -1,6 +1,7 @@
 ---
 layout : default
 title : Real Time Clock
+category : Embed
 ---
 Real Time Clock
 ===============

@@ -1,7 +1,7 @@
 ---
 layout : default
 title : TR3200 CPU cheatsheet
-category : Misc
+cat : NotYet
 ---
 TR3200 CHEATSHEET
 ============

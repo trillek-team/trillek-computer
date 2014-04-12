@@ -1,7 +1,7 @@
 ---
 layout : default
 title : Floppy Drive
-category : Devices
+cat : Devices
 ---
 Mackapar 5.25" Floppy Drive
 ===========================

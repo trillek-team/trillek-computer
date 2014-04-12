@@ -1,7 +1,7 @@
 ---
 layout : default
 title : Virtual Computer 
-category : Main
+cat : Main
 ---
 Trillek Virtual Computer Specifications
 =====================================

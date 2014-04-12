@@ -1,7 +1,7 @@
 ---
 layout : default
 title : Color Display Adapter (CDA)
-category : Devices
+cat : NotYet
 ---
 Investronics Color Display Adapter
 ==================================

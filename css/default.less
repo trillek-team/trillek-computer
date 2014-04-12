@@ -36,7 +36,8 @@
 
 // Mixin to generate the paper background
 .paper-bg() {
-  background: @paper-bg-color-1; // Old browsers
+  background: @paper-bg-color-1; // Plain color
+
   background-image: -webkit-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);  // Safari 5.1-6, Chrome 10+
   background-image: -moz-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);
   background-image: -o-linear-gradient(top, @paper-bg-color-1 0, @paper-bg-color-1 @line-height-computed, @paper-bg-color-2 @line-height-computed, @paper-bg-color-2 @line-height-computed*2);
@@ -45,7 +46,52 @@
 
   background-repeat: repeat-y;
   background-size: 100% @line-height-computed*2;
+
+  @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (   min--moz-device-pixel-ratio: 2),
+    only screen and (     -o-min-device-pixel-ratio: 2/1),
+    only screen and (        min-device-pixel-ratio: 2),
+    only screen and (                min-resolution: 192dpi),
+    only screen and (                min-resolution: 2dppx) {
+
+      background-image: none;
+  }
 }
+
+// Mixin for Nav menus
+.menu_list() {
+  ul {
+    .list-group();
+    li {
+      .list-group-item();
+
+      // Active class on item itself, not parent
+      &.active,
+      &.active:hover,
+      &.active:focus {
+        z-index: 2; // Place active items above their siblings for proper border styling
+        color: #fff;
+        background-color: @list-group-active-bg;
+        border-color: @list-group-active-border;
+
+        a, a:hover, a:focus {
+          color: #fff;
+        }
+
+        // Force color to inherit for custom content
+        .list-group-item-heading {
+          color: inherit;
+        }
+        .list-group-item-text {
+          color: @list-group-active-text-color;
+        }
+      }
+    }
+
+  }
+}
+
 
 // Hard stuff
 html, body {
@@ -53,11 +99,13 @@ html, body {
 }
 
 .wrapper {
-  .make-row();
+  //.make-row();
 
+  // Were to create the effect of greenbar paper
   #paper_sheet {
-    .make-sm-column(10);
+    //.make-sm-column(10);
 
+    // Left-right holes
     .holes {
       background: @paper-bg-color-1; // Old browsers
       display: table-cell;
@@ -81,6 +129,7 @@ html, body {
       }
     }
 
+    // main body of text
     #main_text {
       @char-width: @font-size-base*(8/12);  //8px;
       font-family : DotFont,@font-family-monospace;
@@ -184,39 +233,34 @@ html, body {
     }
   }
 
-  // Nav menu
+  // Nav menu for wide screen
   nav {
-    .make-sm-column(2);
-
-    ul {
-      .list-group();
-      li {
-        .list-group-item();
-
-        // Active class on item itself, not parent
-        &.active,
-        &.active:hover,
-        &.active:focus {
-          z-index: 2; // Place active items above their siblings for proper border styling
-          color: #fff;
-          background-color: @list-group-active-bg;
-          border-color: @list-group-active-border;
-
-          a, a:hover, a:focus {
-            color: #fff;
-          }
-
-          // Force color to inherit for custom content
-          .list-group-item-heading {
-            color: inherit;
-          }
-          .list-group-item-text {
-            color: @list-group-active-text-color;
-          }
-        }
-      }
-
+    max-width : 250px;
+    .menu_list();
+    // Convert nav in a column in wide screen devices
+    &.visible-lg {
+      //.make-sm-column(2);
+      .pull-left();
     }
   }
+}
+
+// Nav menu for small screen
+nav {
+  .menu_list();
+
+  // convert Nav visible only for small screen in a grid row
+  &.hidden-lg {
+    .make-row();
+
+    // Two columns
+    .col1, .col2 {
+      .make-sm-column(6);
+    }
+  }
+
+}
+
+footer {
 }
 

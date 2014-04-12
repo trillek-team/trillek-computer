@@ -4,8 +4,10 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <title>{% if page.title %} {{ page.title }} | {% endif %} {{ github.project_title }}</title>
+    <meta name="robots" content="index, follow">
     <meta name="description" content="{{github.project_tagline}}"/>
     <meta name="author" content="{{github.owner_name}}"/>
 
@@ -13,9 +15,17 @@
     <link rel="stylesheet" type="text/css" href="css/default.less.css" media="screen" />
   </head>
   <body>
+
+    <!-- Mobil nav menu-->
+    <nav class="hidden-lg">
+{% include nav_bar.html %}
+    </nav>
+  
     <div class="wrapper">
 
-      <nav>
+      <!-- Desktop/wide screen nav menu-->
+      <nav class="visible-lg">
+        <h1>Documents</h1>
 {% include nav_bar.html %}
       </nav>
 
@@ -37,6 +47,7 @@
 {% include footer.html %}
     </footer>
 
+    <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>

@@ -1,3 +1,7 @@
+---
+layout : default
+title : Debug Serial Console
+---
 Debug Serial Console
 =====================================
 Version 0.1a (WIP)

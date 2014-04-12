@@ -1,3 +1,7 @@
+---
+layout : default
+title : Random Number Generator
+---
 Random Number Generator
 =======================
 Version 0.1a

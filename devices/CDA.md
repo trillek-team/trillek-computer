@@ -1,3 +1,7 @@
+---
+layout : default
+title : Color Display Adapter (CDA)
+---
 Investronics Color Display Adapter
 ==================================
 Version 0.5a (WIP) 
@@ -262,7 +266,7 @@ The color palette in Little-endian RGB8 format (Arne 16 color palette) :
  - 14  0x009D9D9D Gray
  - 15  0x00FFFFFF White
 
-![Palette](./palette.png "Palette")
+![Palette](img/dia/palette.png "Palette")
 
 ## Video Memory Maps
 

@@ -1,3 +1,7 @@
+---
+layout : default
+title : Real Time Clock
+---
 Real Time Clock
 ===============
 Version 0.1

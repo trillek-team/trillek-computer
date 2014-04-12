@@ -1,8 +1,13 @@
+---
+layout : default
+title : Beeper
+---
 Beeper
 ================================
 Version 0.2a
 
-The Beeper device (or "Buzzer") consist in a basic multi-vibrator oscillator that allow to change the oscillation frequency in function of a 16 bit register.
+The Beeper device (or "Buzzer") consist in a basic multi-vibrator oscillator 
+that allow to change the oscillation frequency in function of a 16 bit register.
 
 RESOURCES
 ---------

@@ -1,3 +1,7 @@
+---
+layout : default
+title : Trillek Virtual Computer Specifications
+---
 Trillek Virtual Computer Specs
 =====================================
 Version 0.4h
@@ -69,7 +73,7 @@ SUMMARY
 
 HOW WORKS
 ---------
-![Computer Architecture Diagram](./img/computer.png "Diagram")
+[![Computer Architecture Diagram](img/dia/computer_tn.png "Diagram")](img/dia/computer.png)
 
 As can you see, the computer uses a 24 bit Address Bus and 32 bit Data bus. RAM
 and ROM are directly attached to these buses, as any device in the computer
@@ -117,7 +121,7 @@ In these address block that we call **Enumeration And Control registers**, there
    there is five word registers that are used to send values with the commands 
    and receive status/error or other stuff from the devices.
 
-![Device Enumeration And Control Header](./img/DevConfigHeader.png "DevHeader")
+[![Device Enumeration And Control Header](img/dia/DevConfigHeader.png "DevHeader")](img/dia/DevConfigHeader.png)
  
 To know how many devices are plugged to the computer, you only need to read the 
 first byte of the 32 addresses and count one more for every byte being 0xFF.
@@ -236,29 +240,27 @@ DOCUMENTS
 
 ### CPUs
 
-- [TR3200 CPU](./cpu/TR3200.md)
-- [DCPU-16N CPU](./cpu/DCPU-16N.txt)
+- [TR3200 CPU](cpu/TR3200.html)
+- [DCPU-16N CPU](cpu/DCPU-16N.txt)
 
 ### Embed Devices
 
-- [Programmable Interval Timer](./embed/Timers.md) (aka Timer or Clock)
-- [RTC](./embed/RTC.md)
-- [RNG](./embed/RNG.md)
-- [Beeper](./embed/Beeper.md)
+- [Programmable Interval Timer](embed/Timers.html) (aka Timer or Clock)
+- [RTC](embed/RTC.html)
+- [RNG](embed/RNG.html)
+- [Beeper](embed/Beeper.html)
 
 ### Devices
 
-- [Generic Keyboard](./devices/Keyboard.md)
-- [Text Generator Adapter](./devices/TGA.md) (TGA)
-- [Color Display Adapter](./devices/CDA.md) (CDA)
-- [5.25" Floppy Drive](./devices/floppy_drive.md) (M5FDD)
-- [Debug Serial Console](./devices/SerialConsole.md.md)
+- [Generic Keyboard](devices/Keyboard.html)
+- [Text Display Adapter](devices/TDA.html) (TDA)
+- [5.25" Floppy Drive](devices/floppy_drive.html) (M5FDD)
+- [Debug Serial Console](devices/SerialConsole.html)
 
 ### MISC
 
-- [Computer Architecture Diagram](./img/computer.png)
-- [Memory Model](./img/memory_map.png)
-- [Calling Conventions](./cpu/calling_convention.md)
+- [Memory Model](img/dia/memory_map.png)
+- [Calling Conventions](cpu/calling_convention.html)
 
 ADVICE
 ------

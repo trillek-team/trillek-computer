@@ -1,3 +1,8 @@
+---
+layout : default
+title : DCPU-16N CPU
+---
+```
 DCPU-16N Specification
 Copyrights 1985 Mojang, Meisaka of Trillek
 Version 0.7 based on DCPU-16 (1.7)
@@ -62,7 +67,6 @@ perform the opcode, VALUE is the numerical value, NAME is the mnemonic, and
 DESCRIPTION is a short text that describes the opcode or value.
 
 
-
 --- Values: (5/6 bits) ---------------------------------------------------------
  C | VALUE     | DESCRIPTION
 ---+-----------+----------------------------------------------------------------
@@ -92,7 +96,6 @@ DESCRIPTION is a short text that describes the opcode or value.
   in that case remember that the CPU will change the register before reading
   the value, and then write to that location the result (as --SP implies).
   
-
 
 --- Basic opcodes (5 bits) ----------------------------------------------------
  C | VAL  | NAME     | DESCRIPTION
@@ -211,7 +214,6 @@ The value (a) is in the same six bit format as defined earlier.
  - | 0x1e | -     |
  - | 0x1f | -     |
 ---+------+-------+-------------------------------------------------------------
-
 
 
 
@@ -340,5 +342,5 @@ that the DCPU-16N is used in. If left unspecified, blocks are set sequentially
 starting at page 0. Computer systems should define at minimum, a setting for
 block 0, or layout of page 0, to point a ROM/EPROM or other non-volitile
 storage to ensure the DCPU-16N will boot to user machine code.
-
+```
 

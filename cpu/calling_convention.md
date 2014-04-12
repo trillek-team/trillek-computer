@@ -1,4 +1,8 @@
-Calling conventions for TR3200 CPU and DCPU-16E
+---
+layout : default
+title : Calling convention for TR3200 and DCPU-16N
+---
+Calling conventions for TR3200 CPU and DCPU-16N
 ===============================================
 Version 0.2 (WIP)
 
@@ -126,3 +130,4 @@ For example, a 32 bit integer var in the stack :
 - C register MUST be preserved being pushed to the stack before the extra arguments by the CALLER. C takes the value of SP after pushing the extra arguments. (C will be used as Base Pointer)
 - CALLEE function/subroutine can use C + n to read extra arguments, and %C - n
   for local variable. Where **n = (number of parameter - 3) * 2**.
+

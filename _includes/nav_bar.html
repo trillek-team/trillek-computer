@@ -1,4 +1,22 @@
 <ul>
+{% for p in site.pages %}
+  {% if p.title == '' or p.url contains 'index'  %}
+  {% else %}
+    <li {% if p.url == page.url %}class="active"{% endif %} >
+      <a href="{{ p.url }}">
+        {{ p.title }}
+      </a>
+    </li>
+  {% endif %}
+{% endfor %}
+</ul>
+<hr/>
+{% for page in site.pages %}
+{{ page.categories }} - {{ page.url }}<br/>
+{% endfor %}
+
+<!--
+<ul>
   <li {% if page.url == '/README.html' %} class="active" {% endif %}>
     <a href="README.html">Main</a>
   </li>
@@ -55,4 +73,5 @@
     <a href="About.html">About</a>
   </li>
 </ul>
+-->
 

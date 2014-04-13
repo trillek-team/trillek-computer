@@ -1,0 +1,183 @@
+---
+title: TR3200 Cheat Sheet
+cat : CPU
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TR3200 Cheat Sheet</title>
+    <style>
+    body {
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:10pt;
+    }
+    table {
+        border-collapse:collapse;
+        margin:4px auto;
+    }
+    th {
+        background-color:#066;
+        color:white;
+    }
+    table, th {border: 1px solid black;}
+    td, th {padding:0px 5px;}
+    tr:nth-child(even) {background: #DDD;}
+    tr:nth-child(odd) {background: #FFF;}
+    #column {
+        width:auto;
+        float:left;
+		padding:2px;
+    }
+	#logo {
+		color:#066;
+		font-family:Impact;
+		font-style:italic;
+		font-size:40pt;
+		text-shadow: 2px 2px #000000;
+	}
+    </style>
+</head>
+<body>
+
+<div id="wrapper">
+	<div id="column">
+	<table>
+	<tr><th>Mnemonic</th><th>Opcode</th><th>Description</th><th>P-Code</th><th>C</th></tr>
+	<tr><td>AND</td><td>0&#120;80</td><td>Bitwise And</td><td>Rd = Rs AND Rn</td><td>3</td></tr>
+	<tr><td>OR</td><td>0&#120;81</td><td>Bitwise Or</td><td>Rd = Rs OR Rn</td><td>3</td></tr>
+	<tr><td>XOR</td><td>0&#120;82</td><td>Bitwise XOr</td><td>Rd = Rs XOR Rn</td><td>3</td></tr>
+	<tr><td>BITC</td><td>0&#120;83</td><td>Bit Clear</td><td>Rd = Rs AND NOT Rn</td><td>3</td></tr>
+	<tr><td>ADD</td><td>0&#120;84</td><td>Addition</td><td>Rd = Rs + Rn</td><td>3</td></tr>
+	<tr><td>ADDC</td><td>0&#120;85</td><td>Addition with Carry</td><td>Rd = Rs + Rn + C</td><td>3</td></tr>
+	<tr><td>SUB</td><td>0&#120;86</td><td>Subtraction</td><td>Rd = Rs - Rn</td><td>3</td></tr>
+	<tr><td>SUBB</td><td>0&#120;87</td><td>Subs with Borrow</td><td>Rd = Rs - (Rn + C)</td><td>3</td></tr>
+	<tr><td>RSB</td><td>0&#120;88</td><td>Reverse Subtract</td><td>Rd = Rn - Rs</td><td>3</td></tr>
+	<tr><td>RSBB</td><td>0&#120;89</td><td>RSB with Borrow</td><td>Rd = Rn - (Rs + C)</td><td>3</td></tr>
+	<tr><td>LLS</td><td>0&#120;8A</td><td>Logical Left Shift</td><td>Rd = Rs &lt;&lt; Rn</td><td>3</td></tr>
+	<tr><td>LRS</td><td>0&#120;8B</td><td>Logical Right Shift</td><td>Rd = Rs &gt;&gt; Rn</td><td>3</td></tr>
+	<tr><td>ARS</td><td>0&#120;8C</td><td>Arithmetic Right Shift</td><td>Rd = Rs &gt;&gt;&gt; Rn</td><td>3</td></tr>
+	<tr><td>ROTL</td><td>0&#120;8D</td><td>Rotate Left</td><td>Rd = Rs ROTL Rn</td><td>3</td></tr>
+	<tr><td>ROTR</td><td>0&#120;8E</td><td>Rotate Right</td><td>Rd = Rs ROTR Rn</td><td>3</td></tr>
+	<tr><td>MUL</td><td>0&#120;8F</td><td>Multiplication 32x32</td><td>Y:Rd = Rs * Rn</td><td>20</td></tr>
+	<tr><td>SMUL</td><td>0&#120;90</td><td>Signed Multiplication</td><td>Y:Rd = Rs * Rn</td><td>30</td></tr>
+	<tr><td>DIV</td><td>0&#120;91</td><td>Division 32:32</td><td>Rd = Rs / Rn; Y = Rs % Rn</td><td>25</td></tr>
+	<tr><td>SDIV</td><td>0&#120;92</td><td>Signed Division</td><td>Rd = Rs / Rn; Y = Rs % Rn</td><td>35</td></tr>
+	<tr><td>LOAD</td><td>0&#120;93</td><td>Loads a dword</td><td>Rd = ram[Rs + Rn]</td><td>3</td></tr>
+	<tr><td>LOADW</td><td>0&#120;94</td><td>Loads a word</td><td>Rd = ram[Rs + Rn]</td><td>3</td></tr>
+	<tr><td>LOADB</td><td>0&#120;95</td><td>Loads a byte</td><td>Rd = ram[Rs + Rn]</td><td>3</td></tr>
+	<tr><td>STORE</td><td>0&#120;96</td><td>Saves a dword</td><td>ram[Rs + Rn] = Rd</td><td>3</td></tr>
+	<tr><td>STOREW</td><td>0&#120;97</td><td>Saves a word</td><td>ram[Rs + Rn] = Rd</td><td>3</td></tr>
+	<tr><td>STOREB</td><td>0&#120;98</td><td>Saves a byte</td><td>ram[Rs + Rn] = Rd</td><td>3</td></tr>
+
+	<tr><th>Mnemonic</th><th>Opcode</th><th>Description</th><th>P-Code</th><th>C</th></tr>
+	<tr><td>MOV</td><td>0&#120;40</td><td>Set/Move a value</td><td>Rd = Rn</td><td>3</td></tr>
+	<tr><td>SWP</td><td>0&#120;41</td><td>Swaps values</td><td>Rd = Rn; Rn = Rd (M bit = 0)</td><td>3</td></tr>
+	<tr><td>NOT</td><td>0&#120;42</td><td>Does bitwise NOT</td><td>Rd = NOT Rn</td><td>3</td></tr>
+	<tr><td>SIGXB</td><td>0&#120;43</td><td>Extend Sign of Byte</td><td>Rd = Rn | FFFFFF00 if Rn[7]</td><td>3</td></tr>
+	<tr><td>SIGXW</td><td>0&#120;44</td><td>Extend Sign of Word</td><td>Rd = Rn | FFFF0000 if Rn[15]</td><td>3</td></tr>
+	<tr><td>LOAD</td><td>0&#120;45</td><td>Loads a dword</td><td>Rd = ram[Rn]</td><td>3</td></tr>
+	<tr><td>LOADW</td><td>0&#120;46</td><td>Loads a word</td><td>Rd = ram[Rn]</td><td>3</td></tr>
+	<tr><td>LOADB</td><td>0&#120;47</td><td>Loads a byte</td><td>Rd = ram[Rn]</td><td>3</td></tr>
+	<tr><td>STORE</td><td>0&#120;48</td><td>Saves a dword</td><td>ram[Rn] = Rd</td><td>3</td></tr>
+	<tr><td>STOREW</td><td>0&#120;49</td><td>Saves a word</td><td>ram[Rn] = Rd</td><td>3</td></tr>
+	<tr><td>STOREB</td><td>0&#120;4A</td><td>Saves a byte</td><td>ram[Rn] = Rd</td><td>3</td></tr>
+	<tr><td>IFEQ</td><td>0&#120;4B</td><td>Execute If</td><td>Rd == Rn</td><td>3+</td></tr>
+	<tr><td>IFNEQ</td><td>0&#120;4C</td><td>Execute If</td><td>Rd != Rn</td><td>3+</td></tr>
+	<tr><td>IFL</td><td>0&#120;4D</td><td>Execute If</td><td>Rd &lt; Rn (unsigned)</td><td>3+</td></tr>
+	<tr><td>IFSL</td><td>0&#120;4E</td><td>Execute If</td><td>Rd &lt; Rn (signed)</td><td>3+</td></tr>
+	<tr><td>IFLE</td><td>0&#120;4F</td><td>Execute If</td><td>Rd &lt;= Rn (unsigned)</td><td>3+</td></tr>
+	<tr><td>IFSLE</td><td>0&#120;50</td><td>Execute If</td><td>Rd &lt;= Rn (signed)</td><td>3+</td></tr>
+	<tr><td>IFBITS</td><td>0&#120;51</td><td>Execute If</td><td>Rd &amp; Rn != 0</td><td>3+</td></tr>
+	<tr><td>IFCLEAR</td><td>0&#120;52</td><td>Execute If</td><td>Rd &amp; Rn == 0</td><td>3+</td></tr>
+	<tr><td>JMP</td><td>0&#120;53</td><td>Absolute Jump</td><td>%pc = (Rd + Rn) &amp; FFFFFC</td><td>3</td></tr>
+	<tr><td>CALL</td><td>0&#120;54</td><td>Absolute Call</td><td>PUSH %pc; JMP %rd, %rn</td><td>4</td></tr>
+	</table>
+	</div>
+	<div id="column">
+		<table>
+		<tr><th>Mnemonic</th><th>Opcode</th><th>Description</th><th>P-Code</th><th>C</th></tr>
+		<tr><td>XCHGB</td><td>0&#120;20</td><td>Exchange the 8 LSB</td><td>(M = 0)</td><td>3</td></tr>
+		<tr><td>XCHGW</td><td>0&#120;21</td><td>Exchange the 16 LSB</td><td>(M = 0)</td><td>3</td></tr>
+		<tr><td>GETPC</td><td>0&#120;22</td><td>Return %pc value</td><td>Rn = %pc+4 (M = 0)</td><td>3</td></tr>
+		<tr><td>POP</td><td>0&#120;23</td><td>Pops from the stack</td><td>%sp +=4 ; Rn = [%sp] (M = 0)</td><td>3</td></tr>
+		<tr><td>PUSH</td><td>0&#120;24</td><td>Push to the stack</td><td>[%sp] = Rn ; %sp -=4 (M = 0)</td><td>3</td></tr>
+		<tr><td>JMP</td><td>0&#120;25</td><td>Absolute Jump</td><td>%pc = Rn &amp; 0xFFFFFFFC</td><td>3</td></tr>
+		<tr><td>CALL</td><td>0&#120;26</td><td>Absolute Call</td><td>PUSH %pc; JMP %rn</td><td>4</td></tr>
+		<tr><td>RJMP</td><td>0&#120;27</td><td>Relative Jump</td><td>JMP (%pc + %rn)</td><td>3</td></tr>
+		<tr><td>RCALL</td><td>0&#120;28</td><td>Relative Call</td><td>PUSH %pc; JMP (%pc + %rn)</td><td>4</td></tr>
+		<tr><td>INT</td><td>0&#120;29</td><td>Software Interrupt</td><td> </td><td>6</td></tr>
+
+		<tr><th>Mnemonic</th><th>Opcode</th><th>Description</th><th>P-Code</th><th>C</th></tr>
+		<tr><td>SLEEP</td><td>0x00</td><td>Suspend the CPU</td><td> </td><td>1+</td></tr>
+		<tr><td>RET</td><td>0x01</td><td>Return from subroutine</td><td>POP %pc</td><td>4</td></tr>
+		<tr><td>RFI</td><td>0x02</td><td>Return from interrupt</td><td>POP %r0; POP %pc</td><td>6</td></tr>
+		</table>
+		<table style="width:100%">
+		<tr><th>Bit</th><th>Flag Name</th><th>Flag Description</th></tr>
+		<tr><td>0</td><td>(CF) CARRY</td><td>The last ADDx/SUBx carried or borrowed a bit.</td></tr>
+		<tr><td>1</td><td>(OF)OVERFLOW</td><td>An arithmetic operation overflowed.</td></tr>
+		<tr><td>2</td><td>(DE) DIVISION ERROR</td><td>A division error occurred.</td></tr>
+		<tr><td>3</td><td>(IF) INTERRUPT</td><td>An interrupt is happening.</td></tr>
+		<tr><td>4-7</td><td>Reserved</td><td> </td></tr>
+		<tr><td>8</td><td>(EI) ENABLE INTERRUPT</td><td> Interrupts will be processed.</td></tr>
+		<tr><td>9</td><td>(ESS) SINGLE-STEP</td><td> </td></tr>
+		<tr><td>10-31</td><td>Reserved</td><td> </td></tr>
+		</table>
+		<div style="width:100%">
+			<div style="float:left">
+				<table>
+				<tr><th>Range</th><th>Syntax</th></tr>
+				<tr><td>0x80 - 0xFF</td><td>*instr* Rd, Rs, Rn</td></tr>
+				<tr><td></td><td>STORE Rs, Rn, Rd</td></tr>
+				<tr><td>0x40 - 0x7F</td><td>*instr* Rd, Rn</td></tr>
+				<tr><td></td><td>STORE Rn, Rd</td></tr>
+				<tr><td>0x20 - 0x3F</td><td>*instr* Rn</td></tr>
+				<tr><td>0x00 - 0x1F</td><td>*instr*</td></tr>
+				</table>
+			</div>
+			<div style="float:right">
+				<table>
+				<tr><th>Register</th><th>Description</th></tr>
+				<tr><td>%r0 .. %r10</td><td>General Purpose Registers</td></tr>
+				<tr><td>%r11 - %y</td><td>Multiplication/Rest register</td></tr>
+				<tr><td>%r12 - %bp</td><td>Stack Frame Pointer</td></tr>
+				<tr><td>%r13 - %sp</td><td>Stack Pointer</td></tr>
+				<tr><td>%r14 - %ia</td><td>Interrupt Address</td></tr>
+				<tr><td>%r15 - %flags</td><td>Flags/Enable bits register</td></tr>
+				</table>
+			</div>
+		</div>
+		<div style="width:100%;clear:both">
+			<div style="float:left">
+				<table>
+				<tr><th>Start</th><th>End</th><th>Description</th></tr>
+				<tr><td>0x11XX00</td><td>0x11XX14</td><td>Device Slot 0-31</td></tr>
+				<tr><td>0x11E000</td><td>0x11E010</td><td>PIT</td></tr>
+				<tr><td>0x11E020</td><td>0x11E023</td><td>BEEPER</td></tr>
+				<tr><td>0x11E030</td><td>0x11E036</td><td>RTC</td></tr>
+				<tr><td>0x11E040</td><td>0x11E043</td><td>RNG</td></tr>
+				<tr><td>0x11E050</td><td>0x11E053</td><td>CPU Speed</td></tr>
+				<tr><td>0x11F000</td><td>0x11F0FF</td><td>NVRAM</td></tr>
+				</table>
+			</div>
+			<div style="float:right">
+				<table>
+				<tr><th>Start</th><th>End</th><th>Description</th></tr>
+				<tr><td>0x000000</td><td>0x01FFFF</td><td>Stock Memory</td></tr>
+				<tr><td>0x020000</td><td>0x0FFFFF</td><td>Exp Memory</td></tr>
+				<tr><td>0x100000</td><td>0x108000</td><td>32KiB ROM</td></tr>
+				<tr><td>0x110000</td><td>0x120000</td><td>Hardware Map</td></tr>
+				</table>
+			</div>
+		</div>
+	
+	<div style="padding:10px;text-align:right;">
+		<span id="logo">TR3200</span><BR>
+		Cheat Sheet<BR>
+		http://trillek.org/
+	</div>
+	</div>
+</div>
+</body>
+</html>

@@ -146,29 +146,54 @@ Here is a list of Device Types. Each entry could contain a sublist of actually k
  - 0x00 : Unclassified device
  - 0x01 : Audio devices (Sound Cards)
  - 0x02 : Communications device
+     - 0x00 : Parallel data port
+     - 0x01 : Serial data port
+     - 0x02 : Asynchronous serial port
+     - 0x03 : Synchronous serial port
+     - 0x10 : Multiplexed parallel data port
+     - 0x11 : Multiplexed serial data port
      - 0xFF : Serial Console
  - 0x03 : HID (Human Interface Device)  
      - 0x01 : Western/Latin Keyboard
  - 0x04 : Expansion bus device
+     - 0x00 : Bus bridge (remappable standard enumeration)
  - 0x06 : Image/Video Input device
  - 0x07 : Printer (2D and 3D) device
  - 0x08 : Mass Storage device (Floppy drives, Microdrives, Hard disks, Tape 
    recorders)
+     - 0x00 : Tape drive / linear storage drive
      - 0x01 : Floppy drive
+     - 0x02 : Hard drive
+     - 0x03 : Optical media drive
  - 0x09 : Network device
+     - 0x01 : generic network bus
+     - 0x0E : Ethernet Network device
+     - 0x0F : Short-range Wireless Network device
+     - 0x11 : Controller Area Network device
  - 0x0A : Co-Processors
  - 0x0E : Graphics Devices (Graphics card)
      - 0x01 : TGA compatible
  - 0x0F : HoloGraphics Devices
  - 0x10 : Ship Sensors (DRADIS, Air, Hull integrity, etc...)
+     - 0x00 : Binary input array (buttons / switches)
+     - 0x01 : Analog input array (Joysticks / levers)
+     - 0x02 : Power meter array
  - 0x11 : Power Management Systems (control of Generators)
+     - 0x00 : Switch box (multiple on/off style switches)
+     - 0x01 : generic generator (set off/start/run, get output)
+     - 0x02 : generic linear generator (set off/start/run/rate, get rate/fuel/output)
  - 0x12 : Hydraulic/Pneumatic Actuators (control of doors, air-locks, landing 
    gears)
+     - 0x00 : generic door controller (open/close, get count/state)
+     - 0x01 : generic sensor/door controller (open/close, sensor on/off, get count/state/triggered)
  - 0x13 : Electric Engines (control of wheels and steering)
+     - 0x06 : Gyro reaction wheel
  - 0x1A : Defensive Systems (control of shields)
  - 0x1B : Offensive Systems (control of weapons)
  - 0x1C : Sub-FTL Navigational and Engine Systems (control of thrusters and 
    engines)
+     - 0x00 : Generic engine cluster (set rate/gimbal, get rate/status/fuel)
+     - 0x01 : Reaction control system (impulse, set rate, get rate/count/status/axis/fuel)
  - 0x1D : FTL Navigational Systems (control of warp engines)
  - 0xFF : Unassigned class
 

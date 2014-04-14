@@ -4,9 +4,9 @@ title : DCPU-16N CPU
 cat : CPU
 ---
 
-# DCPU-16N Specification
-#### Copyrights 1985 Mojang, Meisaka of Trillek
-#### Version 0.8 based on DCPU-16 (1.7)
+# DCPU-16N Specification  
+#### Copyrights 1985 Mojang, Meisaka of Trillek  
+#### Version 0.8 based on DCPU-16 (1.7)  
 
 
 SUMMARY
@@ -70,6 +70,7 @@ DESCRIPTION is a short text that describes the opcode or value.
 
 
 ### Values: (5/6 bits)
+
  C | VALUE     | DESCRIPTION
 :-:|----------:|----------------------------------------------------------------
  0 | 0x00-0x07 | register (**A**, **B**, **C**, **X**, **Y**, **Z**, **I**, or **J**, in that order)
@@ -101,6 +102,7 @@ DESCRIPTION is a short text that describes the opcode or value.
 
 
 ### Basic opcodes (5 bits)
+
  C | VAL  | NAME     | DESCRIPTION
 :-:|------|----------|---------------------------------------------------------
  - | 0x00 | n/a      | special instruction - see below

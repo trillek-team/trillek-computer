@@ -89,12 +89,9 @@ DESCRIPTION is a short text that describes the opcode or value.
 
 * "next word" means "[**PC**++]". Increases the word length of the
   instruction by 1 (two octets).
-
 * By using 0x18, 0x19, 0x1a as PEEK, POP/PUSH, and PICK there's a reverse stack
   starting at memory location 0xffff. Example: `SET PUSH, 10`, `SET X, POP`
-
 * Attempting to write to a literal value fails silently
-
 * Make note of the PUSH operation, some instructions that modify the b value,
   in that case remember that the CPU will change the register before reading
   the value, and then write to that location the result (as --**SP** implies).
@@ -144,13 +141,10 @@ DESCRIPTION is a short text that describes the opcode or value.
   instruction at the cost of one extra cycle. This continues until a non-
   conditional instruction has been skipped. This lets you easily chain
   conditionals. Interrupts are not triggered while the DCPU-16N is skipping.
-
 * Signed numbers are represented using two's complement.
-
 * Instructions with extra output in **EX**, put the extra value in **EX** before
   writing to b. Using **EX** as the b operand on these instructions is not
   is recommended for stability and to reduce bugs.
-
 * Division instructions (DIV DVI MOD MDI) tend to dissipate significantly more
   power than other instructions in practice, ensure proper thermal management
   before using them excessively to ensure stability and to reduce bugs.
@@ -250,17 +244,13 @@ The value(v) is a bit flag used by some opcodes, and is ignored otherwise.
   instructions are ignored, applying to the next non-conditional instruction, 
   allowing conditionally masking byte writes. BYT applies to only one
   instruction, similar to how conditionals work, that instruction may be skipped
-
 * Interrupts are queued when BYT is in effect, as there is no way to maintain
   its state between interrupts.
-
 * Executing two BYT instructions in a row, turns on the byte masking, then
   turns it off again, effectively a two word no op.
-
 * BYT only prevents writes to the direct output of operations, reads are still
   handled as normal 16 bit. A BYT operation used on a SWP operation will
   duplicate bytes. Indirect writes (to **EX** for example) are not affected.
-
 * Internally the DCPU-16N keeps track whether it is skipping, queuing interrupts
   , masking byte writes (of which byte), and how many interrupts are queued.
   All of these flags and values are transparent from the programming model, so

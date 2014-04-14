@@ -100,6 +100,7 @@ html, body {
 
 .wrapper {
   //.make-row();
+  @char-width: @font-size-base*(8/12);  //8px;
 
   // Were to create the effect of greenbar paper
   #paper_sheet {
@@ -131,7 +132,7 @@ html, body {
 
     // main body of text
     #main_text {
-      @char-width: @font-size-base*(8/12);  //8px;
+
       font-family : DotFont,@font-family-monospace;
       font-size: @font-size-base !important;
 
@@ -210,6 +211,18 @@ html, body {
         font-family : DotFont_Bold,@font-family-monospace;
         font-size: @font-size-base !important;
         line-height: @line-height-computed ;
+      }
+
+      // Tables
+      table {
+        th, td { // Internal column separator, have a border or line
+          padding: 0 @char-width;
+          border-left: solid 1px black;
+        }
+
+        tr > th:first-child, tr > td:first-child { // First column not have a left border
+          border-left: 0;
+        }
       }
 
       // List uses '*' as symbol and are aligned with the rest of the text

@@ -164,7 +164,7 @@ html, body {
         margin: 0;
       }
 
-      pre {
+      pre, code {
         font-family : DotFont,@font-family-monospace;
         font-size: @font-size-base !important;
         line-height: @line-height-computed;
@@ -175,9 +175,6 @@ html, body {
         margin: 0 0 @line-height-computed 0;
         padding: 0;
 
-        code {
-          font-family : DotFont,@font-family-monospace;
-        }
       }
 
       // We use special font for bold and cursive
@@ -215,6 +212,13 @@ html, body {
 
       // Tables
       table {
+        margin: 0 0 @line-height-computed 0;
+        
+        th {
+          font-weight: normal;
+          font-family : DotFont_Bold,@font-family-monospace;
+        }
+
         th, td { // Internal column separator, have a border or line
           padding: 0 @char-width;
           border-left: solid 1px black;

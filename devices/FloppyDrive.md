@@ -47,9 +47,7 @@ based in his CHS paramters, we do a simple arithmetic :
 By nomenclature and convention, *Heads* and *Cyclenders* begin in 0, and 
 *Sectors* begin to count from 1. 
 
-When the floppy does changes of Track, does a Track seeking. TRack seeking 
-takes a time of 3 ms per track. For example, if the floppay was on track 5, and 
-changes to track 20, takes a time of `3 ms * (20-5) = 45 ms` 
+Any absolute sector could be be pointed by a CHS value.
 
 ### List of usual floppy formats
 
@@ -62,6 +60,26 @@ changes to track 20, takes a time of `3 ms * (20-5) = 45 ms`
    2   |        8          |       80        |  640 KiB
    2   |        9          |       80        |  720 KiB
    2   |        15         |       80        |  1200 KiB
+
+### Times and Latencies
+
+There is many factors that contribute to the time that takes to read/write a 
+sector in a floppy :
+
+- Seek Time :
+  Seek Time is the time that takes the floppy drive to change from a trak to 
+  another track. This takes 5 ms per track, so to change from track 5 to track 
+  25 takes a seek time of `5 ms * (25-5) = 100 ms`.
+- Rotational Latency : 
+  The floppy drive is always rotating at 300 RPM. When it try to read/writes a 
+  particular sector, these sector could be just bellow the header or in the 
+  opossite side of the disk. So the average time that takes seek a sector in a 
+  track is ` ( 1 / (300/60)) / 2 = 100 ms`. The worst case, could be 200 ms and
+  the best case could be 0ms.
+- Average Access Time : 
+  This is The Seek Time + Rotational Latency.
+
+**IMPLEMENTATION NOTES** : We assume a fixed Rotational latency time of 100 ms.
 
 
 COMMANDS and REGISTERS
@@ -88,11 +106,12 @@ By convention, to store a CHS value in a register, we use this format:
    Reading is only possible if the state (D register value) is STATE_READY or 
    STATE_READY_WP before calling this command. D will be set to STATE_BUSY 
    when this command is being executed.
-   When the command is executed and the floppy drive is ready, the M5FDD reads 
-   the desired sector at a 100kbit/s, storing it in a internal buffer. When it 
-   ends to read the data, copy the internal buffer data to the RAM doing a bulk
-   DMA operation at a rate of 40KB/s (4 bytes every 10 device clock ticks -> 
-   40000 Bytes per second), so a sector takes `0.04096s + 0.0128s ~= 0.0538s`.
+   When the command is executed and the floppy drive is ready, the M5FDD seeks 
+   the track and sector, and when find it, reads the desired sector at a 
+   100kbit/s, storing it in a internal buffer. When it ends to read the data, 
+   copies the internal buffer data to the RAM doing a bulk DMA operation at a 
+   rate of 40KB/s (4 bytes every 10 device clock ticks -> 40000 Bytes per 
+   second), so a sector takes `0.04096s + 0.0128s ~= 0.0538s` to be read.
    This allow to operate asynchronous and protects against partial reads.
    When the M3FDD ends the whole operation and does it correctly, will change D 
    and E registers to STATE_READY/STATE_READY_WP and ERROR_NONE.
@@ -102,11 +121,12 @@ By convention, to store a CHS value in a register, we use this format:
    Writing is only possible if the state (D register value) is STATE_READY 
    before calling this command. D will be set to STATE_BUSY when this command 
    is being executed.
-   When the command is executed and the floppy drive is ready, the M5FDD does a
-   bulk DMA transfer from the RAM to his internal buffer at a rate of 40KB/s. 
-   When ends to copy the data, then begin to write to the floppy disk from his 
-   internal buffer at a rate of 100kbit/s. This allow to operate asynchronous.
-   When the M3FDD end the whole operation and does it correctly, will change D 
+   When the command is executed and the floppy drive is ready, the M5FDD seeks 
+   the track and sector at same time that does a bulk DMA transfer from the RAM
+   to his internal buffer at a rate of 40KB/s. When ends to copy the data and 
+   the seek, then begins to write to the floppy disk from his internal buffer 
+   at a rate of 100kbit/s. This allow to operate asynchronous.
+   When the M3FDD ends the whole operation and does it correctly, will change D 
    and E registers to STATE_READY and ERROR_NONE.
  - 0x0003 : **QUERY_MEDIA** :  
    Sets A register with the CHS value of the floppy geometry 

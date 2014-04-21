@@ -261,33 +261,6 @@ flag in the Virtual Computer to indicate if a device will being doing DMA, as
 can't be two devices doing a DMA at same time. 
 
 
-DOCUMENTS
----------
-
-### CPUs
-
-- [TR3200 CPU](cpu/TR3200.html)
-- [DCPU-16N CPU](cpu/DCPU-16N.txt)
-
-### Embed Devices
-
-- [Programmable Interval Timer](embed/Timers.html) (aka Timer or Clock)
-- [RTC](embed/RTC.html)
-- [RNG](embed/RNG.html)
-- [Beeper](embed/Beeper.html)
-
-### Devices
-
-- [Generic Keyboard](devices/Keyboard.html)
-- [Text Display Adapter](devices/TDA.html) (TDA)
-- [5.25" Floppy Drive](devices/floppy_drive.html) (M5FDD)
-- [Debug Serial Console](devices/SerialConsole.html)
-
-### MISC
-
-- [Memory Model](img/dia/memory_map.png)
-- [Calling Conventions](cpu/calling_convention.html)
-
 ADVICE
 ------
 

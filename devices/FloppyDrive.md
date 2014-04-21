@@ -129,8 +129,11 @@ By convention, to store a CHS value in a register, we use this format:
    When the M3FDD ends the whole operation and does it correctly, will change D 
    and E registers to STATE_READY and ERROR_NONE.
  - 0x0003 : **QUERY_MEDIA** :  
-   Sets A register with the CHS value of the floppy geometry 
-   is not present a floppy in the drive, then will return 0.
+   Sets register with the value of the floppy geometry:
+   - A: (H/L) Total Sectors
+   - B: (L) NumSides, (H) Tracks per Side
+   - C: (L) Sectors per Track, (H) Bytes per Sector Exponent (expect 9 -> 
+     2^9 = 512 bytes)
 
 STATE CODES
 -----------

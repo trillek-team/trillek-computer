@@ -5,7 +5,7 @@ cat : Devices
 ---
 Mackapar 5.25" Floppy Drive
 ===========================
-Version 0.2
+Version 0.2a
 
                                       .!.
                                      !!!!!. 
@@ -130,9 +130,9 @@ By convention, to store a CHS value in a register, we use this format:
    and E registers to STATE_READY and ERROR_NONE.
  - 0x0003 : **QUERY_MEDIA** :  
    Sets register with the value of the floppy geometry:
-   - A: (H/L) Total Sectors
-   - B: (L) NumSides, (H) Tracks per Side
-   - C: (L) Sectors per Track, (H) Bytes per Sector Exponent (expect 9 -> 
+   - A: Total Sectors
+   - B: Most Significant Byte is the number of "Sides" (expect 2 or 1), Least Significant Byte is "Tracks per Side"
+   - C: Most Significant Byte is "Sectors per Track", Least Significant Byte is "Bytes per Sector Exponent" (expect 9 -> 
      2^9 = 512 bytes)
 
 STATE CODES

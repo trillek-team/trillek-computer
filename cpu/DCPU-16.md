@@ -300,15 +300,32 @@ The banks lists is :
   7   | 0x048000 - 0x04FFFF | RAM page 6
   8   | 0x050000 - 0x057FFF | RAM page 7
   9   | 0x058000 - 0x05FFFF | RAM page 8
-  X   | ...      - ...      | RAM page X
-  31  | 0x0F0000 - 0x0F7FFF | RAM page 30
-  32  | 0x0F8000 - 0x0FFFFF | RAM page 31
-  33  | 0x110000 - 0x117FFF | Device Enumeration and Control page 0
-  34  | 0x118000 - 0x11FFFF | DEC page 1
+  10  | 0x060000 - 0x067FFF | RAM page 9
+  11  | 0x068000 - 0x06FFFF | RAM page 10
+  12  | 0x070000 - 0x077FFF | RAM page 11
+  13  | 0x078000 - 0x07FFFF | RAM page 12
+  14  | 0x080000 - 0x087FFF | RAM page 13
+  15  | 0x088000 - 0x08FFFF | RAM page 14
+  16  | 0x090000 - 0x097FFF | RAM page 15
+  17  | 0x098000 - 0x09FFFF | RAM page 16
+  18  | 0x0A0000 - 0x0A7FFF | RAM page 17
+  19  | 0x0A8000 - 0x0AFFFF | RAM page 18
+  20  | 0x0B0000 - 0x0B7FFF | RAM page 19
+  21  | 0x0B8000 - 0x0BFFFF | RAM page 20
+  22  | 0x0C0000 - 0x0C7FFF | RAM page 21
+  23  | 0x0C8000 - 0x0CFFFF | RAM page 22
+  24  | 0x0D0000 - 0x0D7FFF | RAM page 23
+  25  | 0x0D8000 - 0x0DFFFF | RAM page 24
+  26  | 0x0E0000 - 0x0E7FFF | RAM page 25
+  27  | 0x0E8000 - 0x0EFFFF | RAM page 26
+  28  | 0x0F0000 - 0x0F7FFF | RAM page 27
+  29  | 0x0F8000 - 0x0FFFFF | RAM page 28
+  30  | 0x110000 - 0x117FFF | Device Enumeration and Control page 0
+  31  | 0x118000 - 0x11FFFF | DEC page 1
 
-Bank 0 is used by the ROM and is the bank used when the computer boot up, 
-allowing the ROM code to bootstrap the computer. RAM banks 0 to 31, allows to 
-use the extra RAM of the computer, and the DEC (Devices Enumeration and 
+Bank 0 is used by the ROM and is bank selected when the computer boot ups, 
+allowing the ROM code to bootstrap the computer. RAM banks 0 to 28, allows to 
+use the extra RAM of the computer, and the DEC (Device Enumeration and 
 Control) banks, allows low level access to the Device Enumeration and 
 Control hardware registers of each device.
 

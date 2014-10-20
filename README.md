@@ -5,7 +5,7 @@ cat : Main
 ---
 Trillek Virtual Computer Specifications
 =====================================
-Version 0.4h
+Version 0.4.9
 
 **ADVICE** : In this document there is some technical stuff that could look 
 complex or hard to understand for non-hardware folks.
@@ -28,12 +28,12 @@ SUMMARY
  - Initial 128KiB RAM at address 0x000000- 0x01FFFF
  - RAM expandable with modules of 128KiB to a total of 1 MiB of RAM 
    (0x000000-0x0FFFFF)
- - CPUs are connected by a CPU board (actually TR3200 and DCPU-16N) to the 
+ - CPUs are connected by a CPU board (actually basic TR3200) to the 
    mother board. Only one CPU can be connected to the computer at same time 
    (no multi-processor setups)
  - CPU Clock speed could be 1Mhz , 500 Khz, 200 Khz and 100Khz (actually we 
    work with 100Khz, but we expect to allow higher speeds). CPU clock speed in KHz 
-   can be read at address 0x11E050 (I/O port 0xE050 on DCPU-16N)
+   can be read at address 0x11E050
  - Devices use a fixed clock of 100Khz (thinking to change it to 50 KHz) if 
    they need to do something periodically or sync stuff.
  - Devices are [memory mapped](http://en.wikipedia.org/wiki/Memory-mapped_I/O).
@@ -128,14 +128,12 @@ To know how many devices are plugged in to the computer, you only need to read t
 first byte of each of the 32 addresses and count one for every byte being 0xFF.
 The tuple {Device Vendor ID, Device ID} defines a unique device. This information 
 can be used to allow the software to know what device is plugged in and how to 
-use it.
+use it. Note that devices could be on any slot and that  ould be empty slots between slots with devices plugged.
 Devices that have the same {Device Type ID, Device SubType ID} are expected to 
 share some minimal compatibility. To achieve this, they yshould share a minimal list 
 of commands with the same expected behavior.
 
-**NOTE FOR USERS**: This is nearly the same stuff that Notch's original DCPU-16 
-does, but being memory mapped instead of being special magic 
-instructions. Each device has its own set of registers. The device at slot 0 has
+**NOTE FOR USERS**: Each device has its own set of registers. The device at slot 0 has
 these registers at 0x110000, and its A register is at 0x11000A; device 8 has these 
 registers at 0x110800, and its BuildID register is at 0x110804; etc...
 
@@ -201,8 +199,6 @@ Here is a list of Device Types. Each entry could contain a sublist of actually k
 
 - 0x00000000 -> Unknown builder (reserved value)
 - 0x048BAD15 -> RocoCorp.
-- 0x1C6C8B36 -> Nya Elektriska
-- 0x1EB37E91 -> Mackapar Media
 - 0x21544948 -> Harold Innovation Technologies (Harold I.T.)
 - 0x494E5645 -> Investronics
 - 0xA87C900E -> KaiComm
@@ -214,11 +210,8 @@ micro-controller. They allow one to do time measurements and generate periodic
 interrupts for system clock and task switchers. Has the highest priority when
 needs to signal a interrupt.
 
-**NOTE FOR USERS**: Could look a bit harder than Notch's DCPU-16 Timer 
-device, but gives more freedom and control. Plus it's easier to 
-understand and use than the IBM PC timer. Using the highest interrupt priority 
-means that it will be the first Interrupt to be attended by the CPU when 
-simultaneous interrupts happen.
+**NOTE FOR USERS**: It's easier to understand and use than the IBM PC timer. 
+Using the highest interrupt priority means that it will be the first Interrupt to be attended by the CPU when simultaneous interrupts happen.
 
 **NOTE FOR VM IMPLEMENTATION**: Uses two vars per timer. One stores the Reload 
 value and the other counts down every timer clock tick. The times generated are

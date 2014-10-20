@@ -5,7 +5,7 @@ cat : Devices
 ---
 Generic Western/Latin Keyboard controller
 ================
-Version 0.6a (WIP)
+Version 0.6.1
 
 Generic Keyboard controller. Handles an internal buffer to store key events.
 

@@ -5,7 +5,7 @@ cat : NotYet
 ---
 Investronics Color Display Adapter
 ==================================
-Version 0.5a (WIP) 
+Version 0.5.1 (WIP, perhaps would be droped or totally rewrite) 
 
 The Color Display Adapter (CDA) device allows to display text and graphics in 
 color, using a 16 programmable color palette. It's compatible with TGA device.

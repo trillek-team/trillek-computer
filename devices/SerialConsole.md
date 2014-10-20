@@ -5,7 +5,7 @@ cat : Devices
 ---
 Debug Serial Console
 =====================================
-Version 0.1a (WIP)
+Version 0.1.1
 
 This device is only for debuging the Virtual Computer. NOT WILL BE IN GAME.
 

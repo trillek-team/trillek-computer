@@ -5,7 +5,7 @@ cat : Embed
 ---
 Beeper
 ================================
-Version 0.2a
+Version 0.2.1
 
 The Beeper device (or "Buzzer") consist in a basic multi-vibrator oscillator 
 that allow to change the oscillation frequency in function of a 16 bit register.

@@ -3,36 +3,20 @@ layout : default
 title : Floppy Drive
 cat : Devices
 ---
-Mackapar 5.25" Floppy Drive
-===========================
-Version 0.2a
+5.25" Floppy Drive
+==================
+Version 0.2.2
 
-                                      .!.
-                                     !!!!!. 
-                                  .   '!!!!!. 
-                                .!!!.   '!!!!!.
-                              .!!!!!!!.   '!!!!!.
-                            .!!!!!!!!!'   .!!!!!!!.
-                            '!!!!!!!'   .!!!!!!!!!'
-                              '!!!!!.   '!!!!!!!' 
-                                '!!!!!.   '!!!'
-                                  '!!!!!.   '
-                                    '!!!!! 
-                                      '!'   
-
-
-                          M A C K A P A R    M E D I A   
-
-Name: Mackapar 5.25" Floppy Drive (M5FDD) 
+Name: 5.25" Floppy Drive (5FDD) 
 
  - Device Types    : 0x08 (Mass Storage Device)
  - Device SubType  : 0x01 (Floppy Drive)
- - Device Builder  : 0x1EB37E91 (Mackapar Media)
+ - Device Builder  : 0x00000000
  - Device ID       : 0x01
 
-The Mackapar 5.25" Floppy Drive is compatible with all standard 5.25" floppy 
+The 5.25" Floppy Drive is compatible with all standard 5.25" floppy 
 disks.
-The M5FDD works is asynchronous, and has a raw read/write speed of 100kbit/s. 
+The 5FDD works is asynchronous, and has a raw read/write speed of 100kbit/s. 
 
 ### Floppy geometry
 

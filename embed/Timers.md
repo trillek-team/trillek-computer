@@ -5,7 +5,7 @@ cat : Embed
 ---
 Programmable Interval Timers (PIT)
 ================================
-Version 0.1d (WIP) 
+Version 0.1.4 
 
 The Programmable Interval Timer includes two 32 bit timers capable of generating
 a interrupt to the CPU. Allows precise timings and periodic interrupts.

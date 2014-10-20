@@ -5,7 +5,7 @@ cat : Devices
 ---
 Generic Western/Latin Keyboard controller
 ================
-Version 0.6a (WIP)
+Version 0.6.1
 
 Generic Keyboard controller. Handles an internal buffer to store key events.
 
@@ -27,8 +27,8 @@ COMMANDS
 
  - 0x0000 : **CLR-BUFF** :
    Clears the key buffer.
- - 0x0001 : **PULL-KEY** :
-   Pull the key buffer. Sets C register to the status bits of the key event, 
+ - 0x0001 : **POP-KEY** :
+   Pop the key buffer. Sets C register to the status bits of the key event, 
    sets B register to the scancode and sets A register to key-code (Latin-1 
    encoding).
  - 0x0002 : **PUSH-KEY** :
@@ -76,7 +76,7 @@ Were **G** is 1 if "Alt. Gr." key is pressed, **C** is 1 if "Control" key is pre
 The buffer can store at least 64 events. Each time that a key is typed, the
 appropriate event is pushed to the buffer.
 The buffer operates in FIFO fashion. So when a user types a key, a new event is
-inserted in the buffer. Using **PULL-KEY** extracts the most old event stored 
+inserted in the buffer. Using **POP-KEY** extracts the most old event stored 
 in the buffer (POP buffer), but using **PUSH-KEY** inserts a new event in the 
 buffer like if it was the oldest entry (PUSH buffer). If there is not enough 
 space, pushing fails silently. When the buffer fills and the keyboard inserts a

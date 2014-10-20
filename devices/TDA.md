@@ -3,9 +3,9 @@ layout : default
 title : Text Display Adapter
 cat : Devices
 ---
-Nya Elektriska Text Display Adapter
+Text Display Adapter
 =====================================
-Version 0.1b (WIP) 
+Version 0.1.3 
 
 The Text Generator Adapter (TDA) device  usesa programable character generator 
 that allows to display text with color and could use user defined font.
@@ -16,8 +16,8 @@ The refresh rate should be around 25 hz.
 
  - Device Type     : 0x0E (Graphics Device)
  - Device SubType  : 0x01 
- - Device Builder  : 0x1C6C8B36 (Nya Elektriska)
- - Device ID       : 0x01 (Nya Elektriska TDA)
+ - Device Builder  : 0x00000000
+ - Device ID       : 0x01 (TDA)
 
 RESOURCES
 ---------

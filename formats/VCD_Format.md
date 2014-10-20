@@ -6,7 +6,7 @@ cat : Formats
 
 Virtual Computer Disk Format
 ============================
-Version 1
+Version 1.0.0
 
 The Virtual Computer Disk (VCD) format is a container for a magnetic disk 
 storage medium. The entire file is stored in little endian format.

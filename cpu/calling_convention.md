@@ -1,11 +1,13 @@
 ---
 layout : default
-title : Calling convention for TR3200 and DCPU-16N
+title : Calling convention for TR3200
 cat : Misc
 ---
-Calling conventions for TR3200 CPU and DCPU-16N
-===============================================
-Version 0.2 (WIP)
+Calling conventions for TR3200 CPU
+==================================
+Version 0.2.0
+
+This a suggested calling convention. It's not mandatory.
 
 
 The key word "CALLER" is the function or code that is making the call, the key word "CALLEE" is the function being called
@@ -120,15 +122,4 @@ For example, a 32 bit integer var in the stack :
                                      ; local vars in the stack are forgot
     RET
 
-## DCPU-16E
-
-- A and B registers holds argument values passed to a subroutine. CALLER code MUST assume that these values will not be preserved.
-- A will be used to the return value if there is any. If the return value is a 64 bit value, then %B:%A will be the 64 bit return value.
-- Subsequent arguments are passed on the stack. Function arguments of a 
-  procedural language are pushed in reversed order that are declared.
-- X, Y, Z, I, and J are used for local variables. CALLEE subroutine or function MUST preserve it.
-- EX and IA special registers must be preserved.
-- C register MUST be preserved being pushed to the stack before the extra arguments by the CALLER. C takes the value of SP after pushing the extra arguments. (C will be used as Base Pointer)
-- CALLEE function/subroutine can use C + n to read extra arguments, and %C - n
-  for local variable. Where **n = (number of parameter - 3) * 2**.
 

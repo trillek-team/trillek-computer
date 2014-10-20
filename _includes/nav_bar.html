@@ -5,7 +5,7 @@
       {% if p.title == '' or p.url contains 'index' or p.cat != 'Main' %}
       {% else %}
         <li {% if p.url == page.url %}class="active"{% endif %} >
-          <a href=".{{ p.url }}">
+          <a href="{{ site.base_url }}/{{ p.url }}">
             {{ p.title }}
           </a>
         </li>
@@ -21,7 +21,7 @@
       {% if p.title == '' or p.url contains 'index' or p.cat != 'CPU' %}
       {% else %}
         <li {% if p.url == page.url %}class="active"{% endif %} >
-          <a href=".{{ p.url }}">
+          <a href="{{ site.base_url }}/{{ p.url }}">
             {{ p.title }}
           </a>
         </li>
@@ -37,7 +37,7 @@
       {% if p.title == '' or p.url contains 'index' or p.cat != 'Devices' %}
       {% else %}
         <li {% if p.url == page.url %}class="active"{% endif %} >
-          <a href=".{{ p.url }}">
+          <a href="{{ site.base_url }}/{{ p.url }}">
             {{ p.title }}
           </a>
         </li>
@@ -55,7 +55,7 @@
       {% if p.title == '' or p.url contains 'index' or p.cat != 'Embed' %}
       {% else %}
         <li {% if p.url == page.url %}class="active"{% endif %} >
-          <a href=".{{ p.url }}">
+          <a href="{{ site.base_url }}/{{ p.url }}">
             {{ p.title }}
           </a>
         </li>
@@ -71,7 +71,7 @@
       {% if p.title == '' or p.url contains 'index' or p.cat != 'Misc' %}
       {% else %}
         <li {% if p.url == page.url %}class="active"{% endif %} >
-          <a href=".{{ p.url }}">
+          <a href="{{ site.base_url }}/{{ p.url }}">
             {{ p.title }}
           </a>
         </li>

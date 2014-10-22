@@ -1,0 +1,1513 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created by diasvg.py -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="35.875cm"
+   height="22.822cm"
+   viewBox="7.000 4.000 42.875 26.822"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="TR3200_ins_format.svg">
+  <metadata
+     id="metadata286">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs284" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1628"
+     inkscape:window-height="1030"
+     id="namedview282"
+     showgrid="true"
+     inkscape:zoom="1.6509141"
+     inkscape:cx="253.98991"
+     inkscape:cy="76.306623"
+     inkscape:window-x="-2"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     inkscape:snap-bbox="true"
+     inkscape:snap-to-guides="false"
+     inkscape:bbox-nodes="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-bbox-edge-midpoints="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3121"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="14px"
+       spacingy="14px" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="69.999992,79.383604"
+       id="guide4376" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="56,14"
+       id="guide4612" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="952,-42"
+       id="guide4614" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="336,42"
+       id="guide4616" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="280,-70"
+       id="guide4620" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="168,30.437682"
+       id="guide4698" />
+  </sodipodi:namedview>
+  <text
+     x="10.305442"
+     y="28.363785"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="700"
+     id="text8"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">0</text>
+  <rect
+     x="9.000"
+     y="20.000"
+     width="8.000"
+     height="1.000"
+     fill="#FFFEC4"
+     stroke="none"
+     stroke-width="0"
+     id="rect10" />
+  <rect
+     x="9.000"
+     y="20.000"
+     width="8.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect12" />
+  <rect
+     x="9.000"
+     y="14.000"
+     width="8.000"
+     height="1.000"
+     fill="#FFFEC4"
+     stroke="none"
+     stroke-width="0"
+     id="rect14" />
+  <rect
+     x="9.000"
+     y="14.000"
+     width="8.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect16" />
+  <rect
+     x="17.000"
+     y="14.000"
+     width="1.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect18" />
+  <rect
+     x="17.000"
+     y="14.000"
+     width="1.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect20" />
+  <text
+     x="25.000"
+     y="4.900"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="1.55"
+     font-family="FXMatrix105MonoElite"
+     font-style="normal"
+     font-weight="500"
+     id="text22"
+     style="-inkscape-font-specification:FXMatrix105MonoElite Medium;font-family:FXMatrix105MonoElite;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:1.01186995px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:125%"
+     sodipodi:linespacing="125%">
+TR3200 Instruction Formats</text>
+  <text
+     x="8.500"
+     y="14.675"
+     fill="#000000"
+     text-anchor="end"
+     font-size="0.99"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text24"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+P3</text>
+  <text
+     x="9.500"
+     y="14.643"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text26"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+1</text>
+  <text
+     x="14.500"
+     y="14.643"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text28"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+OPCODE</text>
+  <text
+     x="17.500"
+     y="14.643"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text30"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+M</text>
+  <rect
+     x="19.000"
+     y="14.000"
+     width="4.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect32" />
+  <rect
+     x="19.000"
+     y="14.000"
+     width="4.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect34" />
+  <rect
+     x="23.000"
+     y="14.000"
+     width="4.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect36" />
+  <rect
+     x="23.000"
+     y="14.000"
+     width="4.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect38" />
+  <rect
+     x="27.000"
+     y="14.000"
+     width="14.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect40" />
+  <rect
+     x="27.000"
+     y="14.000"
+     width="14.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect42" />
+  <text
+     x="39.000"
+     y="14.643"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text44"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+Rn</text>
+  <text
+     x="25.000"
+     y="14.643"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text46"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+Rs</text>
+  <text
+     x="21.000"
+     y="14.643"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text48"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+Rd</text>
+  <text
+     x="40.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text50"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+0</text>
+  <text
+     x="17.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text52"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+23</text>
+  <line
+     x1="37.000"
+     y1="14.000"
+     x2="37.000"
+     y2="15.000"
+     stroke="#E1E1E1"
+     stroke-width="0.100"
+     id="line54" />
+  <text
+     x="36.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text56"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+4</text>
+  <text
+     x="10.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text58"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+30</text>
+  <text
+     x="9.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text60"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+31</text>
+  <rect
+     x="9.000"
+     y="17.000"
+     width="8.000"
+     height="1.000"
+     fill="#FFFEC4"
+     stroke="none"
+     stroke-width="0"
+     id="rect62" />
+  <rect
+     x="9.000"
+     y="17.000"
+     width="8.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect64" />
+  <rect
+     x="17.000"
+     y="17.000"
+     width="1.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect66" />
+  <rect
+     x="17.000"
+     y="17.000"
+     width="1.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect68" />
+  <text
+     x="8.500"
+     y="17.675"
+     fill="#000000"
+     text-anchor="end"
+     font-size="0.99"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text70"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+P2</text>
+  <text
+     x="10.500"
+     y="17.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text72"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+1</text>
+  <text
+     x="14.500"
+     y="17.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text74"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+OPCODE</text>
+  <text
+     x="17.500"
+     y="17.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text76"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+M</text>
+  <rect
+     x="23.000"
+     y="17.000"
+     width="18.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect78" />
+  <rect
+     x="23.000"
+     y="17.000"
+     width="18.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect80" />
+  <text
+     x="39.000"
+     y="17.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text82"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+Rn</text>
+  <text
+     x="17.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text84"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+23</text>
+  <line
+     x1="37.000"
+     y1="17.000"
+     x2="37.000"
+     y2="18.000"
+     stroke="#E1E1E1"
+     stroke-width="0.100"
+     id="line86" />
+  <text
+     x="9.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text88"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+31</text>
+  <rect
+     x="17.000"
+     y="20.000"
+     width="1.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect90" />
+  <rect
+     x="17.000"
+     y="20.000"
+     width="1.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect92" />
+  <text
+     x="8.500"
+     y="20.675"
+     fill="#000000"
+     text-anchor="end"
+     font-size="0.99"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text94"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+P1</text>
+  <text
+     x="11.500"
+     y="20.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text96"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+1</text>
+  <text
+     x="14.500"
+     y="20.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text98"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+OPCODE</text>
+  <text
+     x="17.500"
+     y="20.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text100"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+M</text>
+  <rect
+     x="18.000"
+     y="20.000"
+     width="23.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect102" />
+  <rect
+     x="18.000"
+     y="20.000"
+     width="23.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect104" />
+  <text
+     x="39.000"
+     y="20.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text106"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+Rn</text>
+  <text
+     x="17.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text108"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+23</text>
+  <line
+     x1="37.000"
+     y1="20.000"
+     x2="37.000"
+     y2="21.000"
+     stroke="#E1E1E1"
+     stroke-width="0.100"
+     id="line110" />
+  <text
+     x="9.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text112"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+31</text>
+  <line
+     x1="10.000"
+     y1="20.000"
+     x2="10.000"
+     y2="21.000"
+     stroke="#E1E1E1"
+     stroke-width="0.100"
+     id="line114" />
+  <line
+     x1="11.000"
+     y1="20.000"
+     x2="11.000"
+     y2="21.000"
+     stroke="#E1E1E1"
+     stroke-width="0.100"
+     id="line116" />
+  <text
+     x="10.500"
+     y="20.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text118"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+0</text>
+  <text
+     x="9.500"
+     y="20.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text120"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+0</text>
+  <rect
+     x="18.889122"
+     y="27.685669"
+     width="22"
+     height="1"
+     id="rect122"
+     style="fill:none;stroke:none" />
+  <text
+     x="8.4166183"
+     y="28.364281"
+     font-size="0.99"
+     font-style="normal"
+     font-weight="700"
+     id="text126"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">NP</text>
+  <text
+     x="14.083741"
+     y="28.37244"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="500"
+     id="text128"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">OPCODE</text>
+  <text
+     x="9.500"
+     y="22.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text130"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+31</text>
+  <text
+     x="11.249854"
+     y="28.37462"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="700"
+     id="text136"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">0</text>
+  <text
+     x="9.3610296"
+     y="28.371008"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="700"
+     id="text138"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">0</text>
+  <text
+     x="13.138678"
+     y="30.576332"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="500"
+     id="text140"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">MSB defines function</text>
+  <line
+     x1="12.000"
+     y1="20.000"
+     x2="12.000"
+     y2="21.000"
+     stroke="#909090"
+     stroke-width="0.100"
+     id="line144" />
+  <line
+     x1="11.000"
+     y1="17.000"
+     x2="11.000"
+     y2="18.000"
+     stroke="#909090"
+     stroke-width="0.100"
+     id="line146" />
+  <line
+     x1="10.000"
+     y1="14.000"
+     x2="10.000"
+     y2="15.000"
+     stroke="#909090"
+     stroke-width="0.100"
+     id="line148" />
+  <text
+     x="7"
+     y="6"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="500"
+     id="text150"
+     style="font-size:0.47220598px;font-style:normal;font-weight:500;text-anchor:start;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium;font-stretch:normal;font-variant:normal;text-align:start;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+    <tspan
+       sodipodi:role="line"
+       id="tspan3275">Rd : Output/Destiny register of the instruction.</tspan>
+    <tspan
+       sodipodi:role="line"
+       id="tspan3277">Rs : Source and Operand 1 register.</tspan>
+    <tspan
+       sodipodi:role="line"
+       id="tspan3279">Rn : Source and Operand 2 register/value. In P1 could be output/Destiny register.</tspan>
+    <tspan
+       sodipodi:role="line"
+       id="tspan3281">When Rn is used as a register, only the four lowest bits are used.</tspan>
+    <tspan
+       sodipodi:role="line"
+       id="tspan3283">When Rn is used as a value, the full Rn extensión is used as a inmediate value.</tspan>
+    <tspan
+       sodipodi:role="line"
+       id="tspan3285">M and L indicates:</tspan>
+    <tspan
+       sodipodi:role="line"
+       id="tspan3287">M = 0 and L = 0 -&gt; Rn is a source register (only the LSB 4 bits).</tspan>
+    <tspan
+       sodipodi:role="line"
+       id="tspan3289">M = 1 and L = 0 -&gt; Rn is an IMMEDIATE value.</tspan>
+    <tspan
+       sodipodi:role="line"
+       id="tspan3291">M = 1 and L = 1 -&gt; Rn is the 32-bit immediate value following the double word.</tspan>
+  </text>
+  <text
+     x="29.889122"
+     y="28.327669"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="500"
+     id="text168"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">Don't care</text>
+  <text
+     x="29.193682"
+     y="30.576332"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="500"
+     id="text170"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">Operands registers / value</text>
+  <text
+     x="9.500"
+     y="17.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text172"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+0</text>
+  <line
+     x1="10.000"
+     y1="17.000"
+     x2="10.000"
+     y2="18.000"
+     stroke="#E1E1E1"
+     stroke-width="0.100"
+     id="line174" />
+  <text
+     x="11.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text176"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+29</text>
+  <text
+     x="11.500"
+     y="22.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text178"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+29</text>
+  <text
+     x="10.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text180"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+30</text>
+  <text
+     x="10.500"
+     y="22.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text182"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+30</text>
+  <text
+     x="36.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text184"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+4</text>
+  <text
+     x="40.500"
+     y="22.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text186"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+0</text>
+  <rect
+     x="18.000"
+     y="14.000"
+     width="1.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect188" />
+  <rect
+     x="18.000"
+     y="14.000"
+     width="1.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect190" />
+  <text
+     x="18.500"
+     y="14.643"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text192"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+L</text>
+  <text
+     x="18.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text194"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+22</text>
+  <rect
+     x="18.000"
+     y="17.000"
+     width="1.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect196" />
+  <rect
+     x="18.000"
+     y="17.000"
+     width="1.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect198" />
+  <text
+     x="18.500"
+     y="17.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text200"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+L</text>
+  <text
+     x="18.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text202"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+22</text>
+  <rect
+     x="18.000"
+     y="20.000"
+     width="1.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect204" />
+  <rect
+     x="18.000"
+     y="20.000"
+     width="1.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect206" />
+  <text
+     x="18.500"
+     y="20.642"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="700"
+     id="text208"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+L</text>
+  <text
+     x="18.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text210"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+22</text>
+  <text
+     x="18.500"
+     y="22.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text214"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+22</text>
+  <text
+     x="17.500"
+     y="22.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text220"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+23</text>
+  <text
+     x="16.916325"
+     y="28.367832"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="700"
+     id="text222"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">0</text>
+  <text
+     x="17.860737"
+     y="28.374136"
+     font-size="0.80"
+     font-style="normal"
+     font-weight="700"
+     id="text224"
+     style="font-size:0.47220597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;font-family:FXMatrix105MonoPica;-inkscape-font-specification:FXMatrix105MonoPica Medium"
+     sodipodi:linespacing="100%">0</text>
+  <text
+     x="37.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text226"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+3</text>
+  <text
+     x="27.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text228"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+13</text>
+  <text
+     x="26.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text230"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+14</text>
+  <text
+     x="23.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text232"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+17</text>
+  <text
+     x="22.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text234"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+18</text>
+  <text
+     x="40.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text236"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+0</text>
+  <text
+     x="36.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text238"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+4</text>
+  <text
+     x="37.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text240"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+3</text>
+  <rect
+     x="19.000"
+     y="17.000"
+     width="4.000"
+     height="1.000"
+     fill="#FFFFFF"
+     stroke="none"
+     stroke-width="0"
+     id="rect242" />
+  <rect
+     x="19.000"
+     y="17.000"
+     width="4.000"
+     height="1.000"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     id="rect244" />
+  <text
+     x="21.000"
+     y="17.721"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="sans"
+     font-style="normal"
+     font-weight="400"
+     id="text246"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+Rd</text>
+  <text
+     x="22.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text248"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+18</text>
+  <text
+     x="19.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text250"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+21</text>
+  <text
+     x="19.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text252"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+21</text>
+  <text
+     x="19.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text254"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+21</text>
+  <text
+     x="37.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text256"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+3</text>
+  <text
+     x="19.500"
+     y="22.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text258"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+21</text>
+  <text
+     x="16.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text260"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+24</text>
+  <text
+     x="16.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text262"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+24</text>
+  <text
+     x="16.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text264"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+24</text>
+  <text
+     x="16.500"
+     y="22.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text266"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+24</text>
+  <text
+     x="11.500"
+     y="16.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text268"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+29</text>
+  <text
+     x="10.500"
+     y="13.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text270"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+30</text>
+  <text
+     x="12.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text272"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+28</text>
+  <text
+     x="12.500"
+     y="22.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text274"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+28</text>
+  <text
+     x="40.500"
+     y="19.500"
+     fill="#000000"
+     text-anchor="middle"
+     font-size="0.80"
+     font-family="FXMatrix105MonoPica"
+     font-style="normal"
+     font-weight="500"
+     id="text276"
+     style="-inkscape-font-specification:FXMatrix105MonoPica Medium;font-family:FXMatrix105MonoPica;font-weight:500;font-style:normal;font-stretch:normal;font-variant:normal;font-size:0.47220598px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%"
+     sodipodi:linespacing="100%">
+0</text>
+  <polyline
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.100"
+     points="17.000,25.000 17.400,25.400 28.400,25.400 29.000,26.000 29.600,25.400 40.600,25.400 41.000,25.000 "
+     id="polyline280" />
+  <line
+     x1="11.72206"
+     y1="27.765205"
+     x2="11.72206"
+     y2="28.667612"
+     id="line132-0-6"
+     style="stroke:#000000;stroke-width:0.04421872;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:0.04421872,0.08843743;stroke-dashoffset:0" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:0.04316549;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+     id="rect4622"
+     width="30.178017"
+     height="0.90124559"
+     x="8.9104071"
+     y="33.431152" />
+  <rect
+     style="fill:none;stroke:#000000;stroke-width:0.04316549;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+     id="rect4622-4"
+     width="30.178017"
+     height="0.90124571"
+     x="8.9104071"
+     y="27.764679" />
+  <line
+     x1="16.44412"
+     y1="27.765179"
+     x2="16.44412"
+     y2="28.665424"
+     id="line132-0-6-7"
+     style="stroke:#000000;stroke-width:0.0441658;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+  <line
+     x1="18.332943"
+     y1="27.765179"
+     x2="18.332943"
+     y2="28.665424"
+     id="line132-0-6-7-6"
+     style="stroke:#000000;stroke-width:0.0441658;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1.37999993000000010;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="m 56,752.65356 14,14 84,0 14,14 14,-14 84,0 14,-14"
+     id="path4700"
+     inkscape:connector-curvature="0"
+     transform="matrix(0.033729,0,0,0.033729,7,3.7734626)" />
+</svg>

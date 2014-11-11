@@ -82,16 +82,20 @@ cat : CPU
 	<tr><td>STORE</td><td>0&#120;48</td><td>Saves a dword</td><td>ram[Rn] = Rd</td><td>3</td></tr>
 	<tr><td>STOREW</td><td>0&#120;49</td><td>Saves a word</td><td>ram[Rn] = Rd</td><td>3</td></tr>
 	<tr><td>STOREB</td><td>0&#120;4A</td><td>Saves a byte</td><td>ram[Rn] = Rd</td><td>3</td></tr>
-	<tr><td>IFEQ</td><td>0&#120;4B</td><td>Execute If</td><td>Rd == Rn</td><td>3+</td></tr>
-	<tr><td>IFNEQ</td><td>0&#120;4C</td><td>Execute If</td><td>Rd != Rn</td><td>3+</td></tr>
-	<tr><td>IFL</td><td>0&#120;4D</td><td>Execute If</td><td>Rd &lt; Rn (unsigned)</td><td>3+</td></tr>
-	<tr><td>IFSL</td><td>0&#120;4E</td><td>Execute If</td><td>Rd &lt; Rn (signed)</td><td>3+</td></tr>
-	<tr><td>IFLE</td><td>0&#120;4F</td><td>Execute If</td><td>Rd &lt;= Rn (unsigned)</td><td>3+</td></tr>
-	<tr><td>IFSLE</td><td>0&#120;50</td><td>Execute If</td><td>Rd &lt;= Rn (signed)</td><td>3+</td></tr>
-	<tr><td>IFBITS</td><td>0&#120;51</td><td>Execute If</td><td>Rd &amp; Rn != 0</td><td>3+</td></tr>
-	<tr><td>IFCLEAR</td><td>0&#120;52</td><td>Execute If</td><td>Rd &amp; Rn == 0</td><td>3+</td></tr>
-	<tr><td>JMP</td><td>0&#120;53</td><td>Absolute Jump</td><td>%pc = (Rd + Rn) &amp; FFFFFC</td><td>3</td></tr>
-	<tr><td>CALL</td><td>0&#120;54</td><td>Absolute Call</td><td>PUSH %pc; JMP %rd, %rn</td><td>4</td></tr>
+	<tr><td>JMP</td><td>0&#120;4B</td><td>Absolute Jump</td><td>%pc = (Rd + Rn) &amp; FFFFFC</td><td>3</td></tr>
+	<tr><td>CALL</td><td>0&#120;4C</td><td>Absolute Call</td><td>PUSH %pc; JMP %rd, %rn</td><td>4</td></tr>
+	<tr><td>IFEQ</td><td>0&#120;70</td><td>Execute If</td><td>Rd == Rn</td><td>3+</td></tr>
+	<tr><td>IFNEQ</td><td>0&#120;71</td><td>Execute If</td><td>Rd != Rn</td><td>3+</td></tr>
+	<tr><td>IFL</td><td>0&#120;72</td><td>Execute If</td><td>Rd &lt; Rn (unsigned)</td><td>3+</td></tr>
+	<tr><td>IFSL</td><td>0&#120;73</td><td>Execute If</td><td>Rd &lt; Rn (signed)</td><td>3+</td></tr>
+	<tr><td>IFLE</td><td>0&#120;74</td><td>Execute If</td><td>Rd &lt;= Rn (unsigned)</td><td>3+</td></tr>
+	<tr><td>IFSLE</td><td>0&#120;75</td><td>Execute If</td><td>Rd &lt;= Rn (signed)</td><td>3+</td></tr>
+	<tr><td>IFG</td><td>0&#120;76</td><td>Execute If</td><td>Rd &gt; Rn (unsigned)</td><td>3+</td></tr>
+	<tr><td>IFSG</td><td>0&#120;77</td><td>Execute If</td><td>Rd &gt; Rn (signed)</td><td>3+</td></tr>
+	<tr><td>IFGE</td><td>0&#120;78</td><td>Execute If</td><td>Rd &gt;= Rn (unsigned)</td><td>3+</td></tr>
+	<tr><td>IFSGE</td><td>0&#120;79</td><td>Execute If</td><td>Rd &gt;= Rn (signed)</td><td>3+</td></tr>
+	<tr><td>IFBITS</td><td>0&#120;7A</td><td>Execute If</td><td>Rd &amp; Rn != 0</td><td>3+</td></tr>
+	<tr><td>IFCLEAR</td><td>0&#120;7B</td><td>Execute If</td><td>Rd &amp; Rn == 0</td><td>3+</td></tr>
 	</table>
 	</div>
 	<div id="column">
@@ -174,7 +178,7 @@ cat : CPU
 	
 	<div style="padding:10px;text-align:right;">
 		<span id="logo">TR3200</span></br>
-    Cheat Sheet <strong>v0.2.0</strong></br>
+    Cheat Sheet <strong>v0.3.0</strong></br>
 		http://trillek.org/
 	</div>
 	</div>

@@ -147,7 +147,7 @@ padded one pixel on the character cell. On other words, like this :
     7 | ........
 ```
 
-If the start scanline is less that the end scanline, disables the cursor. 
+If the start scanline is great that the end scanline, disables the cursor. 
 After a reset or power on, D register is 0, so the cursor is disabled.
 
 To control on what column/row is the cursor, on E register is stored the row and 

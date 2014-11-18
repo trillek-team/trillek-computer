@@ -121,7 +121,7 @@ cursor configuration on ths format :
 ```
     15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
     -----------------------------------------------
-     c  c  c  c  -  -  -  -  -  B  e  e  e  s  s  s
+     c  c  c  c  -  -  -  -  E  B  e  e  e  s  s  s
 ```
 
 Where :
@@ -129,6 +129,7 @@ Where :
   - sss is the start scanline
   - eee is the end scanline
   - B enables/disables cursor blinking
+  - E enalbes/disables the cursor
   - cccc cursor color
 
 The start/end scanlines, sets how big and how tall is the cursor block on the 
@@ -136,18 +137,18 @@ screen. For example, with start = 1 and end = 4 , on the screen the cursor block
 would be an white block (or other color) that have a tall of 3 pixels and is 
 padded one pixel on the character cell. On other words, like this :
 ```
-    7 | ........
-    6 | ........
-    5 | ........
-    4 | ........
-    3 | XXXXXXXX
-    2 | XXXXXXXX
-    1 | XXXXXXXX
     0 | ........
+    1 | XXXXXXXX
+    2 | XXXXXXXX
+    3 | XXXXXXXX
+    4 | XXXXXXXX
+    5 | ........
+    6 | ........
+    7 | ........
 ```
 
-If the end scanline is less or equal that the start scanline, disables the 
-cursor. After a reset or power on, is 0, so disables the cursor.
+If the start scanline is less that the end scanline, disables the cursor. 
+After a reset or power on, D register is 0, so the cursor is disabled.
 
 To control on what column/row is the cursor, on E register is stored the row and 
 column. The lowest significant bytes of E are the column, and the most significant

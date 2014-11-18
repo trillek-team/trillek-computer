@@ -11,6 +11,7 @@ The Text Generator Adapter (TDA) device  usesa programable character generator
 that allows to display text with color and could use user defined font.
 
  - Allowed Text modes : 40x30 8x8 pixel font cell
+ - Hardware cursor
 
 The refresh rate should be around 25 hz.
 
@@ -40,16 +41,6 @@ COMMANDS
  - 0x0002 : **SET_INT** :  
    Sets interrupt message to A register value. If A is 0x0000, disables VSync 
    interrupt. At boot/reset time the VSync is disabled.
- - 0x0003 : **GET_CURSOR_CFG** :
-   Configures hardware cursor. Sets A register with the config values of the 
-   hardware cursor.
- - 0x0004 : **SET_CURSOR_CFG** :
-   Configures hardware cursor. A register contains the new config.
- - 0x0005 : **GET_CURSO** :
-   Gets the hardware cursor position. Sets A register with the row/column pair.
- - 0x0006 : **SET_CURSO** :
-   Emplaces the hardware cursor on a particular row/column. A register haves 
-   the row/column pair.
 
 ### Text buffer
 
@@ -124,8 +115,8 @@ The color palette in Little-endian RGB8 format (Arne 16 color palette) :
 
 ### Hardware cursor
 
-The TDA supports a hardware controlled cursor. The GET_CURSOR_CFG and 
-SET_CURSOR_CFG commands uses this format :
+The TDA supports a hardware controlled cursor. On the D register there is the 
+cursor configuration on ths format :
 
 ```
     15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
@@ -137,7 +128,7 @@ Where :
 
   - sss is the start scanline
   - eee is the end scanline
-  - B enables cursor blinking
+  - B enables/disables cursor blinking
   - cccc cursor color
 
 The start/end scanlines, sets how big and how tall is the cursor block on the 
@@ -156,10 +147,11 @@ padded one pixel on the character cell. On other words, like this :
 ```
 
 If the end scanline is less or equal that the start scanline, disables the 
-cursor.
+cursor. After a reset or power on, is 0, so disables the cursor.
 
-To control on what column/row is the cursor, there is the SET_CURSOR and 
-GET_CURSOR commans that uses the lowest significant bytes of A column, and the most significant byte for the row :
+To control on what column/row is the cursor, on E register is stored the row and 
+column. The lowest significant bytes of E are the column, and the most significant
+byte are for the row :
 
 ```
     15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
@@ -167,3 +159,4 @@ GET_CURSOR commans that uses the lowest significant bytes of A column, and the m
      r  r  r  r  r  r  r  r  c  c  c  c  c  c  c  c
 ```
 
+A column value beyond of 40 or a row value beyond of 30, hides the cursor.

@@ -5,7 +5,7 @@ cat : Devices
 ---
 Text Display Adapter
 =====================================
-Version 0.1.3 
+Version 0.1.4 
 
 The Text Generator Adapter (TDA) device  usesa programable character generator 
 that allows to display text with color and could use user defined font.
@@ -40,6 +40,16 @@ COMMANDS
  - 0x0002 : **SET_INT** :  
    Sets interrupt message to A register value. If A is 0x0000, disables VSync 
    interrupt. At boot/reset time the VSync is disabled.
+ - 0x0003 : **GET_CURSOR_CFG** :
+   Configures hardware cursor. Sets A register with the config values of the 
+   hardware cursor.
+ - 0x0004 : **SET_CURSOR_CFG** :
+   Configures hardware cursor. A register contains the new config.
+ - 0x0005 : **GET_CURSO** :
+   Gets the hardware cursor position. Sets A register with the row/column pair.
+ - 0x0006 : **SET_CURSO** :
+   Emplaces the hardware cursor on a particular row/column. A register haves 
+   the row/column pair.
 
 ### Text buffer
 
@@ -112,4 +122,48 @@ The color palette in Little-endian RGB8 format (Arne 16 color palette) :
 
 [![Palette](../img/dia/palette.png)](../img/dia/palette.png)
 
+### Hardware cursor
+
+The TDA supports a hardware controlled cursor. The GET_CURSOR_CFG and 
+SET_CURSOR_CFG commands uses this format :
+
+´´´
+    15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+    -----------------------------------------------
+     c  c  c  c  -  -  -  -  -  B  e  e  e  s  s  s
+´´´
+
+Where :
+
+  - sss is the start scanline
+  - eee is the end scanline
+  - B enables cursor blinking
+  - cccc cursor color
+
+The start/end scanlines, sets how big and how tall is the cursor block on the 
+screen. For example, with start = 1 and end = 4 , on the screen the cursor block
+would be an white block (or other color) that have a tall of 3 pixels and is 
+padded one pixel on the character cell. On other words, like this :
+´´´
+    7 | ........
+    6 | ........
+    5 | ........
+    4 | ........
+    3 | XXXXXXXX
+    2 | XXXXXXXX
+    1 | XXXXXXXX
+    0 | ........
+´´´
+
+If the end scanline is less or equal that the start scanline, disables the 
+cursor.
+
+To control on what column/row is the cursor, there is the SET_CURSOR and 
+GET_CURSOR commans that uses the lowest significant bytes of A column, and the most significant byte for the row :
+
+´´´
+    15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+    -----------------------------------------------
+     r  r  r  r  r  r  r  r  c  c  c  c  c  c  c  c
+´´´
 

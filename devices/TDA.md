@@ -127,11 +127,11 @@ The color palette in Little-endian RGB8 format (Arne 16 color palette) :
 The TDA supports a hardware controlled cursor. The GET_CURSOR_CFG and 
 SET_CURSOR_CFG commands uses this format :
 
-´´´
+```
     15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
     -----------------------------------------------
      c  c  c  c  -  -  -  -  -  B  e  e  e  s  s  s
-´´´
+```
 
 Where :
 
@@ -144,7 +144,7 @@ The start/end scanlines, sets how big and how tall is the cursor block on the
 screen. For example, with start = 1 and end = 4 , on the screen the cursor block
 would be an white block (or other color) that have a tall of 3 pixels and is 
 padded one pixel on the character cell. On other words, like this :
-´´´
+```
     7 | ........
     6 | ........
     5 | ........
@@ -153,7 +153,7 @@ padded one pixel on the character cell. On other words, like this :
     2 | XXXXXXXX
     1 | XXXXXXXX
     0 | ........
-´´´
+```
 
 If the end scanline is less or equal that the start scanline, disables the 
 cursor.
@@ -161,9 +161,9 @@ cursor.
 To control on what column/row is the cursor, there is the SET_CURSOR and 
 GET_CURSOR commans that uses the lowest significant bytes of A column, and the most significant byte for the row :
 
-´´´
+```
     15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
     -----------------------------------------------
      r  r  r  r  r  r  r  r  c  c  c  c  c  c  c  c
-´´´
+```
 

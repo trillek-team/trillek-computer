@@ -5,12 +5,13 @@ cat : Devices
 ---
 Text Display Adapter
 =====================================
-Version 0.1.3 
+Version 0.1.4 
 
 The Text Generator Adapter (TDA) device  usesa programable character generator 
 that allows to display text with color and could use user defined font.
 
  - Allowed Text modes : 40x30 8x8 pixel font cell
+ - Hardware cursor
 
 The refresh rate should be around 25 hz.
 
@@ -112,4 +113,51 @@ The color palette in Little-endian RGB8 format (Arne 16 color palette) :
 
 [![Palette](../img/dia/palette.png)](../img/dia/palette.png)
 
+### Hardware cursor
 
+The TDA supports a hardware controlled cursor. On the D register there is the 
+cursor configuration on ths format :
+
+```
+    15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+    -----------------------------------------------
+     c  c  c  c  -  -  -  -  E  B  e  e  e  s  s  s
+```
+
+Where :
+
+  - sss is the start scanline
+  - eee is the end scanline
+  - B enables/disables cursor blinking
+  - E enalbes/disables the cursor
+  - cccc cursor color
+
+The start/end scanlines, sets how big and how tall is the cursor block on the 
+screen. For example, with start = 1 and end = 4 , on the screen the cursor block
+would be an white block (or other color) that have a tall of 3 pixels and is 
+padded one pixel on the character cell. On other words, like this :
+```
+    0 | ........
+    1 | XXXXXXXX
+    2 | XXXXXXXX
+    3 | XXXXXXXX
+    4 | XXXXXXXX
+    5 | ........
+    6 | ........
+    7 | ........
+```
+
+If the start scanline is great that the end scanline, disables the cursor. 
+After a reset or power on, D register is 0, so the cursor is disabled.
+
+To control on what column/row is the cursor, on E register is stored the row and 
+column. The lowest significant bytes of E are the column, and the most significant
+byte are for the row :
+
+```
+    15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+    -----------------------------------------------
+     r  r  r  r  r  r  r  r  c  c  c  c  c  c  c  c
+```
+
+A column value beyond of 40 or a row value beyond of 30, hides the cursor.

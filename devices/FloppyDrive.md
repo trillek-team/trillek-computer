@@ -5,7 +5,7 @@ cat : Devices
 ---
 5.25" Floppy Drive
 ==================
-Version 0.2.2
+Version 0.2.3
 
 Name: 5.25" Floppy Drive (5FDD) 
 
@@ -16,7 +16,7 @@ Name: 5.25" Floppy Drive (5FDD)
 
 The 5.25" Floppy Drive is compatible with all standard 5.25" floppy 
 disks.
-The 5FDD works is asynchronous, and has a raw read/write speed of 100kbit/s. 
+The 5FDD works is asynchronous, and has a raw transfer1 speed of 100kbit/s. 
 
 ### Floppy geometry
 
@@ -50,18 +50,18 @@ Any absolute sector could be be pointed by a CHS value.
 There is many factors that contribute to the time that takes to read/write a 
 sector in a floppy :
 
-- Seek Time :
-  Seek Time is the time that takes the floppy drive to change from a trak to 
-  another track. This takes 5 ms per track, so to change from track 5 to track 
+- Seek Time : 
+  It's the time that takes the floppy drive to change from a trak to 
+  another track. This takes *5 ms per track*, so to change from track 5 to track 
   25 takes a seek time of `5 ms * (25-5) = 100 ms`.
 - Rotational Latency : 
-  The floppy drive is always rotating at 300 RPM. When it try to read/writes a 
+  The floppy magnetic disc is always rotating at 300 RPM. When it try to read/write a 
   particular sector, these sector could be just bellow the header or in the 
   opossite side of the disk. So the average time that takes seek a sector in a 
   track is ` ( 1 / (300/60)) / 2 = 100 ms`. The worst case, could be 200 ms and
   the best case could be 0ms.
-- Average Access Time : 
-  This is The Seek Time + Rotational Latency.
+- Access Time : 
+  This is the Seek Time + Rotational Latency.
 
 **IMPLEMENTATION NOTES** : We assume a fixed Rotational latency time of 100 ms.
 

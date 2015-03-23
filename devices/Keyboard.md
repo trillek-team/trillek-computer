@@ -5,7 +5,7 @@ cat : Devices
 ---
 Generic Western/Latin Keyboard controller
 ================
-Version 0.7.0
+Version 0.6.1
 
 Generic Keyboard controller. Handles an internal buffer to store key events.
 
@@ -151,6 +151,8 @@ new event, the most oldest event is removed to allow to insert a new event.
  - KEY_BACKSLASH     92  -> \
  - KEY_RIGHT_BRACKET 93  -> ]
  - KEY_GRAVE_ACCENT  96  -> `
+ - KEY_WORLD_1       161 -> non-US #1
+ - KEY_WORLD_2       162 -> non-US #2
  - KEY_ESCAPE        256
  - KEY_ENTER         257
  - KEY_TAB           258
@@ -161,10 +163,12 @@ new event, the most oldest event is removed to allow to insert a new event.
  - KEY_LEFT          263
  - KEY_DOWN          264
  - KEY_UP            265
- - KEY_SHIFT         340
- - KEY_CONTROL       341
- - KEY_ALT           342
-
+ - KEY_LEFT_SHIFT    340
+ - KEY_LEFT_CONTROL  341
+ - KEY_LEFT_ALT      342
+ - KEY_RIGHT_SHIFT   344
+ - KEY_RIGHT_CONTROL 345
+ - KEY_RIGHT_ALT     346
 
 ### Keys list
 

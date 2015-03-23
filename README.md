@@ -7,6 +7,8 @@ Trillek Virtual Computer Specifications
 =====================================
 Version 0.4.9
 
+**WARNING: EVERYTHING IN ALL THESE DOCUMENTS IS PRE-1.X AND IS SUBJECT TO CHANGE WITHOUT ANY FORM OF NOTICE.**
+
 **ADVICE** : In this document there is some technical stuff that could look 
 complex or hard to understand for non-hardware folks.
 Some of these things exist only to give natural limitations of what the computer
